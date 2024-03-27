@@ -1,0 +1,125 @@
+.headerScreen {
+    background-color: #f2f2f2;
+    height: 70px;
+    position: relative;
+    width: 1920px;
+}
+
+.headerScreen .group {
+    height: 48px;
+    left: 1787px;
+    position: absolute;
+    top: 11px;
+    width: 115px;
+}
+
+.headerScreen .overlap-group {
+    border: 1px solid;
+    border-color: #000000;
+    border-radius: 50px;
+    height: 48px;
+    position: relative;
+    width: 113px;
+}
+
+.headerScreen .text-wrapper {
+    color: #000000;
+    font-family: "Noto Sans KR-Light", Helvetica;
+    font-size: 16px;
+    font-weight: 300;
+    height: 23px;
+    left: 26px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    text-align: center;
+    top: 12px;
+}
+
+.headerScreen .overlap-wrapper {
+    height: 48px;
+    left: 1657px;
+    position: absolute;
+    top: 11px;
+    width: 115px;
+}
+
+.headerScreen .div {
+    color: #000000;
+    font-family: "Noto Sans KR-Light", Helvetica;
+    font-size: 16px;
+    font-weight: 300;
+    height: 23px;
+    left: 33px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    text-align: center;
+    top: 12px;
+}
+
+.headerScreen .text-wrapper-2 {
+    color: #000000;
+    font-family: "Noto Sans KR-Light", Helvetica;
+    font-size: 20px;
+    font-weight: 300;
+    left: 1153px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 19px;
+}
+
+.headerScreen .community {
+    color: #000000;
+    font-family: "Noto Sans KR-Light", Helvetica;
+    font-size: 20px;
+    font-weight: 300;
+    left: 993px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 19px;
+}
+
+.headerScreen .rule-section {
+    color: #000000;
+    font-family: "Noto Sans KR-Light", Helvetica;
+    font-size: 20px;
+    font-weight: 300;
+    left: 799px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 19px;
+}
+
+.headerScreen .study-section {
+    color: #000000;
+    font-family: "Noto Sans KR-Light", Helvetica;
+    font-size: 20px;
+    font-weight: 300;
+    left: 629px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 19px;
+}
+
+.headerScreen .study-hub {
+    color: #5a7194;
+    font-family: "Noto Sans KR-Bold", Helvetica;
+    font-size: 30px;
+    left: 20px;
+    letter-spacing: 0;
+    position: absolute;
+    line-height: 10px;
+}
+
+.headerScreen .span {
+    font-weight: 700;
+}
+
+.headerScreen .text-wrapper-3 {
+    font-family: "Noto Sans KR-Regular", Helvetica;
+}
