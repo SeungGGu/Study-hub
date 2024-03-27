@@ -3,6 +3,8 @@ import './App.css';
 
 import { useEffect, useState } from "react";
 import axios from "axios";
+import {MainHeader} from "./MainHeader/MainHeader";
+import {MainSlider} from "./MainSlider/MainSlider";
 
 function App() {
     const [hello, setHello] = useState('');
@@ -16,7 +18,9 @@ function App() {
 
     return (
         <div className="App">
-            백엔드 데이터 : {hello}
+            {/*백엔드 데이터 : {hello}*/}
+        <MainHeader/>
+        <MainSlider/>
         </div>
     );
 }
