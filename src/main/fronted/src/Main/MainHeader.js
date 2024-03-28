@@ -15,7 +15,7 @@ export const MainHeader = () => {
                     <div className="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <ul className="navbar-nav me-auto mb-2 mb-md-0">
                             <li className="nav-item">
-                                <a className="nav-link active" aria-current="page" href="#">스터디</a>
+                                <a className="nav-link active" aria-current="page" href="study">스터디</a>
                             </li>
                             <li className="nav-item">
                                 <a className="nav-link" href="#">규칙</a>
