@@ -1,23 +1,47 @@
 import React from "react";
-import "./MainSlider.css";
+import {Carousel} from "react-bootstrap";
+import '../DarkMode.css';
 
 export const MainSlider = () => {
     return (
-        <div className="sliderScreen">
-            <div className="overlap" src="https://via.placeholder.com/2119x513">
-                <div className="group">
-                    <div className="overlap-group">
-                        <div className="element-online">0,000 ONLINE</div>
-                        <div className="ellipse" />
-                    </div>
-                </div>
-                <div className="text-wrapper">목표가 같은 사람들끼리 모여봐요!!</div>
-                <div className="overlap-wrapper">
-                    <div className="div-wrapper">
-                        <div className="div">둘러보기</div>
-                    </div>
-                </div>
-            </div>
+        <div className="MainSlider dark-made">
+            <Carousel>
+                <Carousel.Item style={{height: '512px'}}>
+                    <img
+                        className="d-block w-100"
+                        src="https://via.placeholder.com/800x400.png?text=First+Slide"
+                        alt="First slide"
+                    />
+                    <Carousel.Caption>
+                        <h3>첫번째 슬라이더 라벨</h3>
+                        <p>계속 돌아가는 광고판 1</p>
+                    </Carousel.Caption>
+                </Carousel.Item>
+                <Carousel.Item style={{height: '512px'}}>
+                    <img
+                        className="d-block w-100"
+                        src="https://via.placeholder.com/800x400.png?text=Second+Slide"
+                        alt="Second slide"
+                    />
+
+                    <Carousel.Caption>
+                        <h3>두번째 슬라이더 라벨</h3>
+                        <p>계속 돌아가는 광고판 2</p>
+                    </Carousel.Caption>
+                </Carousel.Item>
+                <Carousel.Item style={{height: '512px'}}>
+                    <img
+                        className="d-block w-100"
+                        src="https://via.placeholder.com/800x400.png?text=Third+Slide"
+                        alt="Third slide"
+                    />
+
+                    <Carousel.Caption>
+                        <h3>세번째 슬라이더 라벨</h3>
+                        <p>계속 돌아가는 광고판 3</p>
+                    </Carousel.Caption>
+                </Carousel.Item>
+            </Carousel>
         </div>
     );
-};
+}
