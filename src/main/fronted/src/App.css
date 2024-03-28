@@ -36,3 +36,88 @@
     transform: rotate(360deg);
   }
 }
+
+.MainImgArea{
+  background-color: #ffffff;
+  height: 580px;
+  position: relative;
+  width: 1920px;
+}
+.MainImgArea .Img{
+  position: relative;
+  float: left;
+}
+.MainImgArea .Img2{
+  position: relative;
+  float: right;
+}
+
+.MainImgArea .Text{
+  color: #000000;
+  font-family: "Noto Sans KR-Bold", Helvetica;
+  font-size: 50px;
+  font-weight: 400;
+  height: 122px;
+  left: 1140px;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: 100px;
+  width: 600px;
+}
+.MainImgArea .Text2{
+  color: #000000;
+  font-family: "Noto Sans KR-Bold", Helvetica;
+  font-size: 50px;
+  font-weight: 400;
+  height: 122px;
+  left: 200px;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: 100px;
+  width: 600px;
+}
+
+.MainImgArea .스터디를 만들 수도 있어요{
+  font-weight: 700;
+}
+.MainImgArea .내가 만들어보자{
+  font-family: "Noto Sans KR-Regular", Helvetica;
+  font-size: 30px;
+}
+.MainImgArea .ButtonArea{
+  height: 48px;
+  left: 1400px;
+  position: absolute;
+  top: 300px;
+  width: 115px;
+}
+.MainImgArea .ButtonArea2{
+  height: 48px;
+  left: 400px;
+  position: absolute;
+  top: 300px;
+  width: 115px;
+}
+.MainImgArea .Button{
+  border: 1px solid;
+  border-color: #000000;
+  border-radius: 50px;
+  height: 48px;
+  position: relative;
+  width: 113px;
+}
+.MainImgArea .ButtonText{
+  color: #000000dd;
+  font-family: "Noto Sans KR-Light", Helvetica;
+  font-size: 16px;
+  font-weight: 300;
+  height: 23px;
+  left: 26px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: 12px;
+}
