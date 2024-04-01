@@ -1,9 +1,8 @@
-// StudyRoom.js
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import './studyRoomCss/StudyRoom.css';
 import {StudyHeader} from "./StudyHeader";
-import {NavigationSidebar} from "./NavigationSidebar"; // Import CSS file for custom styling
+import {NavigationSidebar} from "./NavigationSidebar";
 
 const StudyRoom = () => {
     return (

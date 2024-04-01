@@ -1,6 +1,7 @@
 import {MainHeader} from "./include/MainHeader";
 import {MainFooter} from "./include/MainFooter";
 import {Accordion} from "react-bootstrap";
+import React from "react";
 
 function MainRule() {
     return (
