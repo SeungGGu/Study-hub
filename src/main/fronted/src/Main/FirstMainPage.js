@@ -1,8 +1,7 @@
 import React from "react";
-import {MainHeader} from "./MainHeader";
-import {MainSlider} from "./MainSlider";
-import {MainFooter} from "./MainFooter";
-import StudyRoom from "../StudyRoom/StudyRoom";
+import {MainHeader} from "./include/MainHeader";
+import {MainSlider} from "./include/MainSlider";
+import {MainFooter} from "./include/MainFooter";
 
 export const FirstMainPage = () =>{
     return(
