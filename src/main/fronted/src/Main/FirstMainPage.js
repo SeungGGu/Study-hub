@@ -1,8 +1,7 @@
 import React from "react";
-import {MainHeader} from "./MainHeader";
-import {MainSlider} from "./MainSlider";
-import {MainFooter} from "./MainFooter";
-import StudyRoom from "../StudyRoom/StudyRoom";
+import {MainHeader} from "./include/MainHeader";
+import {MainSlider} from "./include/MainSlider";
+import {MainFooter} from "./include/MainFooter";
 
 export const FirstMainPage = () =>{
     return(
@@ -20,7 +19,7 @@ export const FirstMainPage = () =>{
                         </svg>
                         <h2 className="fw-normal">온라인 스터디</h2>
                         <p>여러가지 서비스 샬라샬라 ㅇㅇ</p>
-                        <p><a className="btn btn-secondary" href="#">보러가기 »</a></p>
+                        <p><a className="btn btn-secondary" href="/">보러가기 »</a></p>
                     </div>
                     <div className="col-lg-4">
                         <svg className="bd-placeholder-img rounded-circle" width="140" height="140"
@@ -30,7 +29,7 @@ export const FirstMainPage = () =>{
                         </svg>
                         <h2 className="fw-normal">스터디추천</h2>
                         <p>이런곳에 추천 스터디 넣어도 괜찮을려나</p>
-                        <p><a className="btn btn-secondary" href="#">스터디 바로가기 »</a></p>
+                        <p><a className="btn btn-secondary" href="/">스터디 바로가기 »</a></p>
                     </div>
                     <div className="col-lg-4">
                         <svg className="bd-placeholder-img rounded-circle" width="140" height="140"
@@ -40,7 +39,7 @@ export const FirstMainPage = () =>{
                         </svg>
                         <h2 className="fw-normal">스터디추천</h2>
                         <p>이런곳에 추천 스터디 넣어도 괜찮을려나</p>
-                        <p><a className="btn btn-secondary" href="#">View details »</a></p>
+                        <p><a className="btn btn-secondary" href="/">View details »</a></p>
                     </div>
                 </div>
                 <hr className="featurette-divider"/>
