@@ -7,6 +7,7 @@ import StudyRoom from "./StudyRoom/StudyRoom.js";
 import FirstMainPage from "./Main/FirstMainPage";
 import MainStudy from "./Main/MainStudy";
 import MainRule from "./Main/MainRule";
+import MainCommunity from "./Main/MainCommunity";
 
 function App() {
     const [hello, setHello] = useState('');
@@ -25,6 +26,7 @@ function App() {
                 <Route path="/studyRoom" element={<StudyRoom/>} />
                 <Route path="/mainStudy" element={<MainStudy/>} />
                 <Route path="/mainRule" element={<MainRule/>} />
+                <Route path="/mainCommunity" element={<MainCommunity/>} />
             {/*백엔드 데이터 : {hello}*/}
             </Routes>
         </div>
