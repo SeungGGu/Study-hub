@@ -5,6 +5,8 @@ import axios from "axios";
 import {Route, Routes} from 'react-router-dom'
 import StudyRoom from "./StudyRoom/StudyRoom.js";
 import FirstMainPage from "./Main/FirstMainPage";
+import MainStudy from "./Main/MainStudy";
+import MainRule from "./Main/MainRule";
 
 function App() {
     const [hello, setHello] = useState('');
@@ -21,6 +23,8 @@ function App() {
             <Routes>
                 <Route path="/" element={<FirstMainPage/>} />
                 <Route path="/studyRoom" element={<StudyRoom/>} />
+                <Route path="/mainStudy" element={<MainStudy/>} />
+                <Route path="/mainRule" element={<MainRule/>} />
             {/*백엔드 데이터 : {hello}*/}
             </Routes>
         </div>

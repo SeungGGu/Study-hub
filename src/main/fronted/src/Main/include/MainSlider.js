@@ -1,6 +1,6 @@
 import React from "react";
 import {Carousel} from "react-bootstrap";
-import '../DarkMode.css';
+import '../../DarkMode.css';
 
 export const MainSlider = () => {
     return (
