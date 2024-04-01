@@ -3,10 +3,10 @@ import Button from 'react-bootstrap/Button';
 
 export const MainHeader = () => {
     return (
-        <div className="headerScreen">
+        <div className="headerScreen mb-7">
             <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
                 <div className="container-fluid">
-                    <a className="navbar-brand" href="#">Study-Hub</a>
+                    <a className="navbar-brand" href="/">Study-Hub</a>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
                             data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false"
                             aria-label="Toggle navigation">
@@ -15,13 +15,13 @@ export const MainHeader = () => {
                     <div className="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <ul className="navbar-nav me-auto mb-2 mb-md-0">
                             <li className="nav-item">
-                                <a className="nav-link active" aria-current="page" href="mainStudy">스터디</a>
+                                <a className="nav-link" href="mainStudy">스터디</a>
                             </li>
                             <li className="nav-item">
                                 <a className="nav-link" href="mainRule">규칙</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link">커뮤니티</a>
+                                <a className="nav-link" href="mainCommunity">커뮤니티</a>
                             </li>
                             <li className="nav-item">
                                 <a className="nav-link">고객센터</a>
