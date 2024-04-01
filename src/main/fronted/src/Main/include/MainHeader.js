@@ -24,7 +24,7 @@ export const MainHeader = () => {
                                 <a className="nav-link" href="mainCommunity">커뮤니티</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link">고객센터</a>
+                                <a className="nav-link" href="center">고객센터</a>
                             </li>
                         </ul>
                         <div className="d-flex">

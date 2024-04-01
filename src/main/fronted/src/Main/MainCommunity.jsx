@@ -1,6 +1,6 @@
 import {MainHeader} from "./include/MainHeader";
 import {Button, Form, InputGroup, Badge, Tab, Tabs} from "react-bootstrap";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import Community from "./Community";
 
 function MainCommunity() {

@@ -1,0 +1,33 @@
+/* StudyRoom.css */
+.study-header {
+    background-color: #333;
+    color: white;
+    padding: 10px;
+}
+
+.navigation-sidebar {
+    background-color: #f0f0f0;
+    padding: 20px;
+}
+
+.navigation-sidebar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.navigation-sidebar li {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.navigation-sidebar li:hover {
+    background-color: #ddd;
+}
+
+.main-content {
+    padding: 20px;
+}
+
+.study-room {
+    height: 100vh;
+}

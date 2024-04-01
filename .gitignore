@@ -1,37 +1,40 @@
-HELP.md
-.gradle
-build/
-!gradle/wrapper/gradle-wrapper.jar
-!**/src/main/**/build/
-!**/src/test/**/build/
+# Dependency directories
+/node_modules/
+# If you have yarn.lock file, include it here
+yarn.lock
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-bin/
-!**/src/main/**/bin/
-!**/src/test/**/bin/
-
-### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
-*.ipr
-out/
-!**/src/main/**/out/
-!**/src/test/**/out/
-
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
+# Build files
+/build/
 /dist/
-/nbdist/
-/.nb-gradle/
+*.log
 
-### VS Code ###
-.vscode/
+# Environment variables
+.env
+
+# IDE specific files
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Compiled files
+*.js
+*.jsx
+
+# Dependency lock files
+package-lock.json
+npm-debug.log*
+
+# Jest test results
+/coverage/
+
+# React specific files
+*.js.map
+
+# Miscellaneous
+/.pnp/
+.pnp.js

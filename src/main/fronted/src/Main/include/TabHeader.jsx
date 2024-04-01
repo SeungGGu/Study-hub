@@ -1,5 +1,5 @@
 import {useState, useEffect} from "react";
-import {InputGroup, Button, Form, Card, Col, CardGroup} from "react-bootstrap";
+import {InputGroup, Button, Form, Card, Col} from "react-bootstrap";
 import "./TabHeader.css";
 
 function TabHeader() {
@@ -8,7 +8,7 @@ function TabHeader() {
     // Simulated data fetching
     useEffect(() => {
         // Simulated fetch from database
-        const fetchData = async () => {
+        const fetchData = () => {
             // Example data
             const data = [
                 {id: 1, title: "Java 모각코 모집 9기", text: "#Java #Spring #코딩", leader: "스터디장 이름", views: 0, comments: 0},
@@ -42,7 +42,7 @@ function TabHeader() {
             // Simulate delay for fetching data
             setTimeout(() => {
                 setCardsData(data.slice(0, 4));
-            }, 1000); // Adjust delay as needed
+            }, 500); // Adjust delay as needed
         };
 
         fetchData();
