@@ -2,6 +2,7 @@ import {MainHeader} from "./include/MainHeader";
 import {Button, Form, InputGroup, Badge, Tab, Tabs} from "react-bootstrap";
 import {useState} from "react";
 import Community from "./Community";
+import React from "react";
 
 function MainCommunity() {
     const [key, setKey] = useState('all');
