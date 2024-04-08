@@ -1,5 +1,6 @@
 import React from "react";
 import Button from 'react-bootstrap/Button';
+import {Link, useHref} from "react-router-dom";
 
 export const MainHeader = () => {
     return (
@@ -28,8 +29,12 @@ export const MainHeader = () => {
                             </li>
                         </ul>
                         <div className="d-flex">
-                            <Button variant="secondary" className="me-2">회원가입</Button>{' '}
-                            <Button variant="secondary">로그인</Button>{' '}
+                            <Button variant="secondary" className="me-2" href={"/"}>
+                                회원가입
+                            </Button>
+                            <Button variant="secondary" href={"/login"}>
+                                로그인
+                            </Button>
                         </div>
                     </div>
                 </div>

@@ -2,12 +2,9 @@ import './App.css';
 import './DarkMode.css';
 import {useEffect, useState} from "react";
 import axios from "axios";
-import {Route, Routes} from 'react-router-dom'
-import StudyRoom from "./StudyRoom/StudyRoom.js";
-import FirstMainPage from "./Main/FirstMainPage";
-import MainStudy from "./Main/MainStudy";
-import MainRule from "./Main/MainRule";
-import MainCommunity from "./Main/MainCommunity";
+import Routers from './Main/Router';
+import {useNavigate} from "react-router-dom";
+
 
 function App() {
     const [hello, setHello] = useState('');
@@ -21,14 +18,8 @@ function App() {
 
     return (
         <div className="App">
-            <Routes>
-                <Route path="/" element={<FirstMainPage/>} />
-                <Route path="/studyRoom" element={<StudyRoom/>} />
-                <Route path="/mainStudy" element={<MainStudy/>} />
-                <Route path="/mainRule" element={<MainRule/>} />
-                <Route path="/mainCommunity" element={<MainCommunity/>} />
+            <Routers/>
             {/*백엔드 데이터 : {hello}*/}
-            </Routes>
         </div>
     );
 }
