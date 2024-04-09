@@ -5,7 +5,7 @@ export const MainFooter = () => {
             <div className="row">
                 <div className="col-12 col-md">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor"
-                         stroke-linecap="round" stroke-linejoin="round" stroke-width="2" className="d-block mb-2"
+                         strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="d-block mb-2"
                          role="img" viewBox="0 0 24 24"><title>Product</title>
                         <circle cx="12" cy="12" r="10"></circle>
                         <path
@@ -16,28 +16,28 @@ export const MainFooter = () => {
                 <div className="col-6 col-md">
                     <h5>스터디</h5>
                     <ul className="list-unstyled text-small">
-                        <li><a className="link-secondary text-decoration-none" href="#">스터디 목록</a></li>
-                        <li><a className="link-secondary text-decoration-none" href="#">스터디 머시기</a></li>
+                        <li><a className="link-secondary text-decoration-none" href="/">스터디 목록</a></li>
+                        <li><a className="link-secondary text-decoration-none" href="/">스터디 머시기</a></li>
                     </ul>
                 </div>
                 <div className="col-6 col-md">
                     <h5>규칙</h5>
                     <ul className="list-unstyled text-small">
-                        <li><a className="link-secondary text-decoration-none" href="#">규칙 보기</a></li>
+                    <li><a className="link-secondary text-decoration-none" href="/">규칙 보기</a></li>
                     </ul>
                 </div>
                 <div className="col-6 col-md">
                     <h5>커뮤니티</h5>
                     <ul className="list-unstyled text-small">
-                        <li><a className="link-secondary text-decoration-none" href="#">공지사항</a></li>
-                        <li><a className="link-secondary text-decoration-none" href="#">커뮤니티 목록</a></li>
+                        <li><a className="link-secondary text-decoration-none" href="/">공지사항</a></li>
+                        <li><a className="link-secondary text-decoration-none" href="/">커뮤니티 목록</a></li>
                     </ul>
                 </div>
                 <div className="col-6 col-md">
                     <h5>고객센터</h5>
                     <ul className="list-unstyled text-small">
-                        <li><a className="link-secondary text-decoration-none" href="#">자주묻는 질문</a></li>
-                        <li><a className="link-secondary text-decoration-none" href="#">FAQ</a></li>
+                        <li><a className="link-secondary text-decoration-none" href="/">자주묻는 질문</a></li>
+                        <li><a className="link-secondary text-decoration-none" href="/">FAQ</a></li>
                     </ul>
                 </div>
             </div>

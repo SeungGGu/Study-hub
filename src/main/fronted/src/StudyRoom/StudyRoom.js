@@ -1,19 +1,24 @@
 import React from 'react';
-import {StudyHeader} from "./StudyHeader";
-import {Col, Container, Row} from "react-bootstrap";
-import {StudySideBar} from "./StudySideBar";
+import { useParams } from 'react-router-dom';
+import { StudyHeader } from "./StudyHeader";
+import { Col, Container, Row } from "react-bootstrap";
+import { StudySideBar } from "./StudySideBar";
 
 function StudyRoom() {
+    // Get the card ID from URL parameters
+    const { id } = useParams();
+    const { title } = useParams();
+
     return (
         <div className="studyRoom">
             <Container fluid>
                 <Row>
                     <Col className="sidebar" md={2}>
+                        <div> id={id} </div>
                         <StudySideBar/>
-                        side
                     </Col>
-                    <Col className="sidebar" md={10}>
-                        <StudyHeader/>
+                    <Col className="mainContent" md={10}>
+                        <StudyHeader title={title}/>
                         main
                     </Col>
                 </Row>

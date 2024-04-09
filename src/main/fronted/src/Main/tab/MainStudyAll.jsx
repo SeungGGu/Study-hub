@@ -2,6 +2,7 @@ import TabHeader from "../include/TabHeader";
 import {Nav, Button, Card, Col, Row, CardFooter} from "react-bootstrap";
 import React, {useEffect, useState} from "react";
 import "../include/TabHeader.css"
+import {Link} from "react-router-dom";
 
 
 function MainStudyAll({type}) {
@@ -34,7 +35,7 @@ function MainStudyAll({type}) {
 
     // Function to handle sorting option click
     const handleSortOptionClick = (sortOption) => {
-        console.log(`Sorting by ${sortOption}`,`type : ${type}`);
+        console.log(`Sorting by ${sortOption}`, `type : ${type}`);
         // Call API endpoint to send sortOption to backend
         // Example: fetch('/api/sort', { method: 'POST', body: JSON.stringify({ sortOption }) });
     };
@@ -65,17 +66,19 @@ function MainStudyAll({type}) {
                 <Row xs={1} md={2} lg={4} className="g-4">
                     {currentCards.map(card => (
                         <Col key={card.id}>
-                            <Card>
-                                <Card.Img variant="top" src="holder.js/100px160"/>
-                                <Card.Body>
-                                    <Card.Title>{card.title}</Card.Title>
-                                    <Card.Text>{card.description}</Card.Text>
-                                </Card.Body>
-                                <CardFooter>
-                                    <small className="text">{card.leader} <br/> </small>
-                                    <small className="text">조회수 {card.views} | 댓글 {card.comments}</small>
-                                </CardFooter>
-                            </Card>
+                            <Link to={`/studyRoom/${card.id}${card.title}`} style={{textDecoration: 'none'}}>
+                                <Card>
+                                    <Card.Img variant="top" src="holder.js/100px160"/>
+                                    <Card.Body>
+                                        <Card.Title>{card.title}</Card.Title>
+                                        <Card.Text>{card.description}</Card.Text>
+                                    </Card.Body>
+                                    <CardFooter>
+                                        <small className="text">{card.leader} <br/> </small>
+                                        <small className="text">조회수 {card.views} | 댓글 {card.comments}</small>
+                                    </CardFooter>
+                                </Card>
+                            </Link>
                         </Col>
                     ))}
                 </Row>
@@ -86,7 +89,10 @@ function MainStudyAll({type}) {
                 <ul className="pagination justify-content-center">
                     {Array.from({length: Math.ceil(cards.length / cardsPerPage)}).map((_, idx) => (
                         <li key={idx} className={`page-item ${currentPage === idx + 1 ? 'active' : ''}`}>
-                            <Button className="page-link" onClick={() => paginate(idx + 1)}>{idx + 1}</Button>
+                            <Button className="page-link"
+                                    onClick={() => paginate(idx + 1)}>
+                                {idx + 1}
+                            </Button>
                         </li>
                     ))}
                 </ul>

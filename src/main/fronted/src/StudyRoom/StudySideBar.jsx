@@ -1,11 +1,9 @@
-// StudySideBar.jsx
-
 import React from 'react';
-import {Link} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 
 export const StudySideBar = () => {
     return (
-        <div>
+        <div style={{height: '100vh', overflowY: 'auto', backgroundColor: '#DADADA'}}>
             <ul className="nav flex-column">
                 <li className="nav-item">
                     <Link to="/" className="nav-link">Home</Link>

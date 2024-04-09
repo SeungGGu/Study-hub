@@ -16,20 +16,20 @@ export const MainHeader = () => {
                     <div className="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <ul className="navbar-nav me-auto mb-2 mb-md-0">
                             <li className="nav-item">
-                                <a className="nav-link" href="mainStudy">스터디</a>
+                                <a className="nav-link" href="/mainStudy">스터디</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="mainRule">규칙</a>
+                                <a className="nav-link" href="/mainRule">규칙</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="mainCommunity">커뮤니티</a>
+                                <a className="nav-link" href="/mainCommunity">커뮤니티</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link">고객센터</a>
+                                <a className="nav-link" href="/">고객센터</a>
                             </li>
                         </ul>
                         <div className="d-flex">
-                            <Button variant="secondary" className="me-2" href={"/"}>
+                            <Button variant="secondary" className="me-2" href={"/register"}>
                                 회원가입
                             </Button>
                             <Button variant="secondary" href={"/login"}>
