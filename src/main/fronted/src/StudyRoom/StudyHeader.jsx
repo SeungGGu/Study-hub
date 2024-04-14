@@ -1,26 +1,25 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import {useParams} from "react-router-dom";
+import { useParams } from "react-router-dom";
+import './StudyHeader.css';  // CSS 파일 임포트
 
-export const StudyHeader = () => {
+export const StudyHeader = ({ currentPage }) => {
     const { title } = useParams();
+
     return (
-        <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary" style={{height: '60px'}}>
-            <Container>
-                <Navbar.Brand href="#home">title={title}</Navbar.Brand>
-                <Navbar.Toggle aria-controls="responsive-navbar-nav"/>
+        <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary navbar-custom">
+            <Container fluid>
+                <Navbar.Brand href="#home" className="navbar-brand-custom"> # {title} - {currentPage}</Navbar.Brand>
+                <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
-                    <Nav className="me-auto">
-                        <Nav.Link href="#features">Features</Nav.Link>
-                        <Nav.Link href="#pricing">Pricing</Nav.Link>
-                    </Nav>
-                    <Nav>
-                        <Nav.Link href="#deets">More deets</Nav.Link>
-                        <Nav.Link eventKey={2} href="#memes">
-                            Dank memes
-                        </Nav.Link>
+                    <Nav className="ms-auto nav-ms-auto">
+                        <Nav.Link href="#features">통화</Nav.Link>
+                        <Nav.Link href="#pricing">그리기</Nav.Link>
+                        <Nav.Link href="#deets">고정</Nav.Link>
+                        <Nav.Link href="#memes">사용자</Nav.Link>
+                        <Nav.Link href="#memes">나가기</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
             </Container>

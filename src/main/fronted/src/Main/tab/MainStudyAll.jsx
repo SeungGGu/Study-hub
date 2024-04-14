@@ -66,7 +66,7 @@ function MainStudyAll({type}) {
                 <Row xs={1} md={2} lg={4} className="g-4">
                     {currentCards.map(card => (
                         <Col key={card.id}>
-                            <Link to={`/studyRoom/${card.id}${card.title}`} style={{textDecoration: 'none'}}>
+                            <Link to={`/studyRoom/${card.id}/${card.title}`} style={{textDecoration: 'none'}}>
                                 <Card>
                                     <Card.Img variant="top" src="holder.js/100px160"/>
                                     <Card.Body>

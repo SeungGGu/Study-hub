@@ -14,7 +14,7 @@ const Router = () => {
             <Route exact path="/" element={<FirstMainPage/>}/>
             <Route path="/login" element={<SignInPage/>}/>
             <Route path="/main" element={<FirstMainPage/>}/>
-            <Route path="/studyRoom/:id:title" element={<StudyRoom/>}/>
+            <Route path="/studyRoom/:id/:title" element={<StudyRoom/>}/>
             <Route path="/mainStudy" element={<MainStudy/>}/>
             <Route path="/mainRule" element={<MainRule/>}/>
             <Route path="/mainCommunity" element={<MainCommunity/>}/>

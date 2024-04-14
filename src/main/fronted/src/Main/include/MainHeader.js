@@ -1,6 +1,7 @@
 import React from "react";
 import Button from 'react-bootstrap/Button';
 import {Link, useHref} from "react-router-dom";
+import './MainHeader.css';
 
 export const MainHeader = () => {
     return (
