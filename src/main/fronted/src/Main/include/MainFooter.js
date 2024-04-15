@@ -1,3 +1,4 @@
+
 import React from "react";
 export const MainFooter = () => {
     return (
@@ -23,7 +24,7 @@ export const MainFooter = () => {
                 <div className="col-6 col-md">
                     <h5>규칙</h5>
                     <ul className="list-unstyled text-small">
-                        <li><a className="link-secondary text-decoration-none" href="/">규칙 보기</a></li>
+                    <li><a className="link-secondary text-decoration-none" href="/">규칙 보기</a></li>
                     </ul>
                 </div>
                 <div className="col-6 col-md">

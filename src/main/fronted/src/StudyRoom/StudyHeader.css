@@ -1,0 +1,14 @@
+/* StudyHeader.css */
+.navbar-custom {
+    height: 60px;
+    padding: 0px;
+}
+
+.navbar-brand-custom {
+    margin-right: auto;
+    padding-left: 5px;
+}
+
+.nav-ms-auto {
+    padding-right: 5px;
+}

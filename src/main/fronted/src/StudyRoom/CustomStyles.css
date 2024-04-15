@@ -1,0 +1,93 @@
+.custom-container {
+    padding-left: 0;
+    padding-right: 0;
+}
+.no-gutters {
+    margin-right: 0;
+    margin-left: 0;
+}
+
+.no-gutters > .col, .no-gutters > [class*="col-"] {
+    padding-right: 0;
+    padding-left: 0;
+}
+
+.content-area {
+    background-color: #E2E2E2; /* 흰색 배경 */
+    padding: 20px; /* 패딩 20px 추가 */
+    height: calc(100vh - 60px); /* 전체 높이에서 헤더 높이 만큼 제외 */
+    display: flex;
+    flex-direction: column;
+}
+
+.message-list {
+    display: flex;
+    flex-direction: column-reverse; /* 새 메시지가 아래에서 위로 쌓임 */
+    overflow-y: auto;
+    height: 90%; /* 메시지 목록의 높이 설정 */
+    padding: 10px;
+}
+
+
+.message {
+    display: flex;
+    align-items: flex-start;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+.profile-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    margin-right: 10px;
+}
+
+.message-info {
+    flex-grow: 1;
+}
+
+.message-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 5px;
+}
+
+.nickname {
+    font-weight: bold;
+    color: #333;
+}
+
+.timestamp {
+    font-size: 0.8em;
+    color: #666;
+}
+
+.message-text {
+    font-size: 0.9em;
+    color: #333;
+    text-align: left;
+}
+
+.chat-input-container {
+    display: flex;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-top: 1px solid #ccc;
+}
+
+.chat-input {
+    flex-grow: 1;
+    margin-right: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    outline: none;
+}
+
+button {
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    background-color: #ddd;
+    cursor: pointer;
+}

@@ -29,14 +29,17 @@ function MainStudy() {
                 </Tab>
             </Tabs>
             <MainFooter/>
-            <style jsx>{`
-                .nav-item .nav-link {
-                    color: white; /* Set text color of unselected tabs to white */
-                }
-                .nav-item .nav-link.active {
-                    color: black; /* Set text color of selected tab to black */
-                }
-            `}</style>
+            <style>
+                {`
+                    .nav-item .nav-link {
+                        color: white; /* Set text color of unselected tabs to white */
+                    }
+            
+                    .nav-item .nav-link.active {
+                        color: black; /* Set text color of selected tab to black */
+                    }
+                `}
+            </style>
         </div>
     );
 }
