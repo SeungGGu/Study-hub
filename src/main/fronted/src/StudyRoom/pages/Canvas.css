@@ -1,0 +1,36 @@
+.Canvas {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 170px; /* 카드 사이의 간격을 30px로 조정 */
+    margin: 20px; /* 상단과 하단의 여백 추가 */
+    padding: 10px; /* 내부 패딩 추가 */
+}
+
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px; /* 페이징 위 여백 추가 */
+}
+
+.card-hover .card-image-container {
+    position: relative;
+}
+
+.card-hover .card-image-container .delete-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: none;
+    opacity: 0.8;
+}
+
+.card-hover .card-image-container:hover .delete-button {
+    display: block;
+}
