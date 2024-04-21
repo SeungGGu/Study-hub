@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -13,29 +14,30 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .csrf((auth) -> auth.disable());
-        http
+                .csrf((auth) -> auth.disable())
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers("/").permitAll()
-                        .requestMatchers("/login", "/api/register", "api/login").permitAll()
-                        .requestMatchers("/my/**").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers("/admin").hasRole("ADMIN")
+                        .requestMatchers("/api/loginProc", "/api/register").permitAll()
                         .anyRequest().authenticated()
                 );
-        http
-                .formLogin((auth) -> auth
-                        .loginPage("/login")
-                        .loginProcessingUrl("/api/login")
-                        .permitAll()
-                        .successHandler((request, response, authentication) ->{
-                            response.sendRedirect("/");
-                        })
-                );
+//                .formLogin(form -> form
+//                        .loginProcessingUrl("/api/loginProc")
+//                        .successHandler(((request, response, authentication) -> response.setStatus(200)))
+//                        .failureHandler(((request, response, exception) -> response.setStatus(401)))
+//                        .permitAll()
+//                )
+//                .logout()
+//                .permitAll()
+//                .and();
+//        http.sessionManagement() //중복로그인 제어
+//                .maximumSessions(1) //세션 최대 허용 수
+//                .maxSessionsPreventsLogin(false); // false: 중복 로그인하면 이전 로그인이 풀림
+
         return http.build();
     }
 
     @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 }

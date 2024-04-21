@@ -21,17 +21,45 @@ function SignInPage() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('입력된 아이디:', credentials.id); // 입력된 아이디 출력
+        console.log('입력된 아이디:', credentials.id);
         console.log('입력된 비밀번호:', credentials.password);
-        axios.post('/api/login', credentials)
+        axios.post('/api/loginProc', credentials)
             .then(response => {
-                console.log('로그인 성공:', response);
-                navigate('/');
+                if (response.data === "로그인 실패"){
+                    alert("아이디 또는 비밀번호가 올바르지 않습니다.");
+                }else {
+                    const [name, nickname] = response.data.split('|');
+                    sessionStorage.setItem('userId', credentials.id);
+                    sessionStorage.setItem('name', name);
+                    sessionStorage.setItem('nickname', nickname);
+                    console.log('로그인 성공 - 사용자 아이디:', credentials.id)
+                    console.log('로그인 성공 - 사용자 이름:', name);
+                    console.log('로그인 성공 - 사용자 닉네임:', nickname);
+                    // 세션 사용법
+                    // const userId = sessionStorage.getItem('userId');
+                    // const nickname = sessionStorage.getItem('nickname');
+                    // <p>Welcome, {nickname}!</p>
+                    // 세션 삭제방법
+                    // sessionStorage.removeItem('userId');
+                    // sessionStorage.removeItem('nickname');
+                    // 조건부 렌더링
+                    //  - 로그인 되어있는지 확인
+                    //      const isAuthenticated = sessionStorage.getItem('userId') !== null;
+                    //{isAuthenticated ? (
+                    //     <AuthenticatedApp />
+                    // ) : (
+                    //     <UnauthenticatedApp />
+                    // )}
+                    // 페이지를 다르게 렌더링 가능
+
+                }
             })
             .catch(error => {
                 console.error('로그인 실패:', error);
+                // handle login failure
             });
     };
+
 
     const handleNavigate = (path) => {
         navigate(path);
