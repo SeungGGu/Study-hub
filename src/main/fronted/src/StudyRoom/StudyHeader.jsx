@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -19,7 +19,7 @@ export const StudyHeader = ({ currentPage }) => {
                         <Nav.Link href="#pricing">그리기</Nav.Link>
                         <Nav.Link href="#deets">고정</Nav.Link>
                         <Nav.Link href="#memes">사용자</Nav.Link>
-                        <Nav.Link href="#memes">나가기</Nav.Link>
+                        <Nav.Link href="/mainStudy">나가기</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
             </Container>

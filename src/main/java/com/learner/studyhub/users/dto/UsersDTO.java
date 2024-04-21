@@ -1,8 +1,5 @@
-package com.learner.studyhub.users;
+package com.learner.studyhub.users.dto;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -10,13 +7,11 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-@Entity
-public class Users {
-    @Id
+
+public class UsersDTO {
     private String id;
     private String password;
     private String name;
-    @Column(unique = true)
     private String nickname;
     private String email;
     private String phone;

@@ -26,7 +26,7 @@ function SignInPage() {
         axios.post('/api/login', credentials)
             .then(response => {
                 console.log('로그인 성공:', response);
-                // Here you can handle redirection on successful login
+                navigate('/');
             })
             .catch(error => {
                 console.error('로그인 실패:', error);
