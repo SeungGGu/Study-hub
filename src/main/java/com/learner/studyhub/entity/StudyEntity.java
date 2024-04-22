@@ -36,6 +36,9 @@ public class StudyEntity {
     private String studyTitle;
 
     @Column(nullable = false)
+    private String studyTitlePicture;
+
+    @Column(nullable = false)
     private boolean pwStatus;
 
     private String studyPw;

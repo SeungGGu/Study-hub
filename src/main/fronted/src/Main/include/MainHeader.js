@@ -1,11 +1,21 @@
 import React from "react";
 import Button from 'react-bootstrap/Button';
 import './MainHeader.css';
+import { useNavigate } from "react-router-dom";
 
 export const MainHeader = () => {
     const nickname = sessionStorage.getItem('nickname');
     const isAuthenticated = sessionStorage.getItem('userId') !== null;
+    const navigate = useNavigate();
 
+    const handleLogout = () => {
+        // 세션에서 사용자 정보 제거
+        sessionStorage.removeItem('userId');
+        sessionStorage.removeItem('nickname');
+        sessionStorage.removeItem('name');
+        // 로그인 페이지로 리디렉션
+        navigate('/');
+    };
     return (
         <div className="headerScreen mb-7">
             <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
@@ -31,9 +41,14 @@ export const MainHeader = () => {
                                 <a className="nav-link" href="/">고객센터</a>
                             </li>
                         </ul>
-                        <div className="d-flex">
+                        <div className="d-flex align-items-center">
                             {isAuthenticated ? (
-                                <span className="me-2">{nickname}</span>
+                                <>
+                                    <div className="me-2">{nickname}</div>
+                                    <Button variant="secondary" onClick={handleLogout}>
+                                        로그아웃
+                                    </Button>
+                                </>
                             ) : (
                                 <>
                                     <Button variant="secondary" className="me-2" href={"/register"}>

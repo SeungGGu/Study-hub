@@ -76,7 +76,7 @@ const Canvas = () => {
                           onMouseLeave={() => setHover(false)}
                           className="card-hover">
                         <div className="card-image-container">
-                            <Card.Img variant="top" src={`https://source.unsplash.com/random/130x70?sig=${card.id}`}/>
+                            <Card.Img variant="top" src="/studyHub.png"/>
                             {hover && (
                                 <Button variant="danger" className="delete-button">삭제</Button>
                             )}

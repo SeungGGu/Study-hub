@@ -3,12 +3,14 @@ import {Nav, Button, Card, Col, Row, CardFooter} from "react-bootstrap";
 import React, {useEffect, useState} from "react";
 import "../include/TabHeader.css"
 import {Link} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 
 function MainStudyAll({type}) {
     const [cards, setCards] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [cardsPerPage] = useState(16);
+    const navigate = useNavigate();
 
     // Simulated data fetching
     useEffect(() => {
@@ -40,6 +42,10 @@ function MainStudyAll({type}) {
         // Example: fetch('/api/sort', { method: 'POST', body: JSON.stringify({ sortOption }) });
     };
 
+    const handleCreate = () => {
+        // 스터디 만드는 페이지 이동
+        navigate('/studyCreate');
+    };
     return (
         <div>
             <TabHeader/>
@@ -58,7 +64,7 @@ function MainStudyAll({type}) {
                     </Nav>
                 </div>
                 <div className="col-auto">
-                    <Button variant="secondary">만들기</Button>
+                    <Button variant="secondary" onClick={handleCreate}>만들기</Button>
                 </div>
             </div>
             <hr/>
@@ -68,7 +74,7 @@ function MainStudyAll({type}) {
                         <Col key={card.id}>
                             <Link to={`/studyRoom/${card.id}/${card.title}`} style={{textDecoration: 'none'}}>
                                 <Card>
-                                    <Card.Img variant="top" src="holder.js/100px160"/>
+                                    <Card.Img variant="top" src="/studyHub.png"/>
                                     <Card.Body>
                                         <Card.Title>{card.title}</Card.Title>
                                         <Card.Text>{card.description}</Card.Text>

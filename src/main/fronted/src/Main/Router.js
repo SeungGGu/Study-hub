@@ -7,6 +7,7 @@ import MainStudy from "./MainStudy";
 import MainRule from "./MainRule";
 import MainCommunity from "./MainCommunity";
 import Register from "../UserPage/SignUpPage";
+import MainStudyCreate from "./MainStudyCreate";
 
 const Router = () => {
     return (
@@ -19,6 +20,7 @@ const Router = () => {
             <Route path="/mainRule" element={<MainRule/>}/>
             <Route path="/mainCommunity" element={<MainCommunity/>}/>
             <Route path="/register" element={<Register/>}/>
+            <Route path="/studyCreate" element={<MainStudyCreate/>}/>
         </Routes>
     );
 };
