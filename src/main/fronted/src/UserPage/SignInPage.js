@@ -35,6 +35,7 @@ function SignInPage() {
                     console.log('로그인 성공 - 사용자 아이디:', credentials.id)
                     console.log('로그인 성공 - 사용자 이름:', name);
                     console.log('로그인 성공 - 사용자 닉네임:', nickname);
+                    navigate("/");
                     // 세션 사용법
                     // const userId = sessionStorage.getItem('userId');
                     // const nickname = sessionStorage.getItem('nickname');

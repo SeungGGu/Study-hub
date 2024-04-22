@@ -3,6 +3,9 @@ import Button from 'react-bootstrap/Button';
 import './MainHeader.css';
 
 export const MainHeader = () => {
+    const nickname = sessionStorage.getItem('nickname');
+    const isAuthenticated = sessionStorage.getItem('userId') !== null;
+
     return (
         <div className="headerScreen mb-7">
             <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
@@ -29,12 +32,18 @@ export const MainHeader = () => {
                             </li>
                         </ul>
                         <div className="d-flex">
-                            <Button variant="secondary" className="me-2" href={"/register"}>
-                                회원가입
-                            </Button>
-                            <Button variant="secondary" href={"/login"}>
-                                로그인
-                            </Button>
+                            {isAuthenticated ? (
+                                <span className="me-2">{nickname}</span>
+                            ) : (
+                                <>
+                                    <Button variant="secondary" className="me-2" href={"/register"}>
+                                        회원가입
+                                    </Button>
+                                    <Button variant="secondary" href={"/login"}>
+                                        로그인
+                                    </Button>
+                                </>
+                            )}
                         </div>
                     </div>
                 </div>
