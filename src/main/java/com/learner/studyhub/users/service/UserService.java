@@ -15,7 +15,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     public String loginUser(UsersDTO usersDTO){
-        UserEntity data = userRepository.findByUserid(usersDTO.getId());
+        UserEntity data = userRepository.findByUserId(usersDTO.getId());
         System.out.println(data.getName());
         if (data == null || !passwordEncoder.matches(usersDTO.getPassword(), data.getPassword())) {
             return "로그인 실패";
@@ -45,7 +45,7 @@ public class UserService {
 
         UserEntity data = new UserEntity();
 
-        data.setUserid(users.getId());
+        data.setUserId(users.getId());
         data.setPassword(passwordEncoder.encode(users.getPassword()));
         data.setName(users.getName());
         data.setNickname(users.getNickname());

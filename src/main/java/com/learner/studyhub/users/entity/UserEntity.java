@@ -14,7 +14,7 @@ import lombok.Setter;
 public class UserEntity {
 
     @Id
-    private String userid;
+    private String userId;
 
     @Column(nullable = false)
     private String password;
