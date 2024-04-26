@@ -1,7 +1,10 @@
 import {Badge, Button, Nav} from "react-bootstrap";
 import React from "react";
+import MainBoards from "./tab/MainBoards";
+import { useNavigate } from 'react-router-dom';
 
 function Community(){
+    const navigate = useNavigate();
     return(
         <div>
             <div className="row mt-4">
@@ -19,7 +22,10 @@ function Community(){
                     </Nav>
                 </div>
                 <div className="col-auto">
-                    <Button variant="secondary">글쓰기</Button>
+                    <Button variant="secondary" onClick={() => {
+                        navigate('/MainBoards');
+                    }
+                    }>글쓰기</Button>
                 </div>
                 <hr/>
                 <div className="게시물">
