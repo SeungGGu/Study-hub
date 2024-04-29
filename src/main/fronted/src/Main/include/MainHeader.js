@@ -1,6 +1,6 @@
 import React from "react";
 import Button from 'react-bootstrap/Button';
-import './MainHeader.css';
+import '../../styles/MainHeader.css';
 import { useNavigate } from "react-router-dom";
 
 export const MainHeader = () => {

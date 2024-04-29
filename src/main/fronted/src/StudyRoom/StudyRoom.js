@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import './CustomStyles.css';
+import React, {useEffect, useState} from 'react';
+import '../styles/CustomStyles.css';
 import {useParams} from 'react-router-dom';
 import {StudyHeader} from "./StudyHeader";
 import {Col, Container, Row} from "react-bootstrap";
@@ -12,7 +12,38 @@ import Canvas from "./pages/Canvas";
 function StudyRoom() {
     const {id, title} = useParams();
     const [currentPage, setCurrentPage] = useState("Home");
-       const [inputValue, setInputValue] = useState("");
+    const [inputValue, setInputValue] = useState("");
+    const [messages, setMessages] = useState([]);
+    const [stompClient, setStompClient] = useState(null);
+
+    useEffect(() => {
+        // WebSocket 연결 설정
+        const ws = new WebSocket('ws://localhost:8080'); // WebSocket 서버 주소에 맞게 변경
+
+        ws.onopen = () => {
+            console.log('WebSocket 연결 성공');
+        };
+
+        ws.onmessage = (event) => {
+            // 새로운 메시지를 받았을 때 상태 업데이트
+            const newMessage = JSON.parse(event.data);
+            setMessages([...messages, newMessage]);
+        };
+
+        ws.onclose = () => {
+            console.log('WebSocket 연결 종료');
+        };
+
+        return () => {
+            // 컴포넌트 언마운트 시 WebSocket 연결 종료
+            ws.close();
+        };
+    }, [messages]); // messages 상태가 변경될 때마다 useEffect 실행
+
+    const sendMessage = () => {
+        // 메시지 전송
+        // 예: WebSocket을 통해 서버로 메시지 전송
+    };
 
     // 내용을 렌더링하는 함수
     const renderContent = () => {

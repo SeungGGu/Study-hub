@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 @ResponseBody
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/user")
 public class UserController {
     private final PasswordEncoder passwordEncoder;
     private final UserService userService;
