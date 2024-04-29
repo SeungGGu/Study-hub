@@ -3,7 +3,7 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { useParams } from "react-router-dom";
-import './StudyHeader.css';  // CSS 파일 임포트
+import '../styles/StudyHeader.css';  // CSS 파일 임포트
 
 export const StudyHeader = ({ currentPage }) => {
     const { title } = useParams();

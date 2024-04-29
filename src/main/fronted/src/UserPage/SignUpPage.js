@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {Container, Row, Col, Form, Button, Card} from "react-bootstrap";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
-import './SignUpPage.css'; // Importing custom CSS
+import '../styles/SignUpPage.css'; // Importing custom CSS
 
 function SignUpPage() {
     const navigate = useNavigate();
@@ -52,7 +52,7 @@ function SignUpPage() {
             birthDate
         };
 
-        axios.post("/api/register", submitData)
+        axios.post("/api/user/register", submitData)
             .then((response) => {
                 console.log("Registration successful:", response.data);
                 if (response.data === "success") {

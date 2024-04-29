@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Card, Form, InputGroup, Pagination } from "react-bootstrap";
-import './Canvas.css'; // 스타일 시트 파일 임포트
+import '../../styles/Canvas.css'; // 스타일 시트 파일 임포트
 
 const Canvas = () => {
     const [hover, setHover] = useState(false); // 마우스 오버 상태를 위한 state

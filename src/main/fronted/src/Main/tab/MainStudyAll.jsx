@@ -1,9 +1,9 @@
 import TabHeader from "../include/TabHeader";
 import {Nav, Button, Card, Col, Row, CardFooter} from "react-bootstrap";
 import React, {useEffect, useState} from "react";
-import "../include/TabHeader.css"
+import "../../styles/TabHeader.css"
 import {Link} from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 
 function MainStudyAll({type}) {
@@ -15,17 +15,35 @@ function MainStudyAll({type}) {
     // Simulated data fetching
     useEffect(() => {
         // Fetch data from database or API
-        // For demonstration, generating dummy data
-        const data = Array.from({length: 30}).map((_, idx) => ({
-            id: idx + 1,
-            title: `Card ${idx + 1}`,
-            description: `Description for Card ${idx + 1}`,
-            leader: '정은',
-            views: '0',
-            comments: '0',
-            // You can include additional properties such as image URL, leader, etc.
-        }));
-        setCards(data);
+        const fetchStudyData = async () => {
+            try {
+                const response = await fetch('/api/study/cardView');
+                if (!response.ok) {
+                    throw new Error("Failed to fetch study data");
+                }
+                const data = await response.json();
+
+                console.log("Received study data:", data);
+
+                data.forEach(card => {
+                    console.log("Study ID:", card.studyId);
+                    console.log("Study Creator:", card.studyCreator);
+                    console.log("Study Create Date:", card.studyCreateDate);
+                    console.log("Study Last Date:", card.studyLastDate);
+                    console.log("Study Title:", card.studyTitle);
+                    console.log("Study Comment:", card.studyComment);
+                    console.log("Study Title Picture:", card.studyTitlePicture);
+                    console.log("Password Status:", card.pwStatus);
+                    console.log("Study Password:", card.studyPw);
+                    console.log("-----------");
+                });
+
+                setCards(data);
+            } catch (error) {
+                console.error("Error", error);
+            }
+        }
+        fetchStudyData();
     }, []);
 
     // Pagination
@@ -71,17 +89,20 @@ function MainStudyAll({type}) {
             <div className="BestStudyCard">
                 <Row xs={1} md={2} lg={4} className="g-4">
                     {currentCards.map(card => (
-                        <Col key={card.id}>
-                            <Link to={`/studyRoom/${card.id}/${card.title}`} style={{textDecoration: 'none'}}>
+                        <Col key={card.studyId}>
+                            <Link to={`/studyRoom/${card.studyId}/${card.studyTitle}`} style={{textDecoration: 'none'}}>
                                 <Card>
-                                    <Card.Img variant="top" src="/studyHub.png"/>
+                                    <Card.Img
+                                        variant="top"
+                                        src={"/images/" + card.studyTitlePicture}
+                                        style={{width: '300px', height: '170px', objectFit: 'cover'}}
+                                    />
                                     <Card.Body>
-                                        <Card.Title>{card.title}</Card.Title>
-                                        <Card.Text>{card.description}</Card.Text>
+                                        <Card.Title>{card.studyTitle}</Card.Title>
+                                        <Card.Text>{card.studyComment}</Card.Text>
                                     </Card.Body>
                                     <CardFooter>
-                                        <small className="text">{card.leader} <br/> </small>
-                                        <small className="text">조회수 {card.views} | 댓글 {card.comments}</small>
+                                        <small className="text">{card.studyCreator.nickname} <br/> </small>
                                     </CardFooter>
                                 </Card>
                             </Link>

@@ -23,7 +23,7 @@ function SignInPage() {
         e.preventDefault();
         console.log('입력된 아이디:', credentials.id);
         console.log('입력된 비밀번호:', credentials.password);
-        axios.post('/api/loginProc', credentials)
+        axios.post('/api/user/loginProc', credentials)
             .then(response => {
                 if (response.data === "로그인 실패"){
                     alert("아이디 또는 비밀번호가 올바르지 않습니다.");
