@@ -26,7 +26,7 @@ const Router = () => {
                     <div className='error-page'>oops!! 404 error!</div>
                     <img src={'https://sitechecker.pro/wp-content/uploads/2023/06/404-status-code.png'} width={"100%"}></img>
                 </>}/>
-        </Routes>
+            </Routes>
     );
 };
 
