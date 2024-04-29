@@ -1,0 +1,16 @@
+.board_body{
+    height: 700px;
+    padding: 0;
+}
+
+.board-box{
+    border-width: 0;
+}
+.ql-editor{
+    background-color: white;
+
+}
+.ql-container{
+
+    position: relative;
+}
