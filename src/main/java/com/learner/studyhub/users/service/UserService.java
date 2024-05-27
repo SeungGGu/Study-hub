@@ -2,7 +2,7 @@ package com.learner.studyhub.users.service;
 
 import com.learner.studyhub.users.dto.UsersDTO;
 import com.learner.studyhub.users.entity.UserEntity;
-import com.learner.studyhub.users.repository.UserRepository;
+import com.learner.studyhub.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

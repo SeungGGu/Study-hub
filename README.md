@@ -17,6 +17,6 @@
 - StudyController에서 34번째 줄 사진 저장 절대경로 수정해서 진행하기
 
 ### 웹소켓
-- npm install stompjs
-
+- npm install @stomp/stompjs
+- npm install sockjs-client
 ---

@@ -5,7 +5,6 @@ import '../styles/StudySideBar.css';  // CSS 파일 임포트
 export const StudySideBar = ({onChannelSelect}) => {
     const {title} = useParams();
     const [showChannels, setShowChannels] = useState(true);
-
     const [showCgChannels, setShowCgChannels] = useState(false);
 
     const [channels, setChannels] = useState([

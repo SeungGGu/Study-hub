@@ -4,7 +4,7 @@ import com.learner.studyhub.dto.StudyDTO;
 import com.learner.studyhub.entity.StudyEntity;
 import com.learner.studyhub.repository.StudyRepository;
 import com.learner.studyhub.users.entity.UserEntity;
-import com.learner.studyhub.users.repository.UserRepository;
+import com.learner.studyhub.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
