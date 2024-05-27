@@ -41,7 +41,8 @@ function StudyRoom() {
     useEffect(() => {
         const fetchMessages = async () => {
             try {
-                const response = await fetch(`/messages?studyId=${id}&roomId=${currentPage}`);
+                console.log("fetch시작");
+                const response = await fetch(`/api/messages?studyId=${id}&roomId=${currentPage}`);
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
@@ -61,7 +62,7 @@ function StudyRoom() {
         fetchMessages();
     }, [id, currentPage]);
 
-    const filteredMessages = messages.filter(msg => msg.id === id && msg.roomId === currentPage);
+    const filteredMessages = messages.filter(msg => msg.studyId === id && msg.roomId === currentPage);
 
     const renderContent = () => {
         switch (currentPage) {

@@ -31,8 +31,9 @@ public class SecurityConfig {
                 .csrf().disable() // CSRF 보호 비활성화
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers("/").permitAll()
-                        .requestMatchers("api/study/", "/api/study/edit", "/api/study/upload", "/api/study/cardView").permitAll()
-                        .requestMatchers("/api/user/loginProc", "/api/user/register", "/api/study/edit").permitAll()
+                        .requestMatchers("/api/**").permitAll()
+                        .requestMatchers("/api/study/**").permitAll()
+                        .requestMatchers("/api/user/**").permitAll()
                         .anyRequest().permitAll()
                 );
         return http.build();

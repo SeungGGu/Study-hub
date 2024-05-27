@@ -9,10 +9,11 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Controller
+@RestController
 public class ChatController {
 
     private final SimpMessagingTemplate messagingTemplate;
@@ -32,12 +33,13 @@ public class ChatController {
         messageRepository.save(message);
     }
 
-    @GetMapping("/messages")
+    @GetMapping("/api/messages")
     public ResponseEntity<List<Message>> getMessages(@RequestParam String studyId, @RequestParam String roomId) {
-        System.out.println("들어옴");
-        System.out.println(studyId+"|"+roomId);
+        System.out.println("Request received");
+        System.out.println("studyId: " + studyId + ", roomId: " + roomId);
         List<Message> messages = messageRepository.findBystudyIdAndRoomId(studyId, roomId);
-        System.out.println(messages);
+        System.out.println("Messages: " + messages);
         return ResponseEntity.ok(messages);
     }
+
 }
