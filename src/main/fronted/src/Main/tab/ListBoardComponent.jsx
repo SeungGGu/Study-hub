@@ -6,11 +6,11 @@ import "./MainBoardCSS.css";
 import BoardTag from "./BoardTag";
 
 const ListBoardComponent = ({ addBoard }) => {
-    const [show, setShow] = useState(false);
+    // const [show, setShow] = useState(false);
     const [content, setContent] = useState('');
     const [title, setTitle] = useState('');
     const [tags, setTags] = useState([]);
-    const [boards, setBoards] = useState([]);
+    // const [boards, setBoards] = useState([]);
     const [username, setUsername] = useState('defaultUser'); // Default username
 
 
