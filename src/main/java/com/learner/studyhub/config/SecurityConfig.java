@@ -19,6 +19,7 @@ public class SecurityConfig {
                         .requestMatchers("/").permitAll()
                         .requestMatchers("api/study/", "/api/study/edit", "/api/study/upload", "/api/study/cardView").permitAll()
                         .requestMatchers("/api/user/loginProc", "/api/user/register", "/api/study/edit").permitAll()
+                        .requestMatchers("/api/board").permitAll()
                         .anyRequest().authenticated()
                 );
 //                .formLogin(form -> form
