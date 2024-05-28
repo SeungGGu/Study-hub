@@ -3,19 +3,15 @@ import {Button, Form, InputGroup, Badge, Tab, Tabs} from "react-bootstrap";
 import {useState} from "react";
 import Community from "./Community";
 import React from "react";
+import ListBoardComponent from "./tab/ListBoardComponent";
 
 function MainCommunity() {
     const [key, setKey] = useState('all');
+    const [boards, setBoards] = useState([]);
 
-    // const [popularTags, setPopularTags] = useState([]);
-    //
-    // useEffect(() => {
-    //     // Fetch popular tags from the backend API
-    //     fetch("/api/popular-tags")
-    //         .then(response => response.json())
-    //         .then(data => setPopularTags(data.tags))
-    //         .catch(error => console.error("Error fetching popular tags:", error));
-    // }, []);
+    const addBoard = (newBoard) => {
+        setBoards([...boards, newBoard]);
+    };
 
     return (
         <div className="MainCommunity" style={{paddingTop: "56px", marginLeft: "20"}}>
@@ -55,7 +51,8 @@ function MainCommunity() {
                             className="mb-3 nav-justified"
                         >
                             <Tab eventKey="all" title="전체">
-                                <Community/>
+                                <Community boards={boards}/>
+
                             </Tab>
                             <Tab eventKey="공지사항" title="공지사항">
                                 Tab content for Profile

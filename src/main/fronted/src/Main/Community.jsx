@@ -1,9 +1,9 @@
 import {Badge, Button, Nav} from "react-bootstrap";
 import React from "react";
-import MainBoards from "./tab/MainBoards";
 import { useNavigate } from 'react-router-dom';
 
-function Community(){
+
+function Community({boards}){
     const navigate = useNavigate();
     return(
         <div>
@@ -29,10 +29,16 @@ function Community(){
                 </div>
                 <hr/>
                 <div className="게시물">
-                    <h4>제목 타이틀</h4>
-                    <p>내용</p>
-                    <Badge pill bg="primary">1</Badge>
+                    <h4>게시물 제목</h4>
+                    <p>qhsans</p>
                 </div>
+                {/*{boards.map((board, index) => (*/}
+                {/*    <div className="게시물" key={index}>*/}
+                {/*        <h4>{board.title}</h4>*/}
+                {/*        <p>{board.content}</p>*/}
+                {/*        <Badge pill bg="primary">{index + 1}</Badge>*/}
+                {/*    </div>*/}
+                {/*))}*/}
             </div>
         </div>
     )

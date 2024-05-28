@@ -10,7 +10,7 @@ function MainStudy() {
     const [key, setKey] = useState('all');
 
     return (
-        <div className="MainStudy" style={{paddingTop: "56px"}}>
+        <div className="MainStudy" style={{paddingTop: "56px" ,marginTop:"80px"}}>
             <MainHeader/>
             <Tabs
                 id="controlled-tab-example"
