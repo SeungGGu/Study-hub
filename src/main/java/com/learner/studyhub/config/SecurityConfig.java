@@ -34,6 +34,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/**").permitAll()
                         .requestMatchers("/api/study/**").permitAll()
                         .requestMatchers("/api/user/**").permitAll()
+                        .requestMatchers("/api/sessions//**").permitAll()
+                        .requestMatchers("/openvidu/api/sessions//**").permitAll()
                         .anyRequest().permitAll()
                 );
         return http.build();

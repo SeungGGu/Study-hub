@@ -24,11 +24,15 @@ repositories {
 dependencies {
     //boot
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'jakarta.annotation:jakarta.annotation-api:2.1.1'
 
     //web
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
+
+    // https://mvnrepository.com/artifact/io.openvidu/openvidu-java-client
+    implementation 'io.openvidu:openvidu-java-client:2.23.0'
 
     //lombok
     compileOnly 'org.projectlombok:lombok'
@@ -43,6 +47,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6:3.1.1.RELEASE'
 
+    //test
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 tasks.named('test') {
