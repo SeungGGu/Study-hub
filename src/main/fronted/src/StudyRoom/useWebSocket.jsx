@@ -6,7 +6,7 @@ const useWebSocket = (url, onMessage) => {
     const stompClientRef = useRef(null);
     const [connected, setConnected] = useState(false);
     const [retryCount, setRetryCount] = useState(0);
-    const connectingRef = useRef(false); // 연결 시도를 추적하는 ref
+    const connectingRef = useRef(false);
 
     const connect = useCallback(() => {
         if (connectingRef.current) return;
@@ -37,6 +37,13 @@ const useWebSocket = (url, onMessage) => {
                 console.error('최대 재시도 횟수에 도달했습니다. 연결 실패.');
             }
         });
+
+        socket.onclose = () => {
+            console.log('웹소켓 연결이 닫혔습니다.');
+            setConnected(false);
+            connectingRef.current = false;
+            stompClientRef.current = null;  // 연결이 닫힐 때 클라이언트를 정리
+        };
     }, [url, onMessage, retryCount]);
 
     const disconnect = useCallback(() => {
@@ -44,9 +51,10 @@ const useWebSocket = (url, onMessage) => {
             stompClientRef.current.disconnect(() => {
                 console.log('웹소켓 연결 종료됨');
                 setConnected(false);
-            }, () => {
-                console.error('웹소켓 연결 종료 오류');
+            }, (error) => {
+                console.error('웹소켓 연결 종료 오류', error);
             });
+            stompClientRef.current = null;
         }
     }, []);
 
@@ -60,7 +68,15 @@ const useWebSocket = (url, onMessage) => {
 
     useEffect(() => {
         connect();
+
+        const handleBeforeUnload = () => {
+            disconnect();
+        };
+
+        window.addEventListener('beforeunload', handleBeforeUnload);
+
         return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
             disconnect();
         };
     }, [connect, disconnect]);

@@ -13,7 +13,7 @@ import Canvas from './pages/Canvas';
 function StudyRoom() {
     const nickname = sessionStorage.getItem('nickname');
     const {id, title} = useParams();
-    const [currentPage, setCurrentPage] = useState('Home');
+    const [currentPage, setCurrentPage] = useState('자유');
     const [inputValue, setInputValue] = useState('');
     const [messages, setMessages] = useState([]);
 
@@ -118,7 +118,7 @@ function StudyRoom() {
                         <StudySideBar title={title} onChannelSelect={setCurrentPage}/>
                     </Col>
                     <Col className="mainContent" md={10}>
-                        <StudyHeader title={title} currentPage={currentPage} onDisconnect={disconnect}/>
+                        <StudyHeader title={title} currentPage={currentPage} onDisconnect={disconnect} id={id}/>
                         {renderContent()}
                     </Col>
                 </Row>
