@@ -5,9 +5,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import { useParams } from "react-router-dom";
 import '../styles/StudyHeader.css';  // CSS 파일 임포트
 
-export const StudyHeader = ({ currentPage }) => {
-    const { title } = useParams();
-
+export const StudyHeader = ({ title, currentPage, onDisconnect }) => {
     return (
         <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary navbar-custom">
             <Container fluid>
@@ -19,7 +17,7 @@ export const StudyHeader = ({ currentPage }) => {
                         <Nav.Link href="#pricing">그리기</Nav.Link>
                         <Nav.Link href="#deets">고정</Nav.Link>
                         <Nav.Link href="#memes">사용자</Nav.Link>
-                        <Nav.Link href="/mainStudy">나가기</Nav.Link>
+                        <Nav.Link href="/mainStudy" onClick={onDisconnect}>나가기</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
             </Container>

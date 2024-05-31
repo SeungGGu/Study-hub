@@ -1,11 +1,11 @@
 package com.learner.studyhub.users.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.learner.studyhub.entity.BoardEntity;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.Set;
 
 @Entity
 @Setter
@@ -39,4 +39,7 @@ public class UserEntity {
 
     @Column(nullable = false)
     private String role;
+
+    @OneToMany(mappedBy = "boardNickname")
+    private Set<BoardEntity> boards;
 }

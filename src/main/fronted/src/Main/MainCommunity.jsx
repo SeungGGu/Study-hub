@@ -44,29 +44,29 @@ function MainCommunity() {
                         </InputGroup>
                     </div>
                     <div>
-                        <Tabs
-                            id="controlled-tab-example"
-                            activeKey={key}
-                            onSelect={(k) => setKey(k)}
-                            className="mb-3 nav-justified"
-                        >
-                            <Tab eventKey="all" title="전체">
+                        {/*<Tabs*/}
+                        {/*    id="controlled-tab-example"*/}
+                        {/*    activeKey={key}*/}
+                        {/*    onSelect={(k) => setKey(k)}*/}
+                        {/*    className="mb-3 nav-justified"*/}
+                        {/*>*/}
+                            {/*<Tab eventKey="all" title="전체">*/}
                                 <Community boards={boards}/>
 
-                            </Tab>
-                            <Tab eventKey="공지사항" title="공지사항">
-                                Tab content for Profile
-                            </Tab>
-                            <Tab eventKey="질문" title="질문">
-                                Tab content for Contact
-                            </Tab>
-                            <Tab eventKey="스터디" title="스터디">
-                                Tab content for Contact
-                            </Tab>
-                            <Tab eventKey="자유" title="자유">
-                                Tab content for Contact
-                            </Tab>
-                        </Tabs>
+                            {/*</Tab>*/}
+                            {/*<Tab eventKey="공지사항" title="공지사항">*/}
+                            {/*    Tab content for Profile*/}
+                            {/*</Tab>*/}
+                            {/*<Tab eventKey="질문" title="질문">*/}
+                            {/*    Tab content for Contact*/}
+                            {/*</Tab>*/}
+                            {/*<Tab eventKey="스터디" title="스터디">*/}
+                            {/*    Tab content for Contact*/}
+                            {/*</Tab>*/}
+                            {/*<Tab eventKey="자유" title="자유">*/}
+                            {/*    Tab content for Contact*/}
+                            {/*</Tab>*/}
+                        {/*</Tabs>*/}
                     </div>
                 </div>
                 <div className="col-md-4">

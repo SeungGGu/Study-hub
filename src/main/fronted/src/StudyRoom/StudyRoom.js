@@ -1,51 +1,69 @@
-import React, {useEffect, useState} from 'react';
-import '../styles/CustomStyles.css';
+import React, {useState, useCallback, useEffect} from 'react';
 import {useParams} from 'react-router-dom';
-import {StudyHeader} from "./StudyHeader";
-import {Col, Container, Row} from "react-bootstrap";
-import {StudySideBar} from "./StudySideBar";
+import useWebSocket from './useWebSocket';
+import '../styles/CustomStyles.css';
+import {StudyHeader} from './StudyHeader';
+import {Col, Container, Row} from 'react-bootstrap';
+import {StudySideBar} from './StudySideBar';
 import Mission from './pages/Mission';
-import TodayRunner from "./pages/TodayRunner";
-import Calendar from "./pages/Calendar";
-import Canvas from "./pages/Canvas";
+import TodayRunner from './pages/TodayRunner';
+import Calendar from './pages/Calendar';
+import Canvas from './pages/Canvas';
 
 function StudyRoom() {
+    const nickname = sessionStorage.getItem('nickname');
     const {id, title} = useParams();
-    const [currentPage, setCurrentPage] = useState("Home");
-    const [inputValue, setInputValue] = useState("");
+    const [currentPage, setCurrentPage] = useState('Home');
+    const [inputValue, setInputValue] = useState('');
     const [messages, setMessages] = useState([]);
-    const [stompClient, setStompClient] = useState(null);
 
-    useEffect(() => {
-        // WebSocket 연결 설정
-        const ws = new WebSocket('ws://localhost:8080'); // WebSocket 서버 주소에 맞게 변경
+    const handleNewMessage = useCallback((message) => {
+        setMessages(prevMessages => [...prevMessages, message]);
+    }, []);
 
-        ws.onopen = () => {
-            console.log('WebSocket 연결 성공');
-        };
+    const {disconnect, sendMessage, connected} = useWebSocket('/ws', handleNewMessage);
 
-        ws.onmessage = (event) => {
-            // 새로운 메시지를 받았을 때 상태 업데이트
-            const newMessage = JSON.parse(event.data);
-            setMessages([...messages, newMessage]);
-        };
-
-        ws.onclose = () => {
-            console.log('WebSocket 연결 종료');
-        };
-
-        return () => {
-            // 컴포넌트 언마운트 시 WebSocket 연결 종료
-            ws.close();
-        };
-    }, [messages]); // messages 상태가 변경될 때마다 useEffect 실행
-
-    const sendMessage = () => {
-        // 메시지 전송
-        // 예: WebSocket을 통해 서버로 메시지 전송
+    const handleSendMessage = (event) => {
+        event.preventDefault();
+        if (inputValue) {
+            const chatMessage = {
+                studyId: id,  // Room identifier from the URL parameter
+                roomId: currentPage,  // Current page identifier
+                userId: nickname,
+                message: inputValue,
+                timestamp: new Date().toISOString()
+            };
+            sendMessage('/app/chat.sendMessage', chatMessage);
+            setInputValue('');
+        }
     };
 
-    // 내용을 렌더링하는 함수
+    useEffect(() => {
+        const fetchMessages = async () => {
+            try {
+                console.log("fetch시작");
+                const response = await fetch(`/api/messages?studyId=${id}&roomId=${currentPage}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const contentType = response.headers.get('content-type');
+                if (!contentType || !contentType.includes('application/json')) {
+                    throw new TypeError('Response is not JSON');
+                }
+                const data = await response.json();
+                setMessages(data);
+                console.log(data);
+            } catch (error) {
+                console.error('Error fetching messages:', error);
+                // Optional: handle non-JSON responses differently or display a user-friendly message
+            }
+        };
+
+        fetchMessages();
+    }, [id, currentPage]);
+
+    const filteredMessages = messages.filter(msg => msg.studyId === id && msg.roomId === currentPage);
+
     const renderContent = () => {
         switch (currentPage) {
             case '미션':
@@ -57,42 +75,36 @@ function StudyRoom() {
             case '캔버스':
                 return <Canvas/>;
             default:
-                // 기본 메시지 목록
                 return (
                     <div className="content-area">
                         <ul className="message-list">
-                            {/* 임시 메시지 예시 */}
-                            <li className="message">
-                                <img src="profile-placeholder.png" alt="profile" className="profile-pic"/>
-                                <div className="message-info">
-                                    <div className="message-top">
-                                        <span className="nickname">사용자123</span>
-                                        <span className="timestamp">12:35 PM</span>
+                            {filteredMessages.slice().reverse().map((msg, index) => (
+                                <li className="message" key={index}>
+                                    <img src="profile-placeholder.png" alt="profile" className="profile-pic"/>
+                                    <div className="message-info">
+                                        <div className="message-top">
+                                            <span className="nickname">{msg.userId}</span>
+                                            <span
+                                                className="timestamp">{new Date(msg.timestamp).toLocaleTimeString()}</span>
+                                        </div>
+                                        <div className="message-text">{msg.message}</div>
                                     </div>
-                                    <div className="message-text">안녕하세요! 오늘의 학습 목표는 무엇인가요?</div>
-                                </div>
-                            </li>
-                            <li className="message">
-                                <img src="profile-placeholder.png" alt="profile" className="profile-pic"/>
-                                <div className="message-info">
-                                    <div className="message-top">
-                                        <span className="nickname">사용자123</span>
-                                        <span className="timestamp">12:34 PM</span>
-                                    </div>
-                                    <div className="message-text">안녕하세요! 오늘의 학습 목표는 무엇인가요?</div>
-                                </div>
-                            </li>
+                                </li>
+                            ))}
                         </ul>
                         <div className="chat-input-container">
-                            <input
-                                type="text"
-                                className="chat-input"
-                                value={inputValue}
-                                onChange={(e) => setInputValue(e.target.value)}
-                                placeholder="메시지 입력..."
-                            />
-                            <button onClick={() => setInputValue('')}>전송</button>
+                            <form onSubmit={handleSendMessage}>
+                                <input
+                                    type="text"
+                                    className="chat-input"
+                                    value={inputValue}
+                                    onChange={(e) => setInputValue(e.target.value)}
+                                    placeholder="메시지 입력..."
+                                />
+                                <button type="submit">전송</button>
+                            </form>
                         </div>
+                        {!connected && <div className="connection-status">연결 중...</div>}
                     </div>
                 );
         }
@@ -106,7 +118,7 @@ function StudyRoom() {
                         <StudySideBar title={title} onChannelSelect={setCurrentPage}/>
                     </Col>
                     <Col className="mainContent" md={10}>
-                        <StudyHeader title={title} currentPage={currentPage}/>
+                        <StudyHeader title={title} currentPage={currentPage} onDisconnect={disconnect}/>
                         {renderContent()}
                     </Col>
                 </Row>
