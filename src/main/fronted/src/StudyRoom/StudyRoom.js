@@ -1,27 +1,31 @@
-import React, {useState, useCallback, useEffect} from 'react';
-import {useParams} from 'react-router-dom';
+// StudyRoom.js
+import React, { useState, useCallback, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import useWebSocket from './useWebSocket';
 import '../styles/CustomStyles.css';
-import {StudyHeader} from './StudyHeader';
-import {Col, Container, Row} from 'react-bootstrap';
-import {StudySideBar} from './StudySideBar';
+import { StudyHeader } from './StudyHeader';
+import { Col, Container, Row } from 'react-bootstrap';
+import { StudySideBar } from './StudySideBar';
 import Mission from './pages/Mission';
 import TodayRunner from './pages/TodayRunner';
 import Calendar from './pages/Calendar';
 import Canvas from './pages/Canvas';
+import VideoContainer from "./pages/VideoContainer";
+import useOpenVidu from "./useOpenVidu";
 
 function StudyRoom() {
     const nickname = sessionStorage.getItem('nickname');
-    const {id, title} = useParams();
+    const { id, title } = useParams();
     const [currentPage, setCurrentPage] = useState('자유');
     const [inputValue, setInputValue] = useState('');
     const [messages, setMessages] = useState([]);
+    const [callStarted, setCallStarted] = useState(false);
 
     const handleNewMessage = useCallback((message) => {
         setMessages(prevMessages => [...prevMessages, message]);
     }, []);
 
-    const {disconnect, sendMessage, connected} = useWebSocket('/ws', handleNewMessage);
+    const { disconnect, sendMessage, connected } = useWebSocket('/ws', handleNewMessage);
 
     const handleSendMessage = (event) => {
         event.preventDefault();
@@ -64,28 +68,47 @@ function StudyRoom() {
 
     const filteredMessages = messages.filter(msg => msg.studyId === id && msg.roomId === currentPage);
 
+    const {
+        startCall,
+        leaveSession,
+        publisher,
+        subscribers,
+        videoRef
+    } = useOpenVidu({ title, id, onDisconnect: disconnect });
+
+    useEffect(() => {
+        if (currentPage === '통화' && !callStarted) {
+            startCall();
+            setCallStarted(true);
+        } else if (currentPage !== '통화' && callStarted) {
+            leaveSession();
+            setCallStarted(false);
+        }
+    }, [currentPage, startCall, leaveSession, callStarted]);
+
     const renderContent = () => {
         switch (currentPage) {
             case '미션':
-                return <Mission/>;
+                return <Mission />;
             case 'Today Runner':
-                return <TodayRunner/>;
+                return <TodayRunner />;
             case '캘린더':
-                return <Calendar/>;
+                return <Calendar />;
             case '캔버스':
-                return <Canvas/>;
+                return <Canvas />;
+            case '통화':
+                return <VideoContainer publisher={publisher} subscribers={subscribers} videoRef={videoRef} />;
             default:
                 return (
                     <div className="content-area">
                         <ul className="message-list">
                             {filteredMessages.slice().reverse().map((msg, index) => (
                                 <li className="message" key={index}>
-                                    <img src="profile-placeholder.png" alt="profile" className="profile-pic"/>
+                                    <img src="profile-placeholder.png" alt="profile" className="profile-pic" />
                                     <div className="message-info">
                                         <div className="message-top">
                                             <span className="nickname">{msg.userId}</span>
-                                            <span
-                                                className="timestamp">{new Date(msg.timestamp).toLocaleTimeString()}</span>
+                                            <span className="timestamp">{new Date(msg.timestamp).toLocaleTimeString()}</span>
                                         </div>
                                         <div className="message-text">{msg.message}</div>
                                     </div>
@@ -115,10 +138,16 @@ function StudyRoom() {
             <Container fluid className="custom-container">
                 <Row className="no-gutters">
                     <Col className="sidebar" md={2}>
-                        <StudySideBar title={title} onChannelSelect={setCurrentPage}/>
+                        <StudySideBar title={title} onChannelSelect={setCurrentPage} />
                     </Col>
                     <Col className="mainContent" md={10}>
-                        <StudyHeader title={title} currentPage={currentPage} onDisconnect={disconnect} id={id}/>
+                        <StudyHeader
+                            title={title}
+                            currentPage={currentPage}
+                            onDisconnect={disconnect}
+                            id={id}
+                            setCurrentPage={setCurrentPage}
+                        />
                         {renderContent()}
                     </Col>
                 </Row>
