@@ -1,4 +1,3 @@
-// StudyRoom.js
 import React, { useState, useCallback, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import useWebSocket from './useWebSocket';
@@ -31,8 +30,8 @@ function StudyRoom() {
         event.preventDefault();
         if (inputValue) {
             const chatMessage = {
-                studyId: id,  // Room identifier from the URL parameter
-                roomId: currentPage,  // Current page identifier
+                studyId: id,
+                roomId: currentPage,
                 userId: nickname,
                 message: inputValue,
                 timestamp: new Date().toISOString()
@@ -59,7 +58,6 @@ function StudyRoom() {
                 console.log(data);
             } catch (error) {
                 console.error('Error fetching messages:', error);
-                // Optional: handle non-JSON responses differently or display a user-friendly message
             }
         };
 

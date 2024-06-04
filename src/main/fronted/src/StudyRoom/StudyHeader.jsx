@@ -3,27 +3,15 @@ import React from 'react';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import useOpenVidu from "./useOpenVidu";
-import VideoContainer from "./pages/VideoContainer";
 import '../styles/StudyHeader.css';
 
-export const StudyHeader = ({ title, currentPage, setCurrentPage, onDisconnect, id }) => {
-    // const {
-    //     startCall,
-    //     leaveSession,
-    //     publisher,
-    //     subscribers,
-    //     videoRef
-    // } = useOpenVidu({ title, id, onDisconnect });
-
+export const StudyHeader = ({ title, currentPage, setCurrentPage }) => {
     const handleStartCall = () => {
         setCurrentPage('통화');
-        // startCall();
     };
 
     const handleLeaveSession = () => {
-        setCurrentPage('');
-        // leaveSession();
+        setCurrentPage('자유');
     };
 
     return (
@@ -43,7 +31,6 @@ export const StudyHeader = ({ title, currentPage, setCurrentPage, onDisconnect, 
                     </Navbar.Collapse>
                 </Container>
             </Navbar>
-            {/*<VideoContainer publisher={publisher} subscribers={subscribers} videoRef={videoRef} />*/}
         </div>
     );
 };
