@@ -67,11 +67,14 @@ function StudyRoom() {
     const filteredMessages = messages.filter(msg => msg.studyId === id && msg.roomId === currentPage);
 
     const {
+        OV,
         startCall,
         leaveSession,
         publisher,
         subscribers,
-        videoRef
+        videoRef,
+        sessionRef,
+        setPublisher,
     } = useOpenVidu({ title, id, onDisconnect: disconnect });
 
     useEffect(() => {
@@ -95,7 +98,15 @@ function StudyRoom() {
             case '캔버스':
                 return <Canvas />;
             case '통화':
-                return <VideoContainer publisher={publisher} subscribers={subscribers} videoRef={videoRef} />;
+                return <VideoContainer
+                    publisher={publisher}
+                    subscribers={subscribers}
+                    videoRef={videoRef}
+                    leaveSession={leaveSession}
+                    sessionRef={sessionRef}
+                    OV={OV}
+                    setPublisher={setPublisher}
+                />;
             default:
                 return (
                     <div className="content-area">

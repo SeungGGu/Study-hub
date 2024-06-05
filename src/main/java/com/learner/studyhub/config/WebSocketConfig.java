@@ -22,7 +22,9 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/ws")                  // 연결된 엔드포인트
-                .setAllowedOrigins("http://localhost:3000") // 프론트엔드 주소
+                .setAllowedOriginPatterns("http://localhost:3000",
+                                          "http://10.202.36.233:3000",
+                                          "https://*.ngrok-free.app") // 허용된 origin
                 .withSockJS();
     }
 }

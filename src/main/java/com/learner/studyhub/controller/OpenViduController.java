@@ -23,7 +23,7 @@ import io.openvidu.java.client.OpenViduJavaClientException;
 import io.openvidu.java.client.Session;
 import io.openvidu.java.client.SessionProperties;
 
-@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
+@CrossOrigin(origins = {"http://localhost:3000", "http://10.202.36.233:3000", "https://*.ngrok-free.app"}, allowCredentials = "true")
 @RestController
 public class OpenViduController {
 

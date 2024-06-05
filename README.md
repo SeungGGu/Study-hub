@@ -24,3 +24,4 @@
 - 도커 버전 2.23.0
 - docker run -p 4443:4443 --rm -e OPENVIDU_SECRET=1234 openvidu/openvidu-server-kms:2.23.0
 - npm install openvidu-browser
+np
