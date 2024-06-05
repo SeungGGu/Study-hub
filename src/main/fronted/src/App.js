@@ -1,5 +1,4 @@
 import './App.css';
-import './DarkMode.css';
 import Routers from './Main/Router';
 
 function App() {

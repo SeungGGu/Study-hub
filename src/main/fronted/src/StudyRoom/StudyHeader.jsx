@@ -10,6 +10,10 @@ export const StudyHeader = ({ title, currentPage, setCurrentPage }) => {
         setCurrentPage('통화');
     };
 
+    const handleStartDraw = () => {
+        setCurrentPage('메모');
+    };
+
     const handleLeaveSession = () => {
         setCurrentPage('자유');
     };
@@ -25,7 +29,7 @@ export const StudyHeader = ({ title, currentPage, setCurrentPage }) => {
                     <Navbar.Collapse id="responsive-navbar-nav">
                         <Nav className="ms-auto nav-ms-auto">
                             <Nav.Link onClick={handleStartCall}>통화</Nav.Link>
-                            <Nav.Link href="#pricing">그리기</Nav.Link>
+                            <Nav.Link onClick={handleStartDraw}>그리기</Nav.Link>
                             <Nav.Link href="/mainStudy" onClick={handleLeaveSession}>나가기</Nav.Link>
                         </Nav>
                     </Navbar.Collapse>
