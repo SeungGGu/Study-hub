@@ -6,6 +6,8 @@ import com.learner.studyhub.repository.DrawRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class DrawingService {
 
@@ -31,5 +33,9 @@ public class DrawingService {
                 + drawImage.getTimestamp());
         // Save the drawing entity to MongoDB
         drawRepository.save(drawImage);
+    }
+
+    public List<DrawImage> findByStudyId(String studyId) {
+        return drawRepository.findByStudyId(studyId);
     }
 }

@@ -30,7 +30,7 @@ const DrawCanvas = ({id, setCurrentPage}) => {
         const timestamp = new Date().toISOString();
 
         // POST 요청 보내기
-        axios.post('/api/draw', {
+        axios.post('/api/canvas/draw', {
             drawTitle: drawTitle,
             studyId: studyId,
             nickname: nickname,

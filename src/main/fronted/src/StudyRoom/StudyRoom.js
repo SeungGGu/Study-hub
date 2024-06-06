@@ -97,7 +97,7 @@ function StudyRoom() {
             case '캘린더':
                 return <Calendar/>;
             case '캔버스':
-                return <Canvas/>;
+                return <Canvas id={id}/>;
             case '메모' :
                 return <DrawCanvas
                     id={id}
