@@ -1,18 +1,18 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {fabric} from "fabric";
+import React, { useEffect, useRef, useState } from 'react';
+import { fabric } from "fabric";
 import "../../styles/DrawCanvas.css";
-import {CgUndo} from "react-icons/cg";
-import {FaMouse} from "react-icons/fa";
-import {RiPencilFill} from "react-icons/ri";
-import {FaHandPaper} from "react-icons/fa";
-import {MdOutlineTextFields} from "react-icons/md";
-import {IoIosSave} from "react-icons/io";
+import { CgUndo } from "react-icons/cg";
+import { FaMouse } from "react-icons/fa";
+import { RiPencilFill } from "react-icons/ri";
+import { FaHandPaper } from "react-icons/fa";
+import { MdOutlineTextFields } from "react-icons/md";
+import { IoIosSave } from "react-icons/io";
 import Modal from "react-modal";
 import axios from "axios";
 
 Modal.setAppElement('#root');
 
-const DrawCanvas = ({id, setCurrentPage}) => {
+const DrawCanvas = ({ id, canvasData, setCurrentPage }) => {
     const canvasContainerRef = useRef(null);
     const canvasRef = useRef(null);
     const [canvas, setCanvas] = useState(null);
@@ -29,7 +29,6 @@ const DrawCanvas = ({id, setCurrentPage}) => {
         const studyId = id;
         const timestamp = new Date().toISOString();
 
-        // POST 요청 보내기
         axios.post('/api/canvas/draw', {
             drawTitle: drawTitle,
             studyId: studyId,
@@ -39,7 +38,7 @@ const DrawCanvas = ({id, setCurrentPage}) => {
         })
             .then(response => {
                 console.log(response.data);
-                setCurrentPage("캔버스");
+                setCurrentPage("자유");
             })
             .catch(error => {
                 console.error('Error saving drawing:', error);
@@ -56,7 +55,7 @@ const DrawCanvas = ({id, setCurrentPage}) => {
 
     const customStyles = {
         overlay: {
-            backgroundColor: " rgba(0, 0, 0, 0.4)",
+            backgroundColor: "rgba(0, 0, 0, 0.4)",
             width: "100%",
             height: "100vh",
             zIndex: "10",
@@ -96,11 +95,11 @@ const DrawCanvas = ({id, setCurrentPage}) => {
         },
         buttonsContainer: {
             display: "flex",
-            justifyContent: "space-between", // Adjust button spacing
+            justifyContent: "space-between",
             marginTop: "20px",
         },
         button: {
-            width: "45%", // Adjust button width
+            width: "45%",
             padding: "10px",
             backgroundColor: "#007bff",
             color: "#fff",
@@ -109,7 +108,7 @@ const DrawCanvas = ({id, setCurrentPage}) => {
             cursor: "pointer",
         },
         closeButton: {
-            width: "45%", // Adjust button width
+            width: "45%",
             padding: "10px",
             backgroundColor: "#ccc",
             color: "#333",
@@ -122,26 +121,23 @@ const DrawCanvas = ({id, setCurrentPage}) => {
 
     useEffect(() => {
         const canvasContainer = canvasContainerRef.current;
-        // Create canvas
         const newCanvas = new fabric.Canvas(canvasRef.current, {
             width: canvasContainer.offsetWidth,
             height: canvasContainer.offsetHeight,
         });
         setCanvas(newCanvas);
 
-        // Zoom in/out with mouse wheel
         newCanvas.on("mouse:wheel", function (opt) {
             const delta = opt.e.deltaY;
             let zoom = newCanvas.getZoom();
             zoom *= 0.999 ** delta;
             if (zoom > 20) zoom = 20;
             if (zoom < 0.01) zoom = 0.01;
-            newCanvas.zoomToPoint({x: opt.e.offsetX, y: opt.e.offsetY}, zoom);
+            newCanvas.zoomToPoint({ x: opt.e.offsetX, y: opt.e.offsetY }, zoom);
             opt.e.preventDefault();
             opt.e.stopPropagation();
         });
 
-        // Update canvas dimensions on window resize
         const handleResize = () => {
             newCanvas.setDimensions({
                 width: canvasContainer.offsetWidth,
@@ -150,19 +146,20 @@ const DrawCanvas = ({id, setCurrentPage}) => {
         };
         window.addEventListener("resize", handleResize);
 
-        // Enable drawing mode by default
-        newCanvas.freeDrawingBrush.width = 10;
-        newCanvas.isDrawingMode = true;
+        if (canvasData) {
+            newCanvas.loadFromJSON(canvasData, () => {
+                newCanvas.renderAll();
+                saveToHistory(newCanvas);
+            });
+        } else {
+            saveToHistory(newCanvas);
+        }
 
-        // Save initial state to history
-        saveToHistory(newCanvas);
-
-        // Clean up on unmount
         return () => {
             newCanvas.dispose();
             window.removeEventListener("resize", handleResize);
         };
-    }, []);
+    }, [canvasData]);
 
     useEffect(() => {
         if (!canvasContainerRef.current || !canvasRef.current || !canvas) return;
@@ -231,7 +228,6 @@ const DrawCanvas = ({id, setCurrentPage}) => {
         canvas.freeDrawingBrush.width = 10;
         canvas.isDrawingMode = true;
 
-        // Save state to history after drawing
         canvas.on('path:created', () => {
             saveToHistory(canvas);
         });
@@ -280,49 +276,49 @@ const DrawCanvas = ({id, setCurrentPage}) => {
 
     return (
         <div className="canvas-container" ref={canvasContainerRef}>
-            <canvas ref={canvasRef}/>
+            <canvas ref={canvasRef} />
             <div className="tool-bar">
                 <button
                     onClick={() => setActiveTool("select")}
                     disabled={activeTool === "select"}
                 >
-                    <FaMouse size={25}/>
+                    <FaMouse size={25} />
                 </button>
                 <button
                     onClick={() => setActiveTool("pen")}
                     disabled={activeTool === "pen"}
                 >
-                    <RiPencilFill size={25}/>
+                    <RiPencilFill size={25} />
                 </button>
                 <button
                     onClick={() => setActiveTool("hand")}
                     disabled={activeTool === "hand"}
                 >
-                    <FaHandPaper size={25}/>
+                    <FaHandPaper size={25} />
                 </button>
                 <button
                     onClick={() => setActiveTool("undo")}
                     disabled={activeTool === "undo"}
                 >
-                    <CgUndo size={25}/>
+                    <CgUndo size={25} />
                 </button>
                 <button
                     onClick={() => setActiveTool("text")}
                     disabled={activeTool === "text"}
                 >
-                    <MdOutlineTextFields size={25}/>
+                    <MdOutlineTextFields size={25} />
                 </button>
                 <button
                     onClick={() => setActiveTool("save")}
                     disabled={activeTool === "save"}
                 >
-                    <IoIosSave size={25}/>
+                    <IoIosSave size={25} />
                 </button>
             </div>
             <Modal isOpen={isOpen} onRequestClose={closeModal} style={customStyles}>
                 <h1 style={customStyles.h1}>저장</h1>
                 <p style={customStyles.p}>제목을 입력해주세요</p>
-                <input id="titleInput" style={customStyles.input}/>
+                <input id="titleInput" style={customStyles.input} />
                 <div style={customStyles.buttonsContainer}>
                     <button style={customStyles.button} onClick={modalSave}>저장</button>
                     <button style={customStyles.closeButton} onClick={closeModal}>닫기</button>

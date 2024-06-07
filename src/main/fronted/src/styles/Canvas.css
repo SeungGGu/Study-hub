@@ -7,8 +7,8 @@
 .card-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 170px; /* 카드 사이의 간격을 30px로 조정 */
-    margin: 20px; /* 상단과 하단의 여백 추가 */
+    gap: 100px; /* 카드 사이의 간격을 30px로 조정 */
+    margin: 10px; /* 상단과 하단의 여백 추가 */
     padding: 10px; /* 내부 패딩 추가 */
 }
 

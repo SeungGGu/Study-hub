@@ -2,17 +2,20 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Button, Card, Form, InputGroup, Pagination } from "react-bootstrap";
 import { fabric } from 'fabric';
 import axios from 'axios';
-import '../../styles/Canvas.css'; // 스타일 시트 파일 임포트
+import '../../styles/Canvas.css';
+import DrawCanvas from './DrawCanvas'; // DrawCanvas 컴포넌트를 임포트
 
 const Canvas = ({ id }) => {
-    const [hover, setHover] = useState(false); // 마우스 오버 상태를 위한 state
+    const [hover, setHover] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 6; // 한 페이지에 보여질 아이템 수
-    const [currentGroup, setCurrentGroup] = useState(0); // 현재 페이지 그룹
-    const pagesPerGroup = 10; // 한 그룹에 보여질 최대 페이지 수
+    const itemsPerPage = 6;
+    const [currentGroup, setCurrentGroup] = useState(0);
+    const pagesPerGroup = 10;
     const [canvasData, setCanvasData] = useState([]);
     const [studyId, setStudyId] = useState(id);
-    const hiddenCanvasRef = useRef(null); // Ref for the hidden canvas
+    const hiddenCanvasRef = useRef(null);
+    const [editingCanvas, setEditingCanvas] = useState(null); // 현재 수정 중인 캔버스 데이터
+    const [hoveredIndex, setHoveredIndex] = useState(null); // hover 상태를 개별 카드에 적용하기 위한 상태
 
     useEffect(() => {
         const fetchCanvasData = async () => {
@@ -28,15 +31,12 @@ const Canvas = ({ id }) => {
         }
     }, [studyId]);
 
-    // 현재 페이지에서 보여질 아이템 계산
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentItems = canvasData.slice(indexOfFirstItem, indexOfLastItem);
 
-    // 페이지 번호를 클릭할 때 실행될 함수
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-    // 전체 페이지 수 계산
     const pageCount = Math.ceil(canvasData.length / itemsPerPage);
     const totalGroups = Math.ceil(pageCount / pagesPerGroup);
     let active = currentPage;
@@ -52,7 +52,6 @@ const Canvas = ({ id }) => {
         );
     }
 
-    // 페이지 그룹 변경 함수
     const nextGroup = () => {
         const newGroup = currentGroup + 1;
         if (newGroup < totalGroups) {
@@ -69,6 +68,15 @@ const Canvas = ({ id }) => {
         }
     };
 
+    const deleteCanvas = async (canvasId) => {
+        try {
+            await axios.delete(`/api/canvas/delete/${canvasId}`);
+            setCanvasData(canvasData.filter(canvas => canvas.id !== canvasId));
+        } catch (error) {
+            console.error("Failed to delete canvas", error);
+        }
+    };
+
     const generateImage = (canvasJson) => {
         const hiddenCanvas = hiddenCanvasRef.current;
         if (!hiddenCanvas) return '';
@@ -79,6 +87,33 @@ const Canvas = ({ id }) => {
         });
 
         fabricCanvas.loadFromJSON(canvasJson, () => {
+            const objects = fabricCanvas.getObjects();
+            let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+
+            objects.forEach(obj => {
+                const boundingRect = obj.getBoundingRect();
+                minX = Math.min(minX, boundingRect.left);
+                minY = Math.min(minY, boundingRect.top);
+                maxX = Math.max(maxX, boundingRect.left + boundingRect.width);
+                maxY = Math.max(maxY, boundingRect.top + boundingRect.height);
+            });
+
+            const objectsWidth = maxX - minX;
+            const objectsHeight = maxY - minY;
+            const canvasCenter = { x: fabricCanvas.getWidth() / 2, y: fabricCanvas.getHeight() / 2 };
+
+            const scaleFactor = Math.min(fabricCanvas.getWidth() / objectsWidth, fabricCanvas.getHeight() / objectsHeight);
+
+            objects.forEach(obj => {
+                obj.set({
+                    left: (obj.left - minX) * scaleFactor + (canvasCenter.x - (objectsWidth * scaleFactor) / 2),
+                    top: (obj.top - minY) * scaleFactor + (canvasCenter.y - (objectsHeight * scaleFactor) / 2),
+                    scaleX: obj.scaleX * scaleFactor,
+                    scaleY: obj.scaleY * scaleFactor,
+                });
+                obj.setCoords();
+            });
+
             fabricCanvas.renderAll();
         });
 
@@ -90,6 +125,10 @@ const Canvas = ({ id }) => {
         fabricCanvas.dispose();
         return dataURL;
     };
+
+    if (editingCanvas) {
+        return <DrawCanvas id={id} canvasData={editingCanvas} setCurrentPage={setCurrentPage} />;
+    }
 
     return (
         <div className="Canvas">
@@ -108,18 +147,21 @@ const Canvas = ({ id }) => {
                     const imageSrc = generateImage(card.canvasData);
                     return (
                         <Card key={index} style={{ width: '18rem' }}
-                              onMouseEnter={() => setHover(true)}
-                              onMouseLeave={() => setHover(false)}
-                              className="card-hover">
+                              onMouseEnter={() => setHoveredIndex(index)}
+                              onMouseLeave={() => setHoveredIndex(null)}
+                              className="card-hover"
+                              onClick={() => setEditingCanvas(card.canvasData)} // 클릭 시 수정 모드로 전환
+                        >
                             <div className="card-image-container">
                                 <Card.Img variant="top" src={imageSrc}/>
-                                {hover && (
-                                    <Button variant="danger" className="delete-button">삭제</Button>
+                                {hoveredIndex === index && (
+                                    <Button variant="danger" className="delete-button" onClick={(e) => { e.stopPropagation(); deleteCanvas(card.id); }}>삭제</Button>
                                 )}
                             </div>
                             <Card.Body>
                                 <Card.Title>{card.drawTitle}</Card.Title>
                                 <Card.Text>{card.nickname}</Card.Text>
+                                <Card.Text>{new Date(card.timestamp).toLocaleString()}</Card.Text>
                             </Card.Body>
                         </Card>
                     );
@@ -132,7 +174,6 @@ const Canvas = ({ id }) => {
                     {currentGroup < totalGroups - 1 && <Pagination.Next onClick={nextGroup} />}
                 </Pagination>
             </div>
-            <h1>캔버스</h1>
             <canvas ref={hiddenCanvasRef} style={{ display: 'none' }} />
         </div>
     );

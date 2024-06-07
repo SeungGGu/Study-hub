@@ -5,7 +5,9 @@ import com.learner.studyhub.entity.mongo.DrawImage;
 import com.learner.studyhub.service.DrawingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,5 +35,11 @@ public class DrawController {
         List<DrawImage> drawImages = drawingService.findByStudyId(studyId);
         System.out.println("Drawing retrieved" + drawImages);
         return ResponseEntity.ok(drawImages);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteCanvas(@PathVariable String id) {
+        drawingService.deleteCanvasById(id);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -38,4 +38,8 @@ public class DrawingService {
     public List<DrawImage> findByStudyId(String studyId) {
         return drawRepository.findByStudyId(studyId);
     }
+
+    public void deleteCanvasById(String id) {
+        drawRepository.deleteById(id);
+    }
 }
