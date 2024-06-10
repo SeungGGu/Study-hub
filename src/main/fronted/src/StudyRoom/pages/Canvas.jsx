@@ -1,19 +1,20 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { Button, Card, Form, InputGroup, Pagination } from "react-bootstrap";
-import { fabric } from 'fabric';
+import React, {useEffect, useState, useRef} from 'react';
+import {Button, Card, Form, InputGroup, Pagination} from "react-bootstrap";
+import {fabric} from 'fabric';
 import axios from 'axios';
 import '../../styles/Canvas.css';
 import DrawCanvas from './DrawCanvas'; // DrawCanvas 컴포넌트를 임포트
 
-const Canvas = ({ id }) => {
-    const [hover, setHover] = useState(false);
-    const [currentPage, setCurrentPage] = useState(1);
+const Canvas = ({id, setCurrentPage}) => {
+    // const [hover, setHover] = useState(false);
+    const [canvasPage, setCanvasPage] = useState(1);
     const itemsPerPage = 6;
     const [currentGroup, setCurrentGroup] = useState(0);
     const pagesPerGroup = 10;
     const [canvasData, setCanvasData] = useState([]);
-    const [studyId, setStudyId] = useState(id);
+    const [studyId] = useState(id);
     const hiddenCanvasRef = useRef(null);
+    const [canvasId, setCanvasId] = useState(null);
     const [editingCanvas, setEditingCanvas] = useState(null); // 현재 수정 중인 캔버스 데이터
     const [hoveredIndex, setHoveredIndex] = useState(null); // hover 상태를 개별 카드에 적용하기 위한 상태
 
@@ -31,15 +32,15 @@ const Canvas = ({ id }) => {
         }
     }, [studyId]);
 
-    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfLastItem = canvasPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentItems = canvasData.slice(indexOfFirstItem, indexOfLastItem);
 
-    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+    const paginate = (pageNumber) => setCanvasPage(pageNumber);
 
     const pageCount = Math.ceil(canvasData.length / itemsPerPage);
     const totalGroups = Math.ceil(pageCount / pagesPerGroup);
-    let active = currentPage;
+    let active = canvasPage;
     let items = [];
     const groupStart = currentGroup * pagesPerGroup;
     const groupEnd = Math.min(groupStart + pagesPerGroup, pageCount);
@@ -56,7 +57,7 @@ const Canvas = ({ id }) => {
         const newGroup = currentGroup + 1;
         if (newGroup < totalGroups) {
             setCurrentGroup(newGroup);
-            setCurrentPage(groupStart + pagesPerGroup + 1);
+            setCanvasPage(groupStart + pagesPerGroup + 1);
         }
     };
 
@@ -64,7 +65,7 @@ const Canvas = ({ id }) => {
         const newGroup = currentGroup - 1;
         if (newGroup >= 0) {
             setCurrentGroup(newGroup);
-            setCurrentPage(groupStart - pagesPerGroup + 1);
+            setCanvasPage(groupStart - pagesPerGroup + 1);
         }
     };
 
@@ -100,7 +101,7 @@ const Canvas = ({ id }) => {
 
             const objectsWidth = maxX - minX;
             const objectsHeight = maxY - minY;
-            const canvasCenter = { x: fabricCanvas.getWidth() / 2, y: fabricCanvas.getHeight() / 2 };
+            const canvasCenter = {x: fabricCanvas.getWidth() / 2, y: fabricCanvas.getHeight() / 2};
 
             const scaleFactor = Math.min(fabricCanvas.getWidth() / objectsWidth, fabricCanvas.getHeight() / objectsHeight);
 
@@ -126,8 +127,14 @@ const Canvas = ({ id }) => {
         return dataURL;
     };
 
+    const handleCardClick = (canvas) => {
+        setCanvasId(canvas.id);
+        setEditingCanvas(canvas.canvasData);
+    };
+
     if (editingCanvas) {
-        return <DrawCanvas id={id} canvasData={editingCanvas} setCurrentPage={setCurrentPage} />;
+        return <DrawCanvas id={studyId} canvasId={canvasId} canvasData={editingCanvas}
+                           setCurrentPage={setCurrentPage}/>;
     }
 
     return (
@@ -146,16 +153,19 @@ const Canvas = ({ id }) => {
                 {currentItems.map((card, index) => {
                     const imageSrc = generateImage(card.canvasData);
                     return (
-                        <Card key={index} style={{ width: '18rem' }}
+                        <Card key={index} style={{width: '18rem'}}
                               onMouseEnter={() => setHoveredIndex(index)}
                               onMouseLeave={() => setHoveredIndex(null)}
                               className="card-hover"
-                              onClick={() => setEditingCanvas(card.canvasData)} // 클릭 시 수정 모드로 전환
+                              onClick={() => handleCardClick(card)} // 클릭 시 수정 모드로 전환
                         >
                             <div className="card-image-container">
                                 <Card.Img variant="top" src={imageSrc}/>
                                 {hoveredIndex === index && (
-                                    <Button variant="danger" className="delete-button" onClick={(e) => { e.stopPropagation(); deleteCanvas(card.id); }}>삭제</Button>
+                                    <Button variant="danger" className="delete-button" onClick={(e) => {
+                                        e.stopPropagation();
+                                        deleteCanvas(card.id);
+                                    }}>삭제</Button>
                                 )}
                             </div>
                             <Card.Body>
@@ -169,12 +179,12 @@ const Canvas = ({ id }) => {
             </div>
             <div className="pagination-container">
                 <Pagination>
-                    {currentGroup > 0 && <Pagination.Prev onClick={prevGroup} />}
+                    {currentGroup > 0 && <Pagination.Prev onClick={prevGroup}/>}
                     {items}
-                    {currentGroup < totalGroups - 1 && <Pagination.Next onClick={nextGroup} />}
+                    {currentGroup < totalGroups - 1 && <Pagination.Next onClick={nextGroup}/>}
                 </Pagination>
             </div>
-            <canvas ref={hiddenCanvasRef} style={{ display: 'none' }} />
+            <canvas ref={hiddenCanvasRef} style={{display: 'none'}}/>
         </div>
     );
 };

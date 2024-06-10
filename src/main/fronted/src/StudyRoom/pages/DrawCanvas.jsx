@@ -12,7 +12,7 @@ import axios from "axios";
 
 Modal.setAppElement('#root');
 
-const DrawCanvas = ({ id, canvasData, setCurrentPage }) => {
+const DrawCanvas = ({ id, canvasData, setCurrentPage, canvasId}) => {
     const canvasContainerRef = useRef(null);
     const canvasRef = useRef(null);
     const [canvas, setCanvas] = useState(null);
@@ -29,7 +29,21 @@ const DrawCanvas = ({ id, canvasData, setCurrentPage }) => {
         const studyId = id;
         const timestamp = new Date().toISOString();
 
-        axios.post('/api/canvas/draw', {
+        if (canvasId){
+            axios.put(`/api/canvas/update/${canvasId}`, {
+            drawTitle: drawTitle,
+            canvasData: canvasData,
+            timestamp: timestamp
+        })
+            .then(response => {
+                console.log(response.data);
+                setCurrentPage("채팅");
+            })
+            .catch(error => {
+                console.error('Error updating drawing:', error);
+            });
+        }else {
+            axios.post('/api/canvas/draw', {
             drawTitle: drawTitle,
             studyId: studyId,
             nickname: nickname,
@@ -38,11 +52,12 @@ const DrawCanvas = ({ id, canvasData, setCurrentPage }) => {
         })
             .then(response => {
                 console.log(response.data);
-                setCurrentPage("자유");
+                setCurrentPage("캔버스");
             })
             .catch(error => {
                 console.error('Error saving drawing:', error);
             });
+        }
     }
 
     const openModal = () => {

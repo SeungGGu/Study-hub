@@ -35,6 +35,19 @@ public class DrawingService {
         drawRepository.save(drawImage);
     }
 
+    public void updateDrawing(String id, DrawingDTO drawingDTO) {
+        // Find the existing drawing by id
+        DrawImage existingDrawing = drawRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Drawing not found with id: " + id));
+
+        // Update the existing drawing with new data
+        existingDrawing.setDrawTitle(drawingDTO.getDrawTitle());
+        existingDrawing.setCanvasData(drawingDTO.getCanvasData());
+        existingDrawing.setTimestamp(drawingDTO.getTimestamp());
+
+        // Save the updated drawing entity to MongoDB
+        drawRepository.save(existingDrawing);
+    }
+
     public List<DrawImage> findByStudyId(String studyId) {
         return drawRepository.findByStudyId(studyId);
     }

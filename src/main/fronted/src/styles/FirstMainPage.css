@@ -1,0 +1,15 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: auto;
+}
+
+.firstMainPage {
+    overflow: auto;
+    height: 100%;  /* Ensure it takes full height */
+}
+
+.container.marketing {
+    padding-bottom: 50px;  /* Add some padding at the bottom if needed */
+}
