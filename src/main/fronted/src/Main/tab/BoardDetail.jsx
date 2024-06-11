@@ -1,45 +1,8 @@
-// import React, { useEffect, useState } from 'react';
-// import { useParams } from 'react-router-dom';
-// import axios from 'axios';
-//
-// function BoardDetail() {
-//     const { boardId } = useParams();
-//     const [board, setBoard] = useState(null);
-//
-//     useEffect(() => {
-//         const fetchBoard = async () => {
-//             try {
-//                 const response = await axios.get(`http://localhost:8080/api/boards/${boardId}`);
-//                 setBoard(response.data);
-//             } catch (error) {
-//                 console.error("Failed to fetch board details:", error);
-//             }
-//         };
-//
-//         fetchBoard();
-//     }, [boardId]);
-//
-//     if (!board) {
-//         return <div>Loading...</div>;
-//     }
-//
-//     return (
-//         <div className="container mt-4">
-//             <h2>{board.boardTitle}</h2>
-//             <p>{board.boardDetail}</p>
-//             <div>
-//                 <span>Category: {board.boardCategory}</span>
-//                 <span> | Likes: {board.boardGreat}</span>
-//             </div>
-//         </div>
-//     );
-// }
-//
-// export default BoardDetail;
-
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Container, Card } from 'react-bootstrap';
+import {MainHeader} from "../include/MainHeader";
+import CommentComponent from "./CommentComponent";
 
 const BoardDetail = () => {
     const { boardId } = useParams();
@@ -57,8 +20,11 @@ const BoardDetail = () => {
     }
 
     return (
+
         <Container className="mt-4">
-            <Card>
+            <MainHeader/>
+            <Card
+            style={{marginTop:"60px"}}>
                 <Card.Header>
                     <h4>{board.boardTitle}</h4>
                 </Card.Header>
@@ -69,6 +35,7 @@ const BoardDetail = () => {
                     </Card.Footer>
                 </Card.Body>
             </Card>
+            <CommentComponent boardId={board.boardId} />
         </Container>
     );
 };

@@ -1,17 +1,54 @@
 import {MainHeader} from "./include/MainHeader";
-import {Button, Form, InputGroup, Badge, Tab, Tabs} from "react-bootstrap";
-import {useState} from "react";
+import {Button, Form, InputGroup, Badge, Tab, Tabs, ListGroup} from "react-bootstrap";
+import {useEffect, useState} from "react";
 import Community from "./Community";
 import React from "react";
 import ListBoardComponent from "./tab/ListBoardComponent";
+import axios from "axios";
 
 function MainCommunity() {
     const [key, setKey] = useState('all');
     const [boards, setBoards] = useState([]);
+    const [popularTags, setPopularTags] = useState([]); // 인기 태그 상태 추가
+    const [popularBoards, setPopularBoards] = useState([]); // 인기 게시물 상태 추가
 
     const addBoard = (newBoard) => {
         setBoards([...boards, newBoard]);
     };
+
+    useEffect(() => {
+        // 인기 태그 가져오기
+        axios.get('http://localhost:8080/api/boards/popular-tags')
+            .then(response => {
+                setPopularTags(response.data);
+            })
+            .catch(error => {
+                console.error('Error fetching popular tags:', error);
+            });
+        // 인기 게시물 가져오기
+        axios.get('http://localhost:8080/api/boards/popular-boards')
+            .then(response => {
+                setPopularBoards(response.data);
+            })
+            .catch(error => {
+                console.error('Error fetching popular boards:', error);
+            });
+    }, []);
+    const handleTagClick = (tag) => {
+        // 특정 태그로 게시물 필터링
+        axios.get(`http://localhost:8080/api/boards/tag?tag=${tag}`)
+            .then(response => {
+                setBoards(response.data);
+            })
+            .catch(error => {
+                console.error(`Error fetching boards for tag ${tag}:`, error);
+            });
+    };
+    const handleBoardClick = (boardId) => {
+        // 게시물 클릭 시 해당 게시물로 이동
+        window.location.href = `/boards/${boardId}`;
+    };
+
 
     return (
         <div className="MainCommunity" style={{paddingTop: "56px", marginLeft: "20"}}>
@@ -44,29 +81,7 @@ function MainCommunity() {
                         </InputGroup>
                     </div>
                     <div>
-                        {/*<Tabs*/}
-                        {/*    id="controlled-tab-example"*/}
-                        {/*    activeKey={key}*/}
-                        {/*    onSelect={(k) => setKey(k)}*/}
-                        {/*    className="mb-3 nav-justified"*/}
-                        {/*>*/}
-                            {/*<Tab eventKey="all" title="전체">*/}
-                                <Community boards={boards}/>
-
-                            {/*</Tab>*/}
-                            {/*<Tab eventKey="공지사항" title="공지사항">*/}
-                            {/*    Tab content for Profile*/}
-                            {/*</Tab>*/}
-                            {/*<Tab eventKey="질문" title="질문">*/}
-                            {/*    Tab content for Contact*/}
-                            {/*</Tab>*/}
-                            {/*<Tab eventKey="스터디" title="스터디">*/}
-                            {/*    Tab content for Contact*/}
-                            {/*</Tab>*/}
-                            {/*<Tab eventKey="자유" title="자유">*/}
-                            {/*    Tab content for Contact*/}
-                            {/*</Tab>*/}
-                        {/*</Tabs>*/}
+                        <Community boards={boards}/>
                     </div>
                 </div>
                 <div className="col-md-4">
@@ -74,17 +89,37 @@ function MainCommunity() {
                         <h6 style={{color: 'black', textAlign: "left"}}>
                             # 인기 태그
                         </h6>
-                        <Badge pill bg="secondary"><Badge pill bg="black">#</Badge>인기태그1</Badge>{' '}
-                        <Badge pill bg="secondary"><Badge pill bg="black">#</Badge>인기태그1</Badge>{' '}
-                        <Badge pill bg="secondary"><Badge pill bg="black">#</Badge>인기태그1</Badge>{' '}
-                        <Badge pill bg="secondary"><Badge pill bg="black">#</Badge>인기태그1</Badge>{' '}
-                        <Badge pill bg="secondary"><Badge pill bg="black">#</Badge>인기태그1</Badge>{' '}
-                        <Badge pill bg="secondary"><Badge pill bg="black">#</Badge>인기태그1</Badge>{' '}
-                        <Badge pill bg="secondary"><Badge pill bg="black">#</Badge>인기태그1</Badge>{' '}
-
-                        {/*{popularTags.map((tag, index) => (*/}
-                        {/*    <Badge key={index} pill bg="secondary"><Badge pill bg="black">#</Badge>{tag}</Badge>*/}
-                        {/*))}*/}
+                        {popularTags.map((tag, index) => (
+                            <Badge
+                                key={index}
+                                pill
+                                bg="secondary"
+                                onClick={() => handleTagClick(tag)} // 태그 클릭 핸들러
+                                style={{cursor: 'pointer', marginRight: '5px'}}
+                            >
+                                <Badge pill bg="black">#</Badge>{tag}
+                            </Badge>
+                        ))}
+                    </div>
+                    <div className="p-4 mt-3 bg-body-tertiary rounded">
+                        <h6 style={{color: 'black', textAlign: "left"}}>
+                            # 인기 게시물
+                        </h6>
+                        <ListGroup variant="flush">
+                            {popularBoards.map((board, index) => (
+                                <ListGroup.Item
+                                    key={index}
+                                    style={{ cursor: 'pointer', padding: '10px 15px', border: '1px solid #ddd' }}
+                                    onClick={() => handleBoardClick(board.boardId)}
+                                    className="popular-board-item"
+                                >
+                                    <div style={{ fontWeight: 'bold', color: '#007bff' }}>
+                                        {board.boardTitle}
+                                    </div>
+                                    <small className="text-muted">조회수: {board.boardView}</small>
+                                </ListGroup.Item>
+                            ))}
+                        </ListGroup>
                     </div>
                 </div>
             </div>

@@ -33,15 +33,10 @@ public class BoardEntity {
 
     @Column(nullable = false)
     private String boardCategory;
-//
-//    @Column(nullable = false)
-//    private String boardTag;
 
     @Column(nullable = false)
     private int boardView;
 
     @Column(nullable = false)
     private int boardGreat;
-
-
 }

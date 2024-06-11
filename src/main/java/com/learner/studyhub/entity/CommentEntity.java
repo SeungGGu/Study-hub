@@ -1,34 +1,33 @@
 package com.learner.studyhub.entity;
 
 import com.learner.studyhub.users.entity.UserEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.Date;
 
 @Entity
 @Getter
 @Setter
-@Table(name = "comment")
+@Table(name = "comments")
 public class CommentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int commentId;
+    private Integer commentId;
 
     @ManyToOne
-    @JoinColumn(name = "boardId", referencedColumnName = "boardId")
-    private BoardEntity boardId;
+    @JoinColumn(name = "board_id", referencedColumnName = "boardId")
+    private BoardEntity board;
 
     @ManyToOne
-    @JoinColumn(name = "commentNickname", referencedColumnName = "nickname")
-    private UserEntity commentNickname;
+    @JoinColumn(name = "user_id", referencedColumnName = "userId")
+    private UserEntity user;
 
     @Column(nullable = false)
-    private String boardComment;
+    private String commentText;
+
+    @Column(nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdDate;
 }

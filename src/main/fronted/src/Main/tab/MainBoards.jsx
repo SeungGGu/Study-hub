@@ -11,11 +11,8 @@ const MainBoards = () => {
     };
     return(
         <div>
-            {/*<MainHeader/>*/}
-            {/*<ListBoardComponent/>*/}
             <MainHeader/>
             <ListBoardComponent addBoard={addBoard}/>
-
         </div>
     )
 }
