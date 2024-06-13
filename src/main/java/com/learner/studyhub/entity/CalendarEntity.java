@@ -1,6 +1,5 @@
 package com.learner.studyhub.entity;
 
-import com.learner.studyhub.users.entity.UserEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,20 +10,27 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
-@Table(name = "studychat")
-public class StudyChatEntity {
+@Entity
+@Table(name = "calendar")
+public class CalendarEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int chatId;
+    private Long id;
+
+     private String title;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
+    private boolean allDay;
+    private boolean isPublic;
+    private String location;
+    private String description;
 
     @ManyToOne
-    @JoinColumn(name = "studyId", referencedColumnName = "studyId")
-    private StudyEntity studyId;
+    @JoinColumn(name = "recurrence_id")
+    private Recurrence recurrence;
 
-    @ManyToOne
-    @JoinColumn(name = "userId", referencedColumnName = "userId")
-    private UserEntity userId;
 }
