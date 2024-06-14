@@ -100,6 +100,7 @@ function Community() {
 //             console.error("게시물 조회 중 오류 발생:", error);
 //         }
 //     };
+
 // 게시물 클릭 시 조회 수 증가
     const handleBoardClick = async (boardId) => {
         try {
