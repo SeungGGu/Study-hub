@@ -9,13 +9,17 @@ import Mission from './pages/Mission';
 import TodayRunner from './pages/TodayRunner';
 import Calendar from './pages/Calendar';
 import Canvas from './pages/Canvas';
+import DrawCanvas from "./pages/DrawCanvas";
+import VideoContainer from "./pages/VideoContainer";
+import useOpenVidu from "./useOpenVidu";
 
 function StudyRoom() {
     const nickname = sessionStorage.getItem('nickname');
     const {id, title} = useParams();
-    const [currentPage, setCurrentPage] = useState('Home');
+    const [currentPage, setCurrentPage] = useState('자유');
     const [inputValue, setInputValue] = useState('');
     const [messages, setMessages] = useState([]);
+    const [callStarted, setCallStarted] = useState(false);
 
     const handleNewMessage = useCallback((message) => {
         setMessages(prevMessages => [...prevMessages, message]);
@@ -27,8 +31,8 @@ function StudyRoom() {
         event.preventDefault();
         if (inputValue) {
             const chatMessage = {
-                studyId: id,  // Room identifier from the URL parameter
-                roomId: currentPage,  // Current page identifier
+                studyId: id,
+                roomId: currentPage,
                 userId: nickname,
                 message: inputValue,
                 timestamp: new Date().toISOString()
@@ -55,7 +59,6 @@ function StudyRoom() {
                 console.log(data);
             } catch (error) {
                 console.error('Error fetching messages:', error);
-                // Optional: handle non-JSON responses differently or display a user-friendly message
             }
         };
 
@@ -63,6 +66,27 @@ function StudyRoom() {
     }, [id, currentPage]);
 
     const filteredMessages = messages.filter(msg => msg.studyId === id && msg.roomId === currentPage);
+
+    const {
+        OV,
+        startCall,
+        leaveSession,
+        publisher,
+        subscribers,
+        videoRef,
+        sessionRef,
+        setPublisher,
+    } = useOpenVidu({title, id, onDisconnect: disconnect});
+
+    useEffect(() => {
+        if (currentPage === '통화' && !callStarted) {
+            startCall();
+            setCallStarted(true);
+        } else if (currentPage !== '통화' && callStarted) {
+            leaveSession();
+            setCallStarted(false);
+        }
+    }, [currentPage, startCall, leaveSession, callStarted]);
 
     const renderContent = () => {
         switch (currentPage) {
@@ -73,7 +97,25 @@ function StudyRoom() {
             case '캘린더':
                 return <Calendar/>;
             case '캔버스':
-                return <Canvas/>;
+                return <Canvas
+                    id={id}
+                    setCurrentPage={setCurrentPage}
+                />;
+            case '메모' :
+                return <DrawCanvas
+                    id={id}
+                    setCurrentPage={setCurrentPage}
+                />;
+            case '통화':
+                return <VideoContainer
+                    publisher={publisher}
+                    subscribers={subscribers}
+                    videoRef={videoRef}
+                    leaveSession={leaveSession}
+                    sessionRef={sessionRef}
+                    OV={OV}
+                    setPublisher={setPublisher}
+                />;
             default:
                 return (
                     <div className="content-area">
@@ -118,7 +160,13 @@ function StudyRoom() {
                         <StudySideBar title={title} onChannelSelect={setCurrentPage}/>
                     </Col>
                     <Col className="mainContent" md={10}>
-                        <StudyHeader title={title} currentPage={currentPage} onDisconnect={disconnect}/>
+                        <StudyHeader
+                            title={title}
+                            currentPage={currentPage}
+                            onDisconnect={disconnect}
+                            id={id}
+                            setCurrentPage={setCurrentPage}
+                        />
                         {renderContent()}
                     </Col>
                 </Row>

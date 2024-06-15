@@ -60,16 +60,6 @@ function Community() {
         }
     };
 
-    // const handleDelete = async (event, boardId) => {
-    //     event.stopPropagation();
-    //     try {
-    //         await axios.delete(`http://localhost:8080/api/boards/${boardId}`);
-    //         setBoards(prevData => prevData.filter(board => board.boardId !== boardId));
-    //     } catch (error) {
-    //         console.error("게시물 삭제 중 오류 발생:", error);
-    //     }
-    // };
-
     const handleEditClick = (event, board) => {
         event.stopPropagation();
         setCurrentBoardId(board.boardId);
@@ -91,15 +81,6 @@ function Community() {
             console.error("게시물 업데이트 중 오류 발생:", error);
         }
     };
-// // 게시물 클릭 시 조회수 증가
-//     const handleBoardClick = async (boardId) => {
-//         try {
-//             await axios.get(`http://localhost:8080/api/boards/${boardId}`);  // 게시물 조회 및 조회 수 증가
-//             navigate(`/boards/${boardId}`);
-//         } catch (error) {
-//             console.error("게시물 조회 중 오류 발생:", error);
-//         }
-//     };
 
 // 게시물 클릭 시 조회 수 증가
     const handleBoardClick = async (boardId) => {

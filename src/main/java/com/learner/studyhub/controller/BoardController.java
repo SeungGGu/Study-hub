@@ -73,6 +73,7 @@ public class BoardController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+
     @PostMapping("/{boardId}/unlike")
     public ResponseEntity<Void> unlikeBoard(@PathVariable Integer boardId) {
         boardService.unlikeBoard(boardId);
@@ -112,10 +113,23 @@ public ResponseEntity<Void> deleteBoard(@PathVariable Integer boardId) {
         return new ResponseEntity<>(popularTags, HttpStatus.OK);
     }
 
-    // 특정 태그로 게시물 검색
-    @GetMapping("/tag")
-    public ResponseEntity<List<BoardDTO>> getBoardsByTag(@RequestParam String tag) {
-        List<BoardDTO> boards = boardService.getBoardsByTag(tag);
+//    // 특정 태그로 게시물 검색
+//    @GetMapping("/tag")
+//    public ResponseEntity<List<BoardDTO>> getBoardsByTag(@RequestParam String tag) {
+//        List<BoardDTO> boards = boardService.getBoardsByTag(tag);
+//        return new ResponseEntity<>(boards, HttpStatus.OK);
+//    }
+    // 새로운 엔드포인트: 게시물 제목으로 검색
+    @GetMapping("/search")
+    public ResponseEntity<List<BoardDTO>> searchBoards(@RequestParam String query, @RequestParam String type) {
+        List<BoardDTO> boards;
+        if ("title".equalsIgnoreCase(type)) {
+            boards = boardService.searchBoardsByTitle(query);
+        } else if ("tag".equalsIgnoreCase(type)) {
+            boards = boardService.searchBoardsByTag(query);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         return new ResponseEntity<>(boards, HttpStatus.OK);
     }
     // 인기 게시물 목록

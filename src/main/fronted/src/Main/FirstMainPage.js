@@ -2,6 +2,7 @@ import React from "react";
 import {MainHeader} from "./include/MainHeader";
 import {MainSlider} from "./include/MainSlider";
 import {MainFooter} from "./include/MainFooter";
+import "../styles/FirstMainPage.css";
 
 export const FirstMainPage = () =>{
     return(

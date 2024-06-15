@@ -70,14 +70,6 @@ public class BoardService {
         return boardRepository.save(boardEntity); // Save the board entity with updated like count
     }
 
-//    @Transactional
-//    public void deleteBoard(Integer boardId) {
-//        if (boardRepository.existsById(boardId)) {
-//            boardRepository.deleteById(boardId);
-//        } else {
-//            throw new IllegalArgumentException("Board with ID " + boardId + " not found.");
-//        }
-//    }
 @Transactional
 public void deleteBoard(Integer boardId) {
     Optional<BoardEntity> boardOptional = boardRepository.findById(boardId);
@@ -171,7 +163,7 @@ public void deleteBoard(Integer boardId) {
                 .collect(Collectors.toList());
     }
 
-    // 특정 태그로 게시물을 검색하는 메서드
+/*    // 특정 태그로 게시물을 검색하는 메서드
     @Transactional
     public List<BoardDTO> getBoardsByTag(String tag) {
         List<BoardEntity> boards = boardRepository.findByBoardCategoryContaining(tag);
@@ -184,7 +176,39 @@ public void deleteBoard(Integer boardId) {
             boardDTO.setBoardNickname(board.getBoardNickname().getNickname());
             return boardDTO;
         }).collect(Collectors.toList());
+    }*/
+    // 새로운 메서드: 게시물 제목으로 검색
+    @Transactional
+    public List<BoardDTO> searchBoardsByTitle(String title) {
+        List<BoardEntity> boards = boardRepository.findByBoardTitleContainingIgnoreCase(title);
+        return boards.stream().map(board -> {
+            BoardDTO boardDTO = new BoardDTO();
+            boardDTO.setBoardId(board.getBoardId());
+            boardDTO.setBoardTitle(board.getBoardTitle());
+            boardDTO.setBoardDetail(board.getBoardDetail());
+            boardDTO.setBoardCategory(board.getBoardCategory());
+            boardDTO.setBoardNickname(board.getBoardNickname().getNickname());
+            boardDTO.setBoardView(board.getBoardView());
+            return boardDTO;
+        }).collect(Collectors.toList());
     }
+
+    // 새로운 메서드: 태그로 검색
+    @Transactional
+    public List<BoardDTO> searchBoardsByTag(String tag) {
+        List<BoardEntity> boards = boardRepository.findByBoardCategoryContainingIgnoreCase(tag);
+        return boards.stream().map(board -> {
+            BoardDTO boardDTO = new BoardDTO();
+            boardDTO.setBoardId(board.getBoardId());
+            boardDTO.setBoardTitle(board.getBoardTitle());
+            boardDTO.setBoardDetail(board.getBoardDetail());
+            boardDTO.setBoardCategory(board.getBoardCategory());
+            boardDTO.setBoardNickname(board.getBoardNickname().getNickname());
+            boardDTO.setBoardView(board.getBoardView());
+            return boardDTO;
+        }).collect(Collectors.toList());
+    }
+
     // 조회수가 높은 순으로 인기 게시물 가져오기
     @Transactional
     public List<BoardDTO> getPopularBoards() {

@@ -16,7 +16,6 @@
 ### 유의사항
 - StudyController에서 34번째 줄 사진 저장 절대경로 수정해서 진행하기
 
-### 웹소켓
-- npm install @stomp/stompjs
-- npm install sockjs-client
----
+### 도커 / OpenVidu
+- 도커 버전 2.23.0
+- docker run -p 4443:4443 --rm -e OPENVIDU_SECRET=1234 openvidu/openvidu-server-kms:2.23.0

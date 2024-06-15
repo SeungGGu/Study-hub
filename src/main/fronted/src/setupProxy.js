@@ -7,6 +7,9 @@ module.exports = function (app) {
         createProxyMiddleware({
             target: 'http://localhost:8080', // 서버 URL or localhost:설정한포트번호
             changeOrigin: true,
+            onError: (err, req, res) => {
+                res.status(500).send('Proxy error');
+            }
         })
     );
     app.use(

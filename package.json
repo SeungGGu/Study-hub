@@ -1,10 +1,20 @@
 {
   "dependencies": {
+    "@fullcalendar/common": "^5.11.5",
+    "@fullcalendar/core": "^6.1.14",
+    "@fullcalendar/daygrid": "^6.1.14",
+    "@fullcalendar/interaction": "^6.1.14",
+    "@fullcalendar/list": "^6.1.14",
+    "@fullcalendar/react": "^6.1.14",
+    "@fullcalendar/timegrid": "^6.1.14",
     "@stomp/stompjs": "^7.0.0",
     "axios": "^1.6.8",
     "bootstrap": "^5.3.3",
+    "fabric": "^5.3.0",
     "http-proxy-middleware": "^2.0.6",
+    "openvidu-browser": "^2.29.1",
     "react-bootstrap": "^2.10.2",
+    "react-modal": "^3.16.1",
     "react-stomp": "^5.1.0",
     "sockjs-client": "^1.6.1"
   }

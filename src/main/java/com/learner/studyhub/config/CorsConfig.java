@@ -1,19 +1,25 @@
 package com.learner.studyhub.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 @Configuration
-public class CorsConfig implements WebMvcConfigurer {
-
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedOrigins("http://localhost:3000") // 허용할 오리진
-                .allowedMethods("GET", "POST", "PUT", "DELETE") // 허용할 HTTP 메소드
-                .allowedHeaders("*") // 허용할 헤더
-                .allowCredentials(true) // 인증 정보 허용 여부
-                .maxAge(3600); // 프리플라이트 요청 결과를 캐싱할 시간
+public class CorsConfig {
+    @Bean
+    public CorsFilter corsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.addAllowedOrigin("http://10.202.36.233:3000"); // Allowed origin
+        config.addAllowedOrigin("http://localhost:3000"); // Allowed origin
+         config.addAllowedOriginPattern("https://*.ngrok-free.app"); // Allow any ngrok subdomain
+        config.addAllowedHeader("*"); // Allowed headers
+        config.addAllowedMethod("*"); // Allowed methods
+        config.setMaxAge(3600L); // Cache duration
+        source.registerCorsConfiguration("/**", config);
+        return new CorsFilter(source);
     }
 }

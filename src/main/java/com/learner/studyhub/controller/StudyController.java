@@ -4,6 +4,8 @@ import com.learner.studyhub.dto.StudyDTO;
 import com.learner.studyhub.entity.StudyEntity;
 import com.learner.studyhub.service.StudyService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
