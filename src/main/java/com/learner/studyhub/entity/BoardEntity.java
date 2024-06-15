@@ -19,7 +19,7 @@ import lombok.Setter;
 public class BoardEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int boardId;
+    private Integer boardId;
 
     @Column(nullable = false)
     private String boardTitle;

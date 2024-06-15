@@ -21,7 +21,6 @@ function MainStudyCreate() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-
         const formData = new FormData();
         formData.append('image', selectedImage);
 
@@ -63,8 +62,6 @@ function MainStudyCreate() {
                 console.error('사진 에러메세지', error);
             });
     };
-
-
     const handleTagInputChange = (event) => {
         setTagInput(event.target.value);
     };

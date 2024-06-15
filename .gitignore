@@ -21,10 +21,6 @@ yarn.lock
 .DS_Store
 Thumbs.db
 
-# Compiled files
-*.js
-*.jsx
-
 # Dependency lock files
 package-lock.json
 npm-debug.log*
