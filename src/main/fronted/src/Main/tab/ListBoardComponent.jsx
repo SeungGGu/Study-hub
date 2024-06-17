@@ -4,6 +4,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import "./MainBoardCSS.css";
 import BoardTag from "./BoardTag";
+import { useNavigate } from 'react-router-dom';
 
 const ListBoardComponent = ({ addBoard }) => {
     const [content, setContent] = useState('');
@@ -11,6 +12,7 @@ const ListBoardComponent = ({ addBoard }) => {
     const [tags, setTags] = useState([]);  // 태그 상태 초기화
     const nickname = sessionStorage.getItem('nickname');  // 세션에서 닉네임 가져오기
     const quillRef = useRef();
+    const navigate = useNavigate();
 
     // 내용 변경 핸들러
     const handleContentChange = (newContent) => {
@@ -74,6 +76,7 @@ const ListBoardComponent = ({ addBoard }) => {
                 setContent('');
                 setTags([]);
                 console.log("board정보", boardData);
+                navigate('/mainCommunity'); // 성공적으로 저장된 후 mainCommunity 이동
             })
             .catch((error) => {
                 console.error('Error:', error);
