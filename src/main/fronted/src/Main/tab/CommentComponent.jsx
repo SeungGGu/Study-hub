@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Button, Form, ListGroup } from 'react-bootstrap';
+// 게시물 댓글 component
 
 const CommentComponent = ({ boardId }) => {
     const [comments, setComments] = useState([]);

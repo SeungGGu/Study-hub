@@ -121,7 +121,7 @@ function Community() {
                 </div>
             </div>
             <hr />
-            <div className="mt-3">
+            <div className="mt-3" style={{height:"80vh", overflowY: "auto",overflowX: "hidden",paddingRight: "15px"}}>
                 {boards.map((board, index) => (
                     <div className="card mb-3" key={index} onClick={() => handleBoardClick(board.boardId)}>
                         <div className="card-body">

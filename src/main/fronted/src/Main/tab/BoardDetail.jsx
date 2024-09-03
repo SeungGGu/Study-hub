@@ -21,7 +21,7 @@ const BoardDetail = () => {
 
     return (
 
-        <Container className="mt-4">
+        <Container className="mt-4 scroll-container" style={{ height: "80vh", overflowY: "auto",overflowX: "hidden",paddingRight: "15px"}}>
             <MainHeader/>
             <Card
             style={{marginTop:"60px"}}>
