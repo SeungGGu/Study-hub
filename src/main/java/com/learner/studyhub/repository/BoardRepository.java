@@ -12,7 +12,7 @@ public interface BoardRepository extends JpaRepository<BoardEntity, Integer> {
     List<BoardEntity> findByBoardCategoryContaining(String tag);
     // 인기 게시물
     List<BoardEntity> findAllByOrderByBoardViewDesc();
-
+    // 게시물 검색
     List<BoardEntity> findByBoardTitleContainingIgnoreCase(String title);
 
     List<BoardEntity> findByBoardCategoryContainingIgnoreCase(String tag);

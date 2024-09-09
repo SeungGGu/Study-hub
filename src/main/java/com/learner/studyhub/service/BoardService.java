@@ -2,7 +2,9 @@ package com.learner.studyhub.service;
 
 import com.learner.studyhub.dto.BoardDTO;
 import com.learner.studyhub.entity.BoardEntity;
+import com.learner.studyhub.entity.LikeEntity;
 import com.learner.studyhub.repository.BoardRepository;
+import com.learner.studyhub.repository.LikeRepository;
 import com.learner.studyhub.repository.UserRepository;
 import com.learner.studyhub.users.entity.UserEntity;
 import jakarta.transaction.Transactional;
@@ -10,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,9 +21,9 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class BoardService {
-
     private final BoardRepository boardRepository;
     private final UserRepository userRepository;
+    private final LikeRepository likeRepository;
 
     private static final Logger logger = LoggerFactory.getLogger(BoardService.class);
 
@@ -114,34 +115,70 @@ public void deleteBoard(Integer boardId) {
         }
     }
     // 좋아요 기능
-    @Transactional
-    public void toggleLikeBoard(Integer boardId) {
+    public void toggleLikeBoard(Integer boardId, String userNickname) {
         Optional<BoardEntity> boardOptional = boardRepository.findById(boardId);
+        Optional<UserEntity> userOptional = userRepository.findByNickname(userNickname);
 
-        if (boardOptional.isPresent()) {
+        if (boardOptional.isPresent() && userOptional.isPresent()) {
             BoardEntity board = boardOptional.get();
-            board.setBoardGreat(board.getBoardGreat() + 1); // 좋아요 수 증가
+            UserEntity user = userOptional.get();
+
+            // 사용자가 이 게시물에 대해 좋아요를 이미 눌렀는지 확인
+            Optional<LikeEntity> likeOptional = likeRepository.findByBoardAndUser(board, user);
+            if (likeOptional.isPresent()) {
+                // 이미 좋아요를 눌렀다면 좋아요 취소
+                likeRepository.delete(likeOptional.get());
+                board.setBoardGreat(board.getBoardGreat() - 1);  // 좋아요 수 감소
+            } else {
+                // 좋아요 누름
+                LikeEntity like = new LikeEntity();
+                like.setBoard(board);
+                like.setUser(user);
+                likeRepository.save(like);
+                board.setBoardGreat(board.getBoardGreat() + 1);  // 좋아요 수 증가
+            }
             boardRepository.save(board);
         } else {
-            throw new IllegalArgumentException("Invalid boardId");
+            throw new IllegalArgumentException("Invalid boardId or userNickname");
         }
     }
 
-    // 좋아요 취소 메서드 추가
-    @Transactional
-    public void unlikeBoard(Integer boardId) {
+    public int getLikeCountByBoard(Integer boardId) {
         Optional<BoardEntity> boardOptional = boardRepository.findById(boardId);
-
         if (boardOptional.isPresent()) {
-            BoardEntity board = boardOptional.get();
-            if (board.getBoardGreat() > 0) {
-                board.setBoardGreat(board.getBoardGreat() - 1); // 좋아요 수 감소
-                boardRepository.save(board);
-            }
+            return (int) likeRepository.countByBoard(boardOptional.get());
         } else {
             throw new IllegalArgumentException("Invalid boardId");
         }
     }
+//    @Transactional
+//    public void toggleLikeBoard(Integer boardId) {
+//        Optional<BoardEntity> boardOptional = boardRepository.findById(boardId);
+//
+//        if (boardOptional.isPresent()) {
+//            BoardEntity board = boardOptional.get();
+//            board.setBoardGreat(board.getBoardGreat() + 1); // 좋아요 수 증가
+//            boardRepository.save(board);
+//        } else {
+//            throw new IllegalArgumentException("Invalid boardId");
+//        }
+//    }
+//
+//    // 좋아요 취소 메서드 추가
+//    @Transactional
+//    public void unlikeBoard(Integer boardId) {
+//        Optional<BoardEntity> boardOptional = boardRepository.findById(boardId);
+//
+//        if (boardOptional.isPresent()) {
+//            BoardEntity board = boardOptional.get();
+//            if (board.getBoardGreat() > 0) {
+//                board.setBoardGreat(board.getBoardGreat() - 1); // 좋아요 수 감소
+//                boardRepository.save(board);
+//            }
+//        } else {
+//            throw new IllegalArgumentException("Invalid boardId");
+//        }
+//    }
     // 인기 태그를 계산하는 메서드
     @Transactional
     public List<String> getPopularTags() {
@@ -163,22 +200,9 @@ public void deleteBoard(Integer boardId) {
                 .collect(Collectors.toList());
     }
 
-/*    // 특정 태그로 게시물을 검색하는 메서드
-    @Transactional
-    public List<BoardDTO> getBoardsByTag(String tag) {
-        List<BoardEntity> boards = boardRepository.findByBoardCategoryContaining(tag);
-        return boards.stream().map(board -> {
-            BoardDTO boardDTO = new BoardDTO();
-            boardDTO.setBoardId(board.getBoardId());
-            boardDTO.setBoardTitle(board.getBoardTitle());
-            boardDTO.setBoardDetail(board.getBoardDetail());
-            boardDTO.setBoardCategory(board.getBoardCategory());
-            boardDTO.setBoardNickname(board.getBoardNickname().getNickname());
-            return boardDTO;
-        }).collect(Collectors.toList());
-    }*/
     // 새로운 메서드: 게시물 제목으로 검색
     @Transactional
+    // BoardEntity -> BoardDTO 수정
     public List<BoardDTO> searchBoardsByTitle(String title) {
         List<BoardEntity> boards = boardRepository.findByBoardTitleContainingIgnoreCase(title);
         return boards.stream().map(board -> {
@@ -187,11 +211,27 @@ public void deleteBoard(Integer boardId) {
             boardDTO.setBoardTitle(board.getBoardTitle());
             boardDTO.setBoardDetail(board.getBoardDetail());
             boardDTO.setBoardCategory(board.getBoardCategory());
+            // 유저 엔티티의 닉네임을 DTO에 설정
             boardDTO.setBoardNickname(board.getBoardNickname().getNickname());
             boardDTO.setBoardView(board.getBoardView());
+            boardDTO.setBoardGreat(board.getBoardGreat());
             return boardDTO;
         }).collect(Collectors.toList());
     }
+
+//    public List<BoardDTO> searchBoardsByTitle(String title) {
+//        List<BoardEntity> boards = boardRepository.findByBoardTitleContainingIgnoreCase(title);
+//        return boards.stream().map(board -> {
+//            BoardDTO boardDTO = new BoardDTO();
+//            boardDTO.setBoardId(board.getBoardId());
+//            boardDTO.setBoardTitle(board.getBoardTitle());
+//            boardDTO.setBoardDetail(board.getBoardDetail());
+//            boardDTO.setBoardCategory(board.getBoardCategory());
+//            boardDTO.setBoardNickname(board.getBoardNickname().getNickname());
+//            boardDTO.setBoardView(board.getBoardView());
+//            return boardDTO;
+//        }).collect(Collectors.toList());
+//    }
 
     // 새로운 메서드: 태그로 검색
     @Transactional

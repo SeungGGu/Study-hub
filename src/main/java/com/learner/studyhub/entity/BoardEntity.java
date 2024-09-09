@@ -39,4 +39,5 @@ public class BoardEntity {
 
     @Column(nullable = false)
     private int boardGreat;
+
 }
