@@ -5,6 +5,7 @@ import Community from "./Community";
 import axios from "axios";
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import {IoEyeSharp} from "react-icons/io5";
 
 function MainCommunity() {
     const [boards, setBoards] = useState([]);
@@ -104,8 +105,9 @@ function MainCommunity() {
                                 aria-describedby="searchByTitle"
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
+                                style={{borderRadius:"10px", marginLeft:"20px"}}
                             />
-                            <Button variant="outline-secondary" onClick={handleSearchByTitle}>
+                            <Button variant="outline-secondary" style={{marginLeft:"20px", borderRadius:"10px", height:"40px"}} onClick={handleSearchByTitle}>
                                 제목 검색
                             </Button>
                         </InputGroup>
@@ -117,8 +119,9 @@ function MainCommunity() {
                                 aria-describedby="searchByTag"
                                 value={tagSearchQuery}
                                 onChange={(e) => setTagSearchQuery(e.target.value)}
+                                style={{borderRadius:"10px", marginLeft:"20px"}}
                             />
-                            <Button variant="outline-secondary" onClick={handleSearchByTag}>
+                            <Button variant="outline-secondary" style={{marginLeft:"20px", borderRadius:"10px", height:"40px"}} onClick={handleSearchByTag}>
                                 태그 검색
                             </Button>
                         </InputGroup>
@@ -171,7 +174,9 @@ function MainCommunity() {
                                     <div style={{ fontWeight: 'bold', color: '#007bff' }}>
                                         {board.boardTitle}
                                     </div>
-                                    <small className="text-muted">조회수: {board.boardView}</small>
+                                            <div>
+                                                <IoEyeSharp style={{color:"lightgray"}}/>{board.boardView}
+                                            </div>
                                 </ListGroup.Item>
                             ))}
                         </ListGroup>
