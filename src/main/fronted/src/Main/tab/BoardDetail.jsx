@@ -6,8 +6,6 @@ import CommentComponent from "./CommentComponent";
 import { IoEyeSharp } from "react-icons/io5";
 import { VscKebabVertical } from "react-icons/vsc";  // 케밥 아이콘 추가
 import { BiEdit } from "react-icons/bi";
-import { FaTrash } from "react-icons/fa";
-
 import axios from 'axios';
 
 const BoardDetail = () => {
@@ -19,6 +17,9 @@ const BoardDetail = () => {
     useEffect(() => {
         fetchBoardDetails();
     }, [boardId]);
+
+    // 현재 로그인된 사용자 정보 가져오기 (예시: localStorage에서 닉네임 가져옴)
+    const loggedInUserNickname = localStorage.getItem('nickname');
 
     const fetchBoardDetails = () => {
         axios.get(`http://localhost:8080/api/boards/${boardId}`)
@@ -53,13 +54,6 @@ const BoardDetail = () => {
         setIsEditing(true);
     };
 
-    const handleDeleteClick = () => {
-        axios.delete(`http://localhost:8080/api/boards/${boardId}`)
-            .then(() => {
-                window.location.href = '/boards'; // Redirect after deletion
-            })
-            .catch(error => console.error("Error deleting board:", error));
-    };
 
     const handleEditChange = (e) => {
         const { name, value } = e.target;
@@ -90,14 +84,12 @@ const BoardDetail = () => {
                                 <>
                                     <h3 style={{ fontWeight: "bold", display: "flex" }}>
                                         {board.boardTitle}
-                                        <Dropdown align="end" onClick={(e) => e.stopPropagation()} style={{ marginLeft: "auto" }}>
-                                            <Dropdown.Toggle variant="link" id="dropdown-basic" style={{ padding: '0', display: 'flex', justifyContent: 'flex-end' }}>
+                                        <Dropdown align="end" onClick={(e) => e.stopPropagation()} style={{ marginLeft: "auto"}}>
+                                            <Dropdown.Toggle variant="link" id="dropdown-basic" style={{ padding: '0', display: 'flex', justifyContent: 'flex-end', color:'black'}}>
                                                 <VscKebabVertical />
                                             </Dropdown.Toggle>
-
                                             <Dropdown.Menu>
                                                 <Dropdown.Item onClick={handleEditClick}><BiEdit />수정</Dropdown.Item>
-                                                <Dropdown.Item onClick={handleDeleteClick}><FaTrash />삭제</Dropdown.Item>
                                             </Dropdown.Menu>
                                         </Dropdown>
                                     </h3>
@@ -157,7 +149,6 @@ const BoardDetail = () => {
                         </div>
                         <CommentComponent boardId={board.boardId} />
                     </Col>
-
                     <Col md={4}>
                         <div style={{ maxHeight: "570px" }}>
                             <h6 style={{ color: 'black', fontWeight: 'bold' }}>이 글과 비슷한 POST</h6>

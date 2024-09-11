@@ -1,9 +1,11 @@
-import { Button, Form, Modal, Nav, Dropdown } from "react-bootstrap";
-import React, { useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import {Button, Nav, Dropdown} from "react-bootstrap";
+import React, {useEffect, useState} from "react";
+import {useNavigate} from 'react-router-dom';
 import axios from "axios";
-import { BiLike, BiSolidLike } from "react-icons/bi";
-import { IoEyeSharp } from "react-icons/io5";
+import {BiLike, BiSolidLike} from "react-icons/bi";
+import {IoEyeSharp} from "react-icons/io5";
+import {VscKebabVertical} from "react-icons/vsc";
+import {FaTrash} from "react-icons/fa";
 
 function Community() {
     const [boards, setBoards] = useState([]);
@@ -17,7 +19,7 @@ function Community() {
             const boardsWithLikes = await Promise.all(
                 response.data.map(async (board) => {
                     const likeCheckResponse = await axios.get(`http://localhost:8080/api/likes/check`, {
-                        params: { boardId: board.boardId, userNickname: userNickname },
+                        params: {boardId: board.boardId, userNickname: userNickname},
                     });
                     return {
                         ...board,
@@ -43,21 +45,33 @@ function Community() {
             const url = `http://localhost:8080/api/boards/${board.boardId}/like?userNickname=${userNickname}`;
             await axios.post(url);
 
-            // 좋아요 상태 업데이트
+            // 좋아요 상태가 서버에서 성공적으로 변경되었을 때만 상태 업데이트
             setBoards(prevData =>
                 prevData.map(b =>
                     b.boardId === board.boardId
-                        ? { ...b, liked: !board.liked, boardGreat: board.liked ? b.boardGreat - 1 : b.boardGreat + 1 }
+                        ? {
+                            ...b,
+                            liked: !board.liked,
+                            boardGreat: board.liked ? b.boardGreat - 1 : b.boardGreat + 1
+                        }
                         : b
                 )
             );
-            console.log("좋아요 상태 변경됨: ", board.boardId, "현재 상태: ", !board.liked);
         } catch (error) {
             console.error("좋아요/좋아요 취소 중 오류 발생:", error);
         }
     };
-
-
+    // 게시물 삭제
+    const handleDelete = async (event, boardId) => {
+        event.stopPropagation();
+        try {
+            await axios.delete(`http://localhost:8080/api/boards/${boardId}`);
+            setBoards(prevData => prevData.filter(board => board.boardId !== boardId)); // 삭제된 게시물 제거
+            console.log(`게시물 ${boardId} 삭제됨`);
+        } catch (error) {
+            console.error("게시물 삭제 중 오류 발생:", error);
+        }
+    };
     // 게시물 클릭 시 조회 수 증가
     const handleBoardClick = async (boardId) => {
         try {
@@ -97,31 +111,49 @@ function Community() {
                     </Button>
                 </div>
             </div>
-            <hr />
-            <div className="mt-3" style={{ height: "80vh", overflowY: "auto", overflowX: "hidden", paddingRight: "15px" }}>
+            <hr/>
+            <div className="mt-3"
+                 style={{height: "80vh", overflowY: "auto", overflowX: "hidden", paddingRight: "15px"}}>
                 {boards.map((board, index) => (
                     <div className="card mb-3" key={index} onClick={() => handleBoardClick(board.boardId)}>
                         <div className="card-body">
-                            <h4 className="card-title">{board.boardTitle}</h4>
+                            <h4 className="card-title" style={{
+                                fontWeight: "bold",
+                                display: "flex",
+                                justifyContent: 'center'
+                            }}> {board.boardTitle}
+                                {board.boardNickname === userNickname && ( // 사용자 식별
+                                    <Dropdown align="end" onClick={(e) => e.stopPropagation()}>
+                                        <Dropdown.Toggle variant="link" id="dropdown-basic" style={{
+                                            color: 'black',
+                                            display: 'flex',
+                                            justifyContent: 'flex-end'
+                                        }}>
+                                            <VscKebabVertical/>
+                                        </Dropdown.Toggle>
+                                        <Dropdown.Menu>
+                                            <Dropdown.Item
+                                                onClick={(event) => handleDelete(event, board.boardId)}><FaTrash/>삭제</Dropdown.Item>
+                                        </Dropdown.Menu>
+                                    </Dropdown>
+                                )}
+                            </h4>
                             <p className="card-text">{stripHtml(board.boardDetail)}</p>
                             <Button
                                 variant="outline-primary"
                                 onClick={(event) => handleLike(event, board)}
                                 className="like-button"
                             >
-                                {board.liked ? <BiSolidLike /> : <BiLike />} {board.boardGreat}
+                                {board.liked ? <BiSolidLike/> : <BiLike/>} {board.boardGreat}
                             </Button>
-
-                            <hr />
+                            <hr/>
                             <small className="text-muted">작성자: {board.boardNickname}</small>
-                            <br />
-                            <IoEyeSharp /> {board.boardView}
+                            <br/>
+                            <IoEyeSharp/> {board.boardView}
                         </div>
                     </div>
                 ))}
             </div>
-
-
         </div>
     );
 }
