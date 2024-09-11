@@ -26,6 +26,7 @@ public class CommentController {
         List<CommentDTO> comments = commentService.getCommentsByBoardId(boardId);
         return ResponseEntity.ok(comments);
     }
+
     @PutMapping("/{commentId}")
     public ResponseEntity<CommentDTO> updateComment(
             @PathVariable Integer commentId,

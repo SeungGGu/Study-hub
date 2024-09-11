@@ -68,21 +68,21 @@ public class BoardController {
         boardService.toggleLikeBoard(boardId, userNickname);
         return ResponseEntity.ok().build();
     }
-// 삭제
-@DeleteMapping("/{boardId}")
-public ResponseEntity<Void> deleteBoard(@PathVariable Integer boardId) {
-    try {
-        boardService.deleteBoard(boardId);
-        logger.info("Board with ID {} deleted successfully", boardId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    } catch (IllegalArgumentException e) {
-        logger.error("Board not found: {}", e.getMessage());
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    } catch (Exception e) {
-        logger.error("Error deleting board: {}", e.getMessage(), e);
-        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+
+    @DeleteMapping("/{boardId}")
+    public ResponseEntity<Void> deleteBoard(@PathVariable Integer boardId) {
+        try {
+            boardService.deleteBoard(boardId);
+            logger.info("Board with ID {} deleted successfully", boardId);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (IllegalArgumentException e) {
+            logger.error("Board not found: {}", e.getMessage());
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            logger.error("Error deleting board: {}", e.getMessage(), e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
-}
     // 새로운 게시물 업데이트
     @PutMapping("/{boardId}")
     public ResponseEntity<BoardDTO> updateBoard(@PathVariable Integer boardId, @RequestBody BoardDTO boardDTO) {

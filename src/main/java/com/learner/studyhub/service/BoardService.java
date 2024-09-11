@@ -68,20 +68,20 @@ public class BoardService {
     }
 
     public BoardEntity save(BoardEntity boardEntity) {
-        return boardRepository.save(boardEntity); // Save the board entity with updated like count
+        return boardRepository.save(boardEntity);
     }
 
-@Transactional
-public void deleteBoard(Integer boardId) {
-    Optional<BoardEntity> boardOptional = boardRepository.findById(boardId);
-    if (boardOptional.isPresent()) {
-        BoardEntity board = boardOptional.get();
-        boardRepository.deleteById(boardId); // 게시물 삭제
-        logger.info("Deleted board with ID: {}", boardId);
-    } else {
-        throw new IllegalArgumentException("Board with ID " + boardId + " not found.");
+    @Transactional
+    public void deleteBoard(Integer boardId) {
+        Optional<BoardEntity> boardOptional = boardRepository.findById(boardId);
+        if (boardOptional.isPresent()) {
+            BoardEntity board = boardOptional.get();
+            boardRepository.deleteById(boardId); // 게시물 삭제
+            logger.info("Deleted board with ID: {}", boardId);
+        } else {
+            throw new IllegalArgumentException("Board with ID " + boardId + " not found.");
+        }
     }
-}
     // 게시물 업데이트 메서드 추가
     @Transactional
     public BoardDTO updateBoard(Integer boardId, BoardDTO boardDTO) {
@@ -114,7 +114,7 @@ public void deleteBoard(Integer boardId) {
             throw new IllegalArgumentException("Board with ID " + boardId + " not found.");
         }
     }
-    // 좋아요 기능
+    @Transactional
     public void toggleLikeBoard(Integer boardId, String userNickname) {
         Optional<BoardEntity> boardOptional = boardRepository.findById(boardId);
         Optional<UserEntity> userOptional = userRepository.findByNickname(userNickname);
@@ -137,12 +137,12 @@ public void deleteBoard(Integer boardId) {
                 likeRepository.save(like);
                 board.setBoardGreat(board.getBoardGreat() + 1);  // 좋아요 수 증가
             }
-            boardRepository.save(board);
+            boardRepository.save(board);  // 좋아요 수 업데이트
         } else {
             throw new IllegalArgumentException("Invalid boardId or userNickname");
         }
     }
-
+    @Transactional
     public int getLikeCountByBoard(Integer boardId) {
         Optional<BoardEntity> boardOptional = boardRepository.findById(boardId);
         if (boardOptional.isPresent()) {
