@@ -13,14 +13,11 @@ const BoardDetail = () => {
     const [board, setBoard] = useState(null);
     const [similarBoards, setSimilarBoards] = useState([]);
     const [isEditing, setIsEditing] = useState(false);
+    const userNickname = sessionStorage.getItem('nickname');  // 세션에서 닉네임 가져오기
     const [editBoard, setEditBoard] = useState({ boardTitle: '', boardDetail: '', boardCategory: '' });
     useEffect(() => {
         fetchBoardDetails();
     }, [boardId]);
-
-    // 현재 로그인된 사용자 정보 가져오기 (예시: localStorage에서 닉네임 가져옴)
-    const loggedInUserNickname = localStorage.getItem('nickname');
-
     const fetchBoardDetails = () => {
         axios.get(`http://localhost:8080/api/boards/${boardId}`)
             .then(response => {
@@ -74,7 +71,7 @@ const BoardDetail = () => {
     }
 
     return (
-        <div className="BoardDetail" style={{ paddingTop: "56px", marginLeft: "20px" }}>
+        <div className="BoardDetail" style={{ paddingTop: "56px", marginLeft: "20px", marginRight:'300px' }}>
             <MainHeader />
             <Container>
                 <Row>
@@ -84,6 +81,7 @@ const BoardDetail = () => {
                                 <>
                                     <h3 style={{ fontWeight: "bold", display: "flex" }}>
                                         {board.boardTitle}
+                                        {board.boardNickname === userNickname && ( // 사용자 식별
                                         <Dropdown align="end" onClick={(e) => e.stopPropagation()} style={{ marginLeft: "auto"}}>
                                             <Dropdown.Toggle variant="link" id="dropdown-basic" style={{ padding: '0', display: 'flex', justifyContent: 'flex-end', color:'black'}}>
                                                 <VscKebabVertical />
@@ -92,6 +90,7 @@ const BoardDetail = () => {
                                                 <Dropdown.Item onClick={handleEditClick}><BiEdit />수정</Dropdown.Item>
                                             </Dropdown.Menu>
                                         </Dropdown>
+                                        )}
                                     </h3>
                                     <small className="text-muted" style={{ display: "flex" }}>작성자: {board.boardNickname}</small>
                                     <Card.Text style={{ display: "flex" }}>{board.boardDetail}</Card.Text>
@@ -106,10 +105,10 @@ const BoardDetail = () => {
                                     </div>
                                 </>
                             ) : (
-                                <div style={{ padding: "20px", border: "1px solid #ddd", borderRadius: "5px", backgroundColor: "#f9f9f9" }}>
+                                <div style={{ padding: "20px", border: "1px solid #ddd", borderRadius: "5px"}}>
                                     <Form>
                                         <Form.Group>
-                                            <Form.Label>제목</Form.Label>
+                                            <Form.Label style={{display:'flex'}}>제목</Form.Label>
                                             <Form.Control
                                                 type="text"
                                                 name="boardTitle"
@@ -119,7 +118,7 @@ const BoardDetail = () => {
                                             />
                                         </Form.Group>
                                         <Form.Group>
-                                            <Form.Label>내용</Form.Label>
+                                            <Form.Label style={{display:'flex'}}>내용</Form.Label>
                                             <Form.Control
                                                 as="textarea"
                                                 rows={5}
@@ -130,7 +129,7 @@ const BoardDetail = () => {
                                             />
                                         </Form.Group>
                                         <Form.Group>
-                                            <Form.Label>카테고리</Form.Label>
+                                            <Form.Label style={{display:'flex'}}>카테고리</Form.Label>
                                             <Form.Control
                                                 type="text"
                                                 name="boardCategory"
@@ -140,8 +139,8 @@ const BoardDetail = () => {
                                             />
                                         </Form.Group>
                                         <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                                            <Button variant="secondary" onClick={() => setIsEditing(false)} style={{ marginRight: "10px" }}>취소</Button>
-                                            <Button variant="primary" onClick={handleEditSubmit}>저장</Button>
+                                            <Button variant="outline-secondary" onClick={() => setIsEditing(false)} style={{ marginRight: "10px" }}>취소</Button>
+                                            <Button variant="outline-success" onClick={handleEditSubmit}>저장</Button>
                                         </div>
                                     </Form>
                                 </div>
