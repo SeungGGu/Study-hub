@@ -151,34 +151,6 @@ public class BoardService {
             throw new IllegalArgumentException("Invalid boardId");
         }
     }
-//    @Transactional
-//    public void toggleLikeBoard(Integer boardId) {
-//        Optional<BoardEntity> boardOptional = boardRepository.findById(boardId);
-//
-//        if (boardOptional.isPresent()) {
-//            BoardEntity board = boardOptional.get();
-//            board.setBoardGreat(board.getBoardGreat() + 1); // 좋아요 수 증가
-//            boardRepository.save(board);
-//        } else {
-//            throw new IllegalArgumentException("Invalid boardId");
-//        }
-//    }
-//
-//    // 좋아요 취소 메서드 추가
-//    @Transactional
-//    public void unlikeBoard(Integer boardId) {
-//        Optional<BoardEntity> boardOptional = boardRepository.findById(boardId);
-//
-//        if (boardOptional.isPresent()) {
-//            BoardEntity board = boardOptional.get();
-//            if (board.getBoardGreat() > 0) {
-//                board.setBoardGreat(board.getBoardGreat() - 1); // 좋아요 수 감소
-//                boardRepository.save(board);
-//            }
-//        } else {
-//            throw new IllegalArgumentException("Invalid boardId");
-//        }
-//    }
     // 인기 태그를 계산하는 메서드
     @Transactional
     public List<String> getPopularTags() {
@@ -218,21 +190,6 @@ public class BoardService {
             return boardDTO;
         }).collect(Collectors.toList());
     }
-
-//    public List<BoardDTO> searchBoardsByTitle(String title) {
-//        List<BoardEntity> boards = boardRepository.findByBoardTitleContainingIgnoreCase(title);
-//        return boards.stream().map(board -> {
-//            BoardDTO boardDTO = new BoardDTO();
-//            boardDTO.setBoardId(board.getBoardId());
-//            boardDTO.setBoardTitle(board.getBoardTitle());
-//            boardDTO.setBoardDetail(board.getBoardDetail());
-//            boardDTO.setBoardCategory(board.getBoardCategory());
-//            boardDTO.setBoardNickname(board.getBoardNickname().getNickname());
-//            boardDTO.setBoardView(board.getBoardView());
-//            return boardDTO;
-//        }).collect(Collectors.toList());
-//    }
-
     // 새로운 메서드: 태그로 검색
     @Transactional
     public List<BoardDTO> searchBoardsByTag(String tag) {
