@@ -1,10 +1,12 @@
 package com.learner.studyhub.users.entity;
 
 import com.learner.studyhub.entity.BoardEntity;
+import com.learner.studyhub.entity.StudyEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -42,4 +44,12 @@ public class UserEntity {
 
     @OneToMany(mappedBy = "boardNickname")
     private Set<BoardEntity> boards;
+
+    @ManyToMany
+    @JoinTable(
+        name = "user_likes_study",
+        joinColumns = @JoinColumn(name = "user_id"),
+        inverseJoinColumns = @JoinColumn(name = "study_id")
+    )
+    private Set<StudyEntity> likedStudies = new HashSet<>();
 }

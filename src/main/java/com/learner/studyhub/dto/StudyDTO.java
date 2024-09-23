@@ -21,4 +21,6 @@ public class StudyDTO {
     private String studyTitlePicture;
     private boolean pwStatus;
     private String studyPw;
+    private int likes;
+    private boolean isLiked;
 }

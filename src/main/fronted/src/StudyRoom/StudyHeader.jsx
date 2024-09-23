@@ -5,7 +5,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import '../styles/StudyHeader.css';
 
-export const StudyHeader = ({ title, currentPage, setCurrentPage }) => {
+export const StudyHeader = ({title, currentPage, setCurrentPage, disconnect, leaveSession}) => {
     const handleStartCall = () => {
         setCurrentPage('통화');
     };
@@ -15,6 +15,9 @@ export const StudyHeader = ({ title, currentPage, setCurrentPage }) => {
     };
 
     const handleLeaveSession = () => {
+        // WebSocket과 OpenVidu 세션을 안전하게 종료
+        if (disconnect) disconnect();
+        if (leaveSession) leaveSession();
         setCurrentPage('자유');
     };
 

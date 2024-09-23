@@ -13,8 +13,6 @@ function MainStudyCreate() {
     const [studyLastDate, setEndDate] = useState("");
     const [pwStatus, setPasswordProtected] = useState(true);
     const [studyPw, setPassword] = useState("");
-    const [tagName, setTags] = useState([]);
-    const [tagInput, setTagInput] = useState(""); // 추가: 태그 입력 값
     const [selectedImage, setSelectedImage] = useState(null); // 추가: 선택한 이미지 파일 상태
     const [studyComment, setStudyContent] = useState(""); // 추가: 스터디 내용 입력 값
     const nickname = sessionStorage.getItem('nickname');
@@ -61,22 +59,6 @@ function MainStudyCreate() {
             .catch(error => {
                 console.error('사진 에러메세지', error);
             });
-    };
-    const handleTagInputChange = (event) => {
-        setTagInput(event.target.value);
-    };
-
-    const handleTagAdd = () => {
-        if (tagInput.trim() !== "") {
-            setTags([...tagName, tagInput]);
-            setTagInput("");
-        }
-    };
-
-    const handleTagRemove = (index) => {
-        const newTags = [...tagName];
-        newTags.splice(index, 1);
-        setTags(newTags);
     };
 
     const handleFileChange = (event) => {
@@ -228,38 +210,6 @@ function MainStudyCreate() {
                                 />
                             </Form.Group>
                         )}
-                        <Form.Group controlId="tags">
-                            <Form.Label>스터디 태그</Form.Label>
-                            <Row>
-                                <Col xs={11}>
-                                    <div className="d-flex align-items-center">
-                                        <Form.Control
-                                            type="text"
-                                            placeholder="태그 입력"
-                                            value={tagInput}
-                                            onChange={handleTagInputChange}
-                                        />
-                                    </div>
-                                </Col>
-                                <Col xs={1}>
-                                    <Button variant="primary" onClick={handleTagAdd} className="ms-2">
-                                        추가
-                                    </Button>
-                                </Col>
-                            </Row>
-                            <div className="tags-container">
-                                {tagName.map((tag, index) => (
-                                    <div className="tag-box" key={index}>
-                                        <Badge
-                                            className="badge bg-secondary me-1"
-                                            onClick={() => handleTagRemove(index)}
-                                        >
-                                            {tag} <span className="badge bg-danger cursor-pointer">x</span>
-                                        </Badge>
-                                    </div>
-                                ))}
-                            </div>
-                        </Form.Group>
                     </Row>
                     <Button variant="primary" type="submit">
                         만들기

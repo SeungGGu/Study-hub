@@ -21,7 +21,8 @@ public class CalendarEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-     private String title;
+    private String studyId;
+    private String title;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private boolean allDay;

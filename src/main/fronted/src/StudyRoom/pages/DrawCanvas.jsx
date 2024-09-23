@@ -14,6 +14,7 @@ Modal.setAppElement('#root');
 
 const DrawCanvas = ({ id, canvasData, setCurrentPage, canvasId}) => {
     const canvasContainerRef = useRef(null);
+    const studingId = sessionStorage.getItem('studyId');
     const canvasRef = useRef(null);
     const [canvas, setCanvas] = useState(null);
     const [activeTool, setActiveTool] = useState("pen");
@@ -26,8 +27,9 @@ const DrawCanvas = ({ id, canvasData, setCurrentPage, canvasId}) => {
         const inputElement = document.getElementById("titleInput");
         const drawTitle = inputElement.value;
         const canvasData = canvas.toJSON();
-        const studyId = id;
+        const studyId = studingId;
         const timestamp = new Date().toISOString();
+        console.log(studyId)
 
         if (canvasId){
             axios.put(`/api/canvas/update/${canvasId}`, {

@@ -1,5 +1,16 @@
+body {
+    background-color: white;
+    color: black;
+}
+
 .App {
-  text-align: center;
+    text-align: center;
+}
+
+/* Dark mode styles */
+body.dark-mode {
+    background-color: #121212;
+    color: white;
 }
 
 .App-logo {

@@ -5,8 +5,6 @@ import '../styles/CustomStyles.css';
 import {StudyHeader} from './StudyHeader';
 import {Col, Container, Row} from 'react-bootstrap';
 import {StudySideBar} from './StudySideBar';
-import Mission from './pages/Mission';
-import TodayRunner from './pages/TodayRunner';
 import Calendar from './pages/Calendar';
 import Canvas from './pages/Canvas';
 import DrawCanvas from "./pages/DrawCanvas";
@@ -90,13 +88,11 @@ function StudyRoom() {
 
     const renderContent = () => {
         switch (currentPage) {
-            case '미션':
-                return <Mission/>;
-            case 'Today Runner':
-                return <TodayRunner/>;
             case '캘린더':
+                sessionStorage.setItem('studyId', title);
                 return <Calendar/>;
             case '캔버스':
+                sessionStorage.setItem('studyId', title);
                 return <Canvas
                     id={id}
                     setCurrentPage={setCurrentPage}
@@ -163,9 +159,9 @@ function StudyRoom() {
                         <StudyHeader
                             title={title}
                             currentPage={currentPage}
-                            onDisconnect={disconnect}
-                            id={id}
                             setCurrentPage={setCurrentPage}
+                            disconnect={disconnect}
+                            leaveSession={leaveSession}
                         />
                         {renderContent()}
                     </Col>

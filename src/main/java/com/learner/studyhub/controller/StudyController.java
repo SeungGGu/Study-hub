@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,8 +20,11 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
+
 @ResponseBody
 @RestController
 @RequiredArgsConstructor
@@ -66,20 +70,36 @@ public class StudyController {
     }
 
     @GetMapping("/cardView")
-    public ResponseEntity<List<StudyDTO>> getAllStudyCards() {
+    public ResponseEntity<List<StudyDTO>> getAllStudyCards(@RequestParam String nickname) {
         List<StudyDTO> studyEntities = studyService.getAllStudyCards().stream()
                 .map(entity -> new StudyDTO(
-                    entity.getStudyId(),
-                    entity.getStudyCreator().getNickname(),
-                    entity.getStudyCreateDate(),
-                    entity.getStudyLastDate(),
-                    entity.getStudyTitle(),
-                    entity.getStudyComment(),
-                    entity.getStudyTitlePicture(),
-                    entity.isPwStatus(),
-                    entity.getStudyPw()
+                        entity.getStudyId(),
+                        entity.getStudyCreator().getNickname(),
+                        entity.getStudyCreateDate(),
+                        entity.getStudyLastDate(),
+                        entity.getStudyTitle(),
+                        entity.getStudyComment(),
+                        entity.getStudyTitlePicture(),
+                        entity.isPwStatus(),
+                        entity.getStudyPw(),
+                        entity.getLikes(),  // 최신 좋아요 수
+                        entity.getLikedByUsers().stream()
+                                .anyMatch(user -> user.getNickname().equals(nickname))  // 사용자가 좋아요를 눌렀는지 확인
                 ))
                 .collect(Collectors.toList());
         return ResponseEntity.ok(studyEntities);
+    }
+
+
+    @PostMapping("/{studyId}/like")
+    public ResponseEntity<Map<String, Integer>> toggleLike(@PathVariable int studyId, @RequestParam String nickname) {
+        try {
+            StudyEntity study = studyService.toggleLike(studyId, nickname);
+            Map<String, Integer> response = new HashMap<>();
+            response.put("likes", study.getLikes());
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 }

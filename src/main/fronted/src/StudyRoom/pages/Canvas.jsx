@@ -6,17 +6,17 @@ import '../../styles/Canvas.css';
 import DrawCanvas from './DrawCanvas'; // DrawCanvas 컴포넌트를 임포트
 
 const Canvas = ({id, setCurrentPage}) => {
-    // const [hover, setHover] = useState(false);
     const [canvasPage, setCanvasPage] = useState(1);
     const itemsPerPage = 6;
     const [currentGroup, setCurrentGroup] = useState(0);
     const pagesPerGroup = 10;
     const [canvasData, setCanvasData] = useState([]);
-    const [studyId] = useState(id);
+    const studyId = sessionStorage.getItem('studyId');
     const hiddenCanvasRef = useRef(null);
     const [canvasId, setCanvasId] = useState(null);
     const [editingCanvas, setEditingCanvas] = useState(null); // 현재 수정 중인 캔버스 데이터
     const [hoveredIndex, setHoveredIndex] = useState(null); // hover 상태를 개별 카드에 적용하기 위한 상태
+    const currentUserNickname = sessionStorage.getItem('nickname'); // 현재 사용자 닉네임 가져오기
 
     useEffect(() => {
         const fetchCanvasData = async () => {
@@ -152,6 +152,7 @@ const Canvas = ({id, setCurrentPage}) => {
             <div className="card-grid">
                 {currentItems.map((card, index) => {
                     const imageSrc = generateImage(card.canvasData);
+                    const canDelete = card.nickname === currentUserNickname; // 삭제 권한 확인
                     return (
                         <Card key={index} style={{width: '18rem'}}
                               onMouseEnter={() => setHoveredIndex(index)}
@@ -161,7 +162,7 @@ const Canvas = ({id, setCurrentPage}) => {
                         >
                             <div className="card-image-container">
                                 <Card.Img variant="top" src={imageSrc}/>
-                                {hoveredIndex === index && (
+                                {hoveredIndex === index && canDelete && ( // 같은 사용자만 삭제 버튼을 볼 수 있음
                                     <Button variant="danger" className="delete-button" onClick={(e) => {
                                         e.stopPropagation();
                                         deleteCanvas(card.id);
