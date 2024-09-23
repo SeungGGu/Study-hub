@@ -3,6 +3,8 @@ import { OpenVidu } from 'openvidu-browser';
 
 const useOpenVidu = ({ title, id }) => {
     const sessionRef = useRef(null);
+    const publisherRef = useRef(null); // 최신 publisher 참조를 위한 ref
+    const subscribersRef = useRef([]); // 최신 subscribers 참조를 위한 ref
     const [publisher, setPublisher] = useState(null);
     const [subscribers, setSubscribers] = useState([]);
     const videoRef = useRef(null);
@@ -13,10 +15,10 @@ const useOpenVidu = ({ title, id }) => {
         console.log('Leaving session');
         const session = sessionRef.current;
         if (session) {
-            if (publisher) {
-                session.unpublish(publisher);
-                if (publisher.streamManager) {
-                    const videoElements = publisher.streamManager.videos || [];
+            if (publisherRef.current) {
+                session.unpublish(publisherRef.current);
+                if (publisherRef.current.streamManager) {
+                    const videoElements = publisherRef.current.streamManager.videos || [];
                     videoElements.forEach(video => {
                         if (video && video.video && video.video.parentNode && document.contains(video.video)) {
                             try {
@@ -26,10 +28,10 @@ const useOpenVidu = ({ title, id }) => {
                             }
                         }
                     });
-                    publisher.streamManager = null; // 추가 참조 방지
+                    publisherRef.current.streamManager = null; // 추가 참조 방지
                 }
             }
-            subscribers.forEach(subscriber => {
+            subscribersRef.current.forEach(subscriber => {
                 session.unsubscribe(subscriber);
                 if (subscriber.streamManager) {
                     const videoElements = subscriber.streamManager.videos || [];
@@ -50,8 +52,10 @@ const useOpenVidu = ({ title, id }) => {
         }
         setPublisher(null);
         setSubscribers([]);
+        publisherRef.current = null;
+        subscribersRef.current = [];
         console.log('Session cleaned up');
-    }, [publisher, subscribers]);  // 의존성 배열에 publisher와 subscribers 추가
+    }, []);
 
     // useEffect에서 leaveSession을 의존성 배열에 추가
     useEffect(() => {
@@ -103,12 +107,20 @@ const useOpenVidu = ({ title, id }) => {
             session.on('streamCreated', (event) => {
                 console.log('New stream created:', event.stream.streamId);
                 const newSubscriber = session.subscribe(event.stream, undefined);
-                setSubscribers((prevSubscribers) => [...prevSubscribers, newSubscriber]);
+                setSubscribers((prevSubscribers) => {
+                    const updatedSubscribers = [...prevSubscribers, newSubscriber];
+                    subscribersRef.current = updatedSubscribers; // 최신 subscribers 값을 유지
+                    return updatedSubscribers;
+                });
             });
 
             session.on('streamDestroyed', (event) => {
                 console.log('Stream destroyed:', event.stream.streamId);
-                setSubscribers((prevSubscribers) => prevSubscribers.filter(subscriber => subscriber.stream !== event.stream));
+                setSubscribers((prevSubscribers) => {
+                    const updatedSubscribers = prevSubscribers.filter(subscriber => subscriber.stream !== event.stream);
+                    subscribersRef.current = updatedSubscribers; // 최신 subscribers 값을 유지
+                    return updatedSubscribers;
+                });
             });
 
             await session.connect(token, { clientData: 'User' });
@@ -129,6 +141,7 @@ const useOpenVidu = ({ title, id }) => {
 
             await session.publish(newPublisher);
             setPublisher(newPublisher);
+            publisherRef.current = newPublisher; // 최신 publisher 값을 유지
         } catch (error) {
             console.error('Error starting call:', error);
         }
