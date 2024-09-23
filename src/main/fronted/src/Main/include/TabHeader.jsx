@@ -6,10 +6,6 @@ import "../../styles/TabHeader.css";
 function TabHeader({ onSearch, topLikedStudies, onStudyClick, onPasswordCheck }) {
     const [searchTerm, setSearchTerm] = useState("");
 
-    const handleSearch = () => {
-        onSearch(searchTerm); // 검색어를 부모 컴포넌트로 전달
-    };
-
     const handleReset = () => {
         setSearchTerm(""); // 검색어 상태를 초기화
         onSearch(""); // 빈 검색어를 부모 컴포넌트로 전달하여 초기 상태로 복원
@@ -23,13 +19,13 @@ function TabHeader({ onSearch, topLikedStudies, onStudyClick, onPasswordCheck })
                     aria-label="search"
                     aria-describedby="search"
                     value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
+                    onChange={(e) => {
+                        setSearchTerm(e.target.value);
+                        onSearch(e.target.value); // 입력할 때마다 검색어를 부모 컴포넌트로 전달
+                    }}
                 />
                 <Button variant="outline-secondary" id="reset" onClick={handleReset}>
                     초기화
-                </Button>
-                <Button variant="outline-secondary" id="searchButton" onClick={handleSearch}>
-                    검색
                 </Button>
             </InputGroup>
             <hr/>
@@ -52,7 +48,7 @@ function TabHeader({ onSearch, topLikedStudies, onStudyClick, onPasswordCheck })
                                         onStudyClick(card.studyId, card.studyTitle);
                                     }
                                 }}
-                                style={{cursor: 'pointer'}}
+                                style={{ cursor: 'pointer' }}
                             >
                                 <div className="card-img-container">
                                     <Card.Img
@@ -69,7 +65,7 @@ function TabHeader({ onSearch, topLikedStudies, onStudyClick, onPasswordCheck })
                                 <Card.Footer>
                                     <small className="text-muted">{card.studyCreator}</small>
                                     <div>
-                                        {card.pwStatus && <Lock size={16} className="me-2"/>}
+                                        {card.pwStatus && <Lock size={16} className="me-2" />}
                                         <small>👍 {card.likes}</small>
                                     </div>
                                 </Card.Footer>
@@ -78,7 +74,7 @@ function TabHeader({ onSearch, topLikedStudies, onStudyClick, onPasswordCheck })
                     ))}
                 </div>
             </div>
-            <hr/>
+            <hr />
         </div>
     );
 }

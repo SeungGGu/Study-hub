@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from "react";
-import {Nav, Button, Card, Col, Row, CardFooter, Modal, Form} from "react-bootstrap";
-import {useNavigate} from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Nav, Button, Card, Col, Row, CardFooter, Modal, Form } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import TabHeader from "../include/TabHeader";
 import "../../styles/TabHeader.css";
-import {Lock} from 'react-bootstrap-icons';
+import { Lock } from 'react-bootstrap-icons';
 
-function MainStudyAll({type}) {
+function MainStudyAll({ type }) {
     const nickname = sessionStorage.getItem("nickname");
     const [cards, setCards] = useState([]);
     const [filteredCards, setFilteredCards] = useState([]);
@@ -70,14 +70,14 @@ function MainStudyAll({type}) {
             setCards(prevCards =>
                 prevCards.map(card =>
                     card.studyId === studyId
-                        ? {...card, likes: updatedLikes, isLiked: !isLiked}
+                        ? { ...card, likes: updatedLikes, isLiked: !isLiked }
                         : card
                 )
             );
             setFilteredCards(prevFilteredCards =>
                 prevFilteredCards.map(card =>
                     card.studyId === studyId
-                        ? {...card, likes: updatedLikes, isLiked: !isLiked}
+                        ? { ...card, likes: updatedLikes, isLiked: !isLiked }
                         : card
                 )
             );
@@ -147,12 +147,12 @@ function MainStudyAll({type}) {
     return (
         <div>
             <TabHeader
-                onSearch={handleSearch}
+                onSearch={handleSearch}  // 검색 버튼을 없애고 입력할 때마다 검색 실행
                 topLikedStudies={getTopLikedStudies()}
                 onStudyClick={handleStudyClick}
                 onPasswordCheck={handlePasswordCheck}
             />
-            <div className="row mt-4" style={{margin: '30px'}}>
+            <div className="row mt-4" style={{ margin: '30px' }}>
                 <div className="col">
                     <Nav variant="underline" defaultActiveKey="최신순">
                         <Nav.Item className="me-3" onClick={() => handleSortOptionClick('최신순')}>
@@ -167,13 +167,13 @@ function MainStudyAll({type}) {
                     <Button variant="secondary" onClick={handleCreate}>만들기</Button>
                 </div>
             </div>
-            <hr/>
+            <hr />
             <div className="BestStudyCard">
                 <Row xs={1} md={2} lg={4} className="g-4">
                     {currentCards.map(card => (
                         <Col key={card.studyId}>
                             <Card onClick={() => handlePasswordCheck(card.studyId, card.studyTitle)}
-                                  style={{cursor: 'pointer'}}>
+                                style={{ cursor: 'pointer' }}>
                                 <div className="card-img-container">
                                     <Card.Img
                                         variant="top"
@@ -186,10 +186,10 @@ function MainStudyAll({type}) {
                                     <Card.Text>{card.studyComment}</Card.Text>
                                 </Card.Body>
                                 <CardFooter
-                                    style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                                    style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                     <small className="text-muted">{card.studyCreator}</small>
                                     <div>
-                                        {card.pwStatus && <Lock size={16} className="me-2"/>}
+                                        {card.pwStatus && <Lock size={16} className="me-2" />}
                                         <Button
                                             variant={card.isLiked ? "primary" : "outline-primary"}
                                             size="sm"
@@ -207,10 +207,10 @@ function MainStudyAll({type}) {
                     ))}
                 </Row>
             </div>
-            <hr/>
+            <hr />
             <nav>
                 <ul className="pagination justify-content-center">
-                    {Array.from({length: Math.ceil(filteredCards.length / cardsPerPage)}).map((_, idx) => (
+                    {Array.from({ length: Math.ceil(filteredCards.length / cardsPerPage) }).map((_, idx) => (
                         <li key={idx} className={`page-item ${currentPage === idx + 1 ? 'active' : ''}`}>
                             <Button className="page-link" onClick={() => paginate(idx + 1)}>
                                 {idx + 1}
@@ -219,7 +219,7 @@ function MainStudyAll({type}) {
                     ))}
                 </ul>
             </nav>
-            <hr/>
+            <hr />
 
             {/* Modal for password entry */}
             <Modal show={showPasswordModal} onHide={() => setShowPasswordModal(false)}>
