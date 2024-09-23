@@ -190,21 +190,6 @@ public class BoardService {
             return boardDTO;
         }).collect(Collectors.toList());
     }
-    // 새로운 메서드: 태그로 검색
-    @Transactional
-    public List<BoardDTO> searchBoardsByTag(String tag) {
-        List<BoardEntity> boards = boardRepository.findByBoardCategoryContainingIgnoreCase(tag);
-        return boards.stream().map(board -> {
-            BoardDTO boardDTO = new BoardDTO();
-            boardDTO.setBoardId(board.getBoardId());
-            boardDTO.setBoardTitle(board.getBoardTitle());
-            boardDTO.setBoardDetail(board.getBoardDetail());
-            boardDTO.setBoardCategory(board.getBoardCategory());
-            boardDTO.setBoardNickname(board.getBoardNickname().getNickname());
-            boardDTO.setBoardView(board.getBoardView());
-            return boardDTO;
-        }).collect(Collectors.toList());
-    }
 
     // 조회수가 높은 순으로 인기 게시물 가져오기
     @Transactional

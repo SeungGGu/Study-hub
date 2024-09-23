@@ -106,8 +106,6 @@ public class BoardController {
         List<BoardDTO> boards;
         if ("title".equalsIgnoreCase(type)) {
             boards = boardService.searchBoardsByTitle(query);
-        } else if ("tag".equalsIgnoreCase(type)) {
-            boards = boardService.searchBoardsByTag(query);
         } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

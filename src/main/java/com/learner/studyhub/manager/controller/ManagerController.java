@@ -1,2 +1,4 @@
-package com.learner.studyhub.manager.controller;public class ManagerController {
+package com.learner.studyhub.manager.controller;
+
+public class ManagerController {
 }
