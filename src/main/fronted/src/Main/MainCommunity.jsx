@@ -1,6 +1,6 @@
 import { MainHeader } from "./include/MainHeader";
 import { Button, Form, InputGroup, Badge, ListGroup } from "react-bootstrap";
-import { useEffect, useState } from "react";
+import {useContext, useEffect, useState} from "react";
 import Community from "./Community";
 import axios from "axios";
 import React from "react";
@@ -14,6 +14,7 @@ function MainCommunity() {
     const [popularBoards, setPopularBoards] = useState([]);
     const [isSearching, setIsSearching] = useState(false);
     const [searchResult, setSearchResult] = useState([]);
+
 
     const navigate = useNavigate();
 
@@ -88,13 +89,23 @@ function MainCommunity() {
                                 placeholder="게시물 제목으로 검색해 보세요!"
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                style={{ borderRadius: "10px" }}
+                                style={{borderRadius: "10px"}}
                             />
-                            <Button variant="outline-secondary"
-                                    style={{ marginLeft: "30px", borderRadius: "10px", height: "40px" }}
-                                    onClick={handleSearchByTitle}>
-                                제목 검색
-                            </Button>
+
+                            <div>
+                                <Button variant="outline-secondary"
+                                        style={{marginLeft: "30px", borderRadius: "10px", height: "40px"}}
+                                        onClick={handleSearchByTitle}>
+                                    제목 검색
+                                </Button>
+                            </div>
+                            <div className="col-auto" style={{marginLeft: "20px"}}>
+                                <Button variant="secondary" onClick={() => {
+                                    navigate('/MainBoards');
+                                }}>
+                                    글쓰기
+                                </Button>
+                            </div>
                         </InputGroup>
                     </div>
                     {/* 검색*/}

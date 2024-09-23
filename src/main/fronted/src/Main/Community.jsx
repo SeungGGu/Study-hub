@@ -48,29 +48,9 @@ function Community({ boards }) {
 
     return (
         <div style={{marginRight:'40px'}}>
-                         <div className="row mt-4">
-                            <div className="col">
-                              <Nav variant="underline" defaultActiveKey="최신순">
-                                     <Nav.Item className="me-3">
-                                         <Nav.Link eventKey="최신순">• 최신순</Nav.Link>
-                                     </Nav.Item>
-                                     <Nav.Item className="me-3">
-                                         <Nav.Link eventKey="좋아요순">• 좋아요 순</Nav.Link>
-                                         </Nav.Item>
-                                     <Nav.Item className="me-3">
-                                         <Nav.Link eventKey="댓글 순">• 댓글 순</Nav.Link>
-                                     </Nav.Item>
-                                 </Nav>
-                             </div>
-                             <div className="col-auto">
-                                 <Button variant="secondary" onClick={() => {
-                        navigate('/MainBoards');
-                    }}>
-                        글쓰기
-                    </Button>
+            {/*             <div className="row mt-4">*/}
 
-                </div>
-            </div>
+            {/*</div>*/}
             <hr/>
 
             <div className="mt-3" style={{ height: "80vh", overflowY: "auto", overflowX: "hidden", paddingRight: "15px" }}>
