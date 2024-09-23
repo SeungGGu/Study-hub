@@ -18,8 +18,8 @@ public class CalendarService {
     @Autowired
     private RecurrenceRepository recurrenceRepository;
 
-    public List<CalendarEntity> getAllEvents() {
-        return calendarRepository.findAll();
+    public List<CalendarEntity> getAllEventsByStudyId(String studyId) {
+        return calendarRepository.findByStudyId(studyId);
     }
 
     public CalendarEntity createEvent(CalendarEntity calendarEntity) {

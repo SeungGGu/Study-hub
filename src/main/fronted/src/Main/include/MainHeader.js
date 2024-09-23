@@ -45,6 +45,9 @@ export const MainHeader = () => {
                             {isAuthenticated ? (
                                 <>
                                     <div className="me-2">{nickname}</div>
+                                    <Button variant="secondary" className="me-2">
+                                        마이페이지
+                                    </Button>
                                     <Button variant="secondary" onClick={handleLogout}>
                                         로그아웃
                                     </Button>

@@ -10,10 +10,12 @@ import '../../styles/Calendar.css';
 Modal.setAppElement('#root');
 
 const Calendar = () => {
+    const studyId = sessionStorage.getItem('studyId');
     const [events, setEvents] = useState([]);
     const [selectedDate, setSelectedDate] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [newEvent, setNewEvent] = useState({
+        studyId: studyId,
         title: '',
         allDay: false,
         startTime: '',
@@ -32,7 +34,7 @@ const Calendar = () => {
     }, []);
 
     const fetchEvents = async () => {
-        const response = await fetch('/api/calendar/events');
+        const response = await fetch(`/api/calendar/events?studyId=${studyId}`);
         const data = await response.json();
         console.log(data);
         if (Array.isArray(data)) {
@@ -40,9 +42,9 @@ const Calendar = () => {
                 title: event.title,
                 start: event.startTime,
                 end: event.endTime,
-                startTime: event.startTime,  // Ensure these properties are mapped
+                startTime: event.startTime,
                 endTime: event.endTime,
-                description: event.description  // Ensure these properties are mapped
+                description: event.description
             }));
             setEvents(mappedEvents);
         } else {
@@ -109,6 +111,7 @@ const Calendar = () => {
                 allDay: savedEvent.allDay
             }]);
             setNewEvent({
+                studyId: studyId,
                 title: '',
                 allDay: false,
                 startTime: '',

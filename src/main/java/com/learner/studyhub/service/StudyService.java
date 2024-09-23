@@ -18,7 +18,7 @@ public class StudyService {
     private final StudyRepository studyRepository;
     private final UserRepository userRepository;
 
-    public String studyEdit(StudyDTO studyDTO){
+    public String studyEdit(StudyDTO studyDTO) {
 
         StudyEntity studyEntity = new StudyEntity();
 
@@ -26,7 +26,7 @@ public class StudyService {
         String nickname = studyDTO.getStudyCreator();
         //UserEntity 조회
         Optional<UserEntity> userEntityOptional = userRepository.findByNickname(nickname);
-        if(userEntityOptional.isPresent()){
+        if (userEntityOptional.isPresent()) {
             UserEntity userEntity = userEntityOptional.get();
 
             System.out.println("유저 entity 닉네임 검색부분" + userEntity);
@@ -49,5 +49,30 @@ public class StudyService {
 
     public List<StudyEntity> getAllStudyCards() {
         return studyRepository.findAll();
+    }
+
+    public StudyEntity toggleLike(int studyId, String nickname) {
+        UserEntity user = userRepository.findByNickname(nickname)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid user nickname: " + nickname));
+
+        StudyEntity study = studyRepository.findById(studyId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid study ID: " + studyId));
+
+        if (user.getLikedStudies().contains(study)) {
+            // If user already liked the study, remove like
+            user.getLikedStudies().remove(study);
+            study.getLikedByUsers().remove(user);
+            study.setLikes(Math.max(0, study.getLikes() - 1)); // Ensure likes do not go negative
+        } else {
+            // User has not liked the study yet, add like
+            user.getLikedStudies().add(study);
+            study.getLikedByUsers().add(user);
+            study.setLikes(study.getLikes() + 1);
+        }
+
+        userRepository.save(user);
+        studyRepository.save(study);
+
+        return study;
     }
 }

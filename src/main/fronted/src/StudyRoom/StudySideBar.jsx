@@ -5,27 +5,12 @@ import '../styles/StudySideBar.css';  // CSS 파일 임포트
 export const StudySideBar = ({onChannelSelect}) => {
     const {title} = useParams();
     const [showChannels, setShowChannels] = useState(true);
-    const [showCgChannels, setShowCgChannels] = useState(false);
 
     const [channels, setChannels] = useState([
         {name: "자유"},
         {name: "질문"},
         {name: "공지"}
     ]); // 초기 채널 목록
-
-
-    const [CgChannels, setCgChannels] = useState([
-        {name: "미션"},
-        {name: "Today Runner"},
-        {name: "캘린더"}
-    ]); // 초기 채널 목록
-
-    const addChannel = () => {
-        const newChannelName = prompt("Enter the name of the new channel:");
-        if (newChannelName) {
-            setChannels([...channels, {name: newChannelName}]);
-        }
-    };
 
     return (
         <div className="sidebar-container">
@@ -49,18 +34,11 @@ export const StudySideBar = ({onChannelSelect}) => {
                         </Link>
                     </li>
                 ))}
-                <li className="nav-title">
+                <li>
                     <div className="channel-header">
-                        <Link to="#" className="nav-link" onClick={() => setShowCgChannels(!showCgChannels)}>ⅴ 챌린지</Link>
+                        <Link to="#" className="nav-link" onClick={() => onChannelSelect("캘린더")}>캘린더</Link>
                     </div>
                 </li>
-                {showCgChannels && CgChannels.map(channel => (
-                    <li className="nav-item" key={channel.name}>
-                        <Link to="#" className="nav-link" onClick={() => onChannelSelect(channel.name)}>
-                            # {channel.name}
-                        </Link>
-                    </li>
-                ))}
                 <li>
                     <div className="channel-header">
                         <Link to="#" className="nav-link" onClick={() => onChannelSelect("캔버스")}>캔버스</Link>

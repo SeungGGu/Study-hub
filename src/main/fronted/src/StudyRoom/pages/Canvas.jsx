@@ -1,28 +1,31 @@
-import React, {useEffect, useState, useRef} from 'react';
-import {Button, Card, Form, InputGroup, Pagination} from "react-bootstrap";
-import {fabric} from 'fabric';
+import React, { useEffect, useState, useRef } from 'react';
+import { Button, Card, Form, InputGroup, Pagination } from "react-bootstrap";
+import { fabric } from 'fabric';
 import axios from 'axios';
 import '../../styles/Canvas.css';
 import DrawCanvas from './DrawCanvas'; // DrawCanvas 컴포넌트를 임포트
 
-const Canvas = ({id, setCurrentPage}) => {
-    // const [hover, setHover] = useState(false);
+const Canvas = ({ id, setCurrentPage }) => {
     const [canvasPage, setCanvasPage] = useState(1);
     const itemsPerPage = 6;
     const [currentGroup, setCurrentGroup] = useState(0);
     const pagesPerGroup = 10;
     const [canvasData, setCanvasData] = useState([]);
-    const [studyId] = useState(id);
+    const [filteredCanvasData, setFilteredCanvasData] = useState([]); // 필터링된 데이터
+    const studyId = sessionStorage.getItem('studyId');
     const hiddenCanvasRef = useRef(null);
     const [canvasId, setCanvasId] = useState(null);
     const [editingCanvas, setEditingCanvas] = useState(null); // 현재 수정 중인 캔버스 데이터
     const [hoveredIndex, setHoveredIndex] = useState(null); // hover 상태를 개별 카드에 적용하기 위한 상태
+    const currentUserNickname = sessionStorage.getItem('nickname'); // 현재 사용자 닉네임 가져오기
+    const [searchQuery, setSearchQuery] = useState(""); // 검색어 상태
 
     useEffect(() => {
         const fetchCanvasData = async () => {
             try {
                 const response = await axios.get(`/api/canvas/view?studyId=${studyId}`);
                 setCanvasData(response.data);
+                setFilteredCanvasData(response.data); // 기본적으로 전체 데이터를 필터링된 데이터로 설정
             } catch (error) {
                 console.error("Failed to fetch data", error);
             }
@@ -32,13 +35,21 @@ const Canvas = ({id, setCurrentPage}) => {
         }
     }, [studyId]);
 
+    useEffect(() => {
+        // 검색어에 맞게 canvasData를 필터링
+        const filtered = canvasData.filter((canvas) =>
+            canvas.drawTitle.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+        setFilteredCanvasData(filtered);
+    }, [searchQuery, canvasData]);
+
     const indexOfLastItem = canvasPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = canvasData.slice(indexOfFirstItem, indexOfLastItem);
+    const currentItems = filteredCanvasData.slice(indexOfFirstItem, indexOfLastItem);
 
     const paginate = (pageNumber) => setCanvasPage(pageNumber);
 
-    const pageCount = Math.ceil(canvasData.length / itemsPerPage);
+    const pageCount = Math.ceil(filteredCanvasData.length / itemsPerPage);
     const totalGroups = Math.ceil(pageCount / pagesPerGroup);
     let active = canvasPage;
     let items = [];
@@ -101,7 +112,7 @@ const Canvas = ({id, setCurrentPage}) => {
 
             const objectsWidth = maxX - minX;
             const objectsHeight = maxY - minY;
-            const canvasCenter = {x: fabricCanvas.getWidth() / 2, y: fabricCanvas.getHeight() / 2};
+            const canvasCenter = { x: fabricCanvas.getWidth() / 2, y: fabricCanvas.getHeight() / 2 };
 
             const scaleFactor = Math.min(fabricCanvas.getWidth() / objectsWidth, fabricCanvas.getHeight() / objectsHeight);
 
@@ -134,7 +145,7 @@ const Canvas = ({id, setCurrentPage}) => {
 
     if (editingCanvas) {
         return <DrawCanvas id={studyId} canvasId={canvasId} canvasData={editingCanvas}
-                           setCurrentPage={setCurrentPage}/>;
+                           setCurrentPage={setCurrentPage} />;
     }
 
     return (
@@ -144,24 +155,24 @@ const Canvas = ({id, setCurrentPage}) => {
                     placeholder="캔버스를 검색해보세요"
                     aria-label="search"
                     aria-describedby="search"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)} // 실시간 검색
                 />
-                <Button variant="outline-secondary" id="searchButton">
-                    검색
-                </Button>
             </InputGroup>
             <div className="card-grid">
                 {currentItems.map((card, index) => {
                     const imageSrc = generateImage(card.canvasData);
+                    const canDelete = card.nickname === currentUserNickname; // 삭제 권한 확인
                     return (
-                        <Card key={index} style={{width: '18rem'}}
+                        <Card key={index} style={{ width: '18rem' }}
                               onMouseEnter={() => setHoveredIndex(index)}
                               onMouseLeave={() => setHoveredIndex(null)}
                               className="card-hover"
                               onClick={() => handleCardClick(card)} // 클릭 시 수정 모드로 전환
                         >
                             <div className="card-image-container">
-                                <Card.Img variant="top" src={imageSrc}/>
-                                {hoveredIndex === index && (
+                                <Card.Img variant="top" src={imageSrc} />
+                                {hoveredIndex === index && canDelete && ( // 같은 사용자만 삭제 버튼을 볼 수 있음
                                     <Button variant="danger" className="delete-button" onClick={(e) => {
                                         e.stopPropagation();
                                         deleteCanvas(card.id);
@@ -179,12 +190,12 @@ const Canvas = ({id, setCurrentPage}) => {
             </div>
             <div className="pagination-container">
                 <Pagination>
-                    {currentGroup > 0 && <Pagination.Prev onClick={prevGroup}/>}
+                    {currentGroup > 0 && <Pagination.Prev onClick={prevGroup} />}
                     {items}
-                    {currentGroup < totalGroups - 1 && <Pagination.Next onClick={nextGroup}/>}
+                    {currentGroup < totalGroups - 1 && <Pagination.Next onClick={nextGroup} />}
                 </Pagination>
             </div>
-            <canvas ref={hiddenCanvasRef} style={{display: 'none'}}/>
+            <canvas ref={hiddenCanvasRef} style={{ display: 'none' }} />
         </div>
     );
 };

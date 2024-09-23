@@ -15,8 +15,8 @@ public class CalendarController {
     private CalendarService calendarService;
 
     @GetMapping("/events")
-    public List<CalendarEntity> getAllEvents() {
-        return calendarService.getAllEvents();
+    public List<CalendarEntity> getEventsByStudyId(@RequestParam("studyId") String studyId) {
+        return calendarService.getAllEventsByStudyId(studyId);
     }
 
     @PostMapping("/events")

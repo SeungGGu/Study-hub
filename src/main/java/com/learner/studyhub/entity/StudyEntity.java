@@ -7,10 +7,15 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Setter
 @Getter
@@ -43,4 +48,10 @@ public class StudyEntity {
     private boolean pwStatus;
 
     private String studyPw;
+
+    @Column(nullable = false)
+    private int likes = 0;  // 좋아요 수를 저장하는 필드
+
+    @ManyToMany(mappedBy = "likedStudies")
+    private Set<UserEntity> likedByUsers = new HashSet<>();
 }

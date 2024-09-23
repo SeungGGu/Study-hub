@@ -7,7 +7,8 @@ html, body {
 
 .firstMainPage {
     overflow: auto;
-    height: 100%;  /* Ensure it takes full height */
+    height: 100%;
+   /* Ensure it takes full height */
 }
 
 .container.marketing {
