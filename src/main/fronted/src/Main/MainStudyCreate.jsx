@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {MainHeader} from "./include/MainHeader";
 import {MainFooter} from "./include/MainFooter";
-import {Form, Button, Col, Row, Badge} from "react-bootstrap";
+import {Form, Button, Col, Row} from "react-bootstrap";
 import "../styles/MainStudyCreate.css";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";

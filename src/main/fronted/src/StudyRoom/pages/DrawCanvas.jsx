@@ -1,18 +1,18 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { fabric } from "fabric";
+import React, {useEffect, useRef, useState} from 'react';
+import {fabric} from "fabric";
 import "../../styles/DrawCanvas.css";
-import { CgUndo } from "react-icons/cg";
-import { FaMouse } from "react-icons/fa";
-import { RiPencilFill } from "react-icons/ri";
-import { FaHandPaper } from "react-icons/fa";
-import { MdOutlineTextFields } from "react-icons/md";
-import { IoIosSave } from "react-icons/io";
+import {CgUndo} from "react-icons/cg";
+import {FaMouse} from "react-icons/fa";
+import {RiPencilFill} from "react-icons/ri";
+import {FaHandPaper} from "react-icons/fa";
+import {MdOutlineTextFields} from "react-icons/md";
+import {IoIosSave} from "react-icons/io";
 import Modal from "react-modal";
 import axios from "axios";
 
 Modal.setAppElement('#root');
 
-const DrawCanvas = ({ id, canvasData, setCurrentPage, canvasId}) => {
+const DrawCanvas = ({id, canvasData, setCurrentPage, canvasId}) => {
     const canvasContainerRef = useRef(null);
     const studingId = sessionStorage.getItem('studyId');
     const canvasRef = useRef(null);
@@ -31,34 +31,34 @@ const DrawCanvas = ({ id, canvasData, setCurrentPage, canvasId}) => {
         const timestamp = new Date().toISOString();
         console.log(studyId)
 
-        if (canvasId){
+        if (canvasId) {
             axios.put(`/api/canvas/update/${canvasId}`, {
-            drawTitle: drawTitle,
-            canvasData: canvasData,
-            timestamp: timestamp
-        })
-            .then(response => {
-                console.log(response.data);
-                setCurrentPage("채팅");
+                drawTitle: drawTitle,
+                canvasData: canvasData,
+                timestamp: timestamp
             })
-            .catch(error => {
-                console.error('Error updating drawing:', error);
-            });
-        }else {
+                .then(response => {
+                    console.log(response.data);
+                    setCurrentPage("채팅");
+                })
+                .catch(error => {
+                    console.error('Error updating drawing:', error);
+                });
+        } else {
             axios.post('/api/canvas/draw', {
-            drawTitle: drawTitle,
-            studyId: studyId,
-            nickname: nickname,
-            canvasData: canvasData,
-            timestamp: timestamp
-        })
-            .then(response => {
-                console.log(response.data);
-                setCurrentPage("캔버스");
+                drawTitle: drawTitle,
+                studyId: studyId,
+                nickname: nickname,
+                canvasData: canvasData,
+                timestamp: timestamp
             })
-            .catch(error => {
-                console.error('Error saving drawing:', error);
-            });
+                .then(response => {
+                    console.log(response.data);
+                    setCurrentPage("캔버스");
+                })
+                .catch(error => {
+                    console.error('Error saving drawing:', error);
+                });
         }
     }
 
@@ -150,7 +150,7 @@ const DrawCanvas = ({ id, canvasData, setCurrentPage, canvasId}) => {
             zoom *= 0.999 ** delta;
             if (zoom > 20) zoom = 20;
             if (zoom < 0.01) zoom = 0.01;
-            newCanvas.zoomToPoint({ x: opt.e.offsetX, y: opt.e.offsetY }, zoom);
+            newCanvas.zoomToPoint({x: opt.e.offsetX, y: opt.e.offsetY}, zoom);
             opt.e.preventDefault();
             opt.e.stopPropagation();
         });
@@ -204,8 +204,12 @@ const DrawCanvas = ({ id, canvasData, setCurrentPage, canvasId}) => {
             case "save":
                 handleSaveTool();
                 break;
+            default:
+                console.log('Unknown tool type');
+                break;
         }
-    }, [activeTool]);
+    }, [activeTool, canvas]);  // 의존성 배열에 필요한 함수들을 추가
+
 
     const handleSaveTool = () => {
         console.log("모달");
@@ -293,49 +297,49 @@ const DrawCanvas = ({ id, canvasData, setCurrentPage, canvasId}) => {
 
     return (
         <div className="canvas-container" ref={canvasContainerRef}>
-            <canvas ref={canvasRef} />
+            <canvas ref={canvasRef}/>
             <div className="tool-bar">
                 <button
                     onClick={() => setActiveTool("select")}
                     disabled={activeTool === "select"}
                 >
-                    <FaMouse size={25} />
+                    <FaMouse size={25}/>
                 </button>
                 <button
                     onClick={() => setActiveTool("pen")}
                     disabled={activeTool === "pen"}
                 >
-                    <RiPencilFill size={25} />
+                    <RiPencilFill size={25}/>
                 </button>
                 <button
                     onClick={() => setActiveTool("hand")}
                     disabled={activeTool === "hand"}
                 >
-                    <FaHandPaper size={25} />
+                    <FaHandPaper size={25}/>
                 </button>
                 <button
                     onClick={() => setActiveTool("undo")}
                     disabled={activeTool === "undo"}
                 >
-                    <CgUndo size={25} />
+                    <CgUndo size={25}/>
                 </button>
                 <button
                     onClick={() => setActiveTool("text")}
                     disabled={activeTool === "text"}
                 >
-                    <MdOutlineTextFields size={25} />
+                    <MdOutlineTextFields size={25}/>
                 </button>
                 <button
                     onClick={() => setActiveTool("save")}
                     disabled={activeTool === "save"}
                 >
-                    <IoIosSave size={25} />
+                    <IoIosSave size={25}/>
                 </button>
             </div>
             <Modal isOpen={isOpen} onRequestClose={closeModal} style={customStyles}>
                 <h1 style={customStyles.h1}>저장</h1>
                 <p style={customStyles.p}>제목을 입력해주세요</p>
-                <input id="titleInput" style={customStyles.input} />
+                <input id="titleInput" style={customStyles.input}/>
                 <div style={customStyles.buttonsContainer}>
                     <button style={customStyles.button} onClick={modalSave}>저장</button>
                     <button style={customStyles.closeButton} onClick={closeModal}>닫기</button>

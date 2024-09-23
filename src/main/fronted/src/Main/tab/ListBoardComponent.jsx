@@ -14,28 +14,28 @@ const ListBoardComponent = ({ addBoard }) => {
     const quillRef = useRef();
     const navigate = useNavigate();
 
-    // 내용 변경 핸들러
+    // 내용 변경
     const handleContentChange = (newContent) => {
         setContent(newContent);
     };
 
-    // 제목 변경 핸들러
+    // 제목 변경
     const handleTitleChange = (event) => {
         setTitle(event.target.value);
     };
 
-    // 태그 변경 핸들러
+    // 태그 변경
     const handleTagsChange = (newTags) => {
         setTags(newTags);  // 태그 상태 업데이트
     };
 
-    // HTML 내용을 순수 텍스트로 변환하는 함수 추가
+    // HTML 내용을 텍스트로 변환
     const stripHtml = (html) => {
         let doc = new DOMParser().parseFromString(html, 'text/html');
         return doc.body.textContent || '';
     };
 
-    // 폼 제출 핸들러
+    // 폼 제출
     const handleSubmit = (event) => {
         event.preventDefault();
 
@@ -44,7 +44,7 @@ const ListBoardComponent = ({ addBoard }) => {
             return;
         }
 
-        // HTML 태그 제거하여 순수 텍스트만 남기기
+        // HTML 태그 제거하여 텍스트만 남기기
         const plainTextContent = stripHtml(content);
 
         const boardData = {
@@ -76,7 +76,7 @@ const ListBoardComponent = ({ addBoard }) => {
                 setContent('');
                 setTags([]);
                 console.log("board정보", boardData);
-                navigate('/mainCommunity'); // 성공적으로 저장된 후 mainCommunity 이동
+                navigate('/mainCommunity'); // 성공적으로 저장된 경우 mainCommunity 이동
             })
             .catch((error) => {
                 console.error('Error:', error);
@@ -85,7 +85,7 @@ const ListBoardComponent = ({ addBoard }) => {
     };
 
     return (
-        <div className="container" style={{ backgroundColor: "lightgray", borderRadius: "20px", padding: "20px" }}>
+        <div className="container">
             <form onSubmit={handleSubmit}>
                 <Row>
                     <Col xs={12}>
@@ -112,7 +112,8 @@ const ListBoardComponent = ({ addBoard }) => {
                 </FloatingLabel>
             </form>
             <div className="button_box">
-                <Button type="submit" onClick={handleSubmit} style={{ backgroundColor: "gray" }}>Submit</Button>
+                <Button type="cancel" variant="outline-danger" style={{marginRight:"10px"}}>Cancel</Button>
+                <Button type="submit" variant="outline-success" onClick={handleSubmit}>Submit</Button>
             </div>
         </div>
     );

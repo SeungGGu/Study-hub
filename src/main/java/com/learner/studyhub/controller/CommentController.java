@@ -26,4 +26,18 @@ public class CommentController {
         List<CommentDTO> comments = commentService.getCommentsByBoardId(boardId);
         return ResponseEntity.ok(comments);
     }
+
+    @PutMapping("/{commentId}")
+    public ResponseEntity<CommentDTO> updateComment(
+            @PathVariable Integer commentId,
+            @RequestBody CommentDTO commentDTO) {
+        CommentDTO updatedComment = commentService.updateComment(commentId, commentDTO);
+        return ResponseEntity.ok(updatedComment);
+    }
+
+    @DeleteMapping("/{commentId}")
+    public ResponseEntity<Void> deleteComment(@PathVariable Integer commentId) {
+        commentService.deleteComment(commentId);
+        return ResponseEntity.noContent().build();
+    }
 }

@@ -56,4 +56,32 @@ public class CommentService {
             return commentDTO;
         }).collect(Collectors.toList());
     }
+    @Transactional
+    public CommentDTO updateComment(Integer commentId, CommentDTO commentDTO) {
+        Optional<CommentEntity> commentEntityOptional = commentRepository.findById(commentId);
+
+        if (commentEntityOptional.isPresent()) {
+            CommentEntity commentEntity = commentEntityOptional.get();
+            commentEntity.setCommentText(commentDTO.getCommentText());  // Update comment text
+            commentEntity.setCreatedDate(new Date());  // Optionally update the date to now
+
+            CommentEntity updatedComment = commentRepository.save(commentEntity);
+            commentDTO.setCreatedDate(updatedComment.getCreatedDate());
+            return commentDTO;
+        } else {
+            throw new IllegalArgumentException("Comment with ID " + commentId + " not found");
+        }
+    }
+
+
+    @Transactional
+    public void deleteComment(Integer commentId) {
+        Optional<CommentEntity> commentEntityOptional = commentRepository.findById(commentId);
+
+        if (commentEntityOptional.isPresent()) {
+            commentRepository.deleteById(commentId);
+        } else {
+            throw new IllegalArgumentException("Comment with ID " + commentId + " not found");
+        }
+    }
 }

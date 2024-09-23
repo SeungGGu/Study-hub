@@ -7,13 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -23,13 +19,13 @@ public class BoardController {
     private final BoardService boardService;
     private static final Logger logger = LoggerFactory.getLogger(BoardController.class);
 
-    // 게시물 생성 엔드포인트
+    // 게시물 생성
     @PostMapping("/create")
     public BoardDTO createBoard(@RequestBody BoardDTO boardDTO) {
         logger.info("Received BoardDTO: {}", boardDTO);
         return boardService.createBoard(boardDTO);
     }
-    // 특정 ID로 게시물 가져오기 엔드포인트
+    // ID로 게시물 조회
     @GetMapping("/{boardId}")
     public BoardDTO getBoardById(@PathVariable Integer boardId) {
 //        boardService.incrementBoardView(boardId); // 조회 수 증가 호출
@@ -47,7 +43,7 @@ public class BoardController {
                 })
                 .orElseThrow(() -> new IllegalArgumentException("해당 ID를 가진 게시물이 없습니다."));
     }
-    // 새로운 API 추가: 게시물 클릭 시 조회수를 증가시키는 엔드포인트
+    // 게시물 클릭 시 조회수를 증가
     @PostMapping("/{boardId}/increment-view")
     public ResponseEntity<Void> incrementBoardView(@PathVariable Integer boardId) {
         boardService.incrementBoardView(boardId);
@@ -68,35 +64,26 @@ public class BoardController {
         }).collect(Collectors.toList());
     }
     @PostMapping("/{boardId}/like")
-    public ResponseEntity<Void> toggleLikeBoard(@PathVariable Integer boardId) {
-        boardService.toggleLikeBoard(boardId);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Void> toggleLikeBoard(@PathVariable Integer boardId, @RequestParam String userNickname) {
+        boardService.toggleLikeBoard(boardId, userNickname);
+        return ResponseEntity.ok().build();
     }
 
-
-    @PostMapping("/{boardId}/unlike")
-    public ResponseEntity<Void> unlikeBoard(@PathVariable Integer boardId) {
-        boardService.unlikeBoard(boardId);
-        return new ResponseEntity<>(HttpStatus.OK);
+    @DeleteMapping("/{boardId}")
+    public ResponseEntity<Void> deleteBoard(@PathVariable Integer boardId) {
+        try {
+            boardService.deleteBoard(boardId);
+            logger.info("Board with ID {} deleted successfully", boardId);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (IllegalArgumentException e) {
+            logger.error("Board not found: {}", e.getMessage());
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            logger.error("Error deleting board: {}", e.getMessage(), e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
-
-
-// 삭제 핸들러 점검 및 수정
-@DeleteMapping("/{boardId}")
-public ResponseEntity<Void> deleteBoard(@PathVariable Integer boardId) {
-    try {
-        boardService.deleteBoard(boardId);
-        logger.info("Board with ID {} deleted successfully", boardId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    } catch (IllegalArgumentException e) {
-        logger.error("Board not found: {}", e.getMessage());
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    } catch (Exception e) {
-        logger.error("Error deleting board: {}", e.getMessage(), e);
-        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-}
-    // 새로운 게시물 업데이트 엔드포인트 추가
+    // 새로운 게시물 업데이트
     @PutMapping("/{boardId}")
     public ResponseEntity<BoardDTO> updateBoard(@PathVariable Integer boardId, @RequestBody BoardDTO boardDTO) {
         try {
@@ -113,15 +100,9 @@ public ResponseEntity<Void> deleteBoard(@PathVariable Integer boardId) {
         return new ResponseEntity<>(popularTags, HttpStatus.OK);
     }
 
-//    // 특정 태그로 게시물 검색
-//    @GetMapping("/tag")
-//    public ResponseEntity<List<BoardDTO>> getBoardsByTag(@RequestParam String tag) {
-//        List<BoardDTO> boards = boardService.getBoardsByTag(tag);
-//        return new ResponseEntity<>(boards, HttpStatus.OK);
-//    }
-    // 새로운 엔드포인트: 게시물 제목으로 검색
+    //게시물 제목으로 검색
     @GetMapping("/search")
-    public ResponseEntity<List<BoardDTO>> searchBoards(@RequestParam String query, @RequestParam String type) {
+    public ResponseEntity<List<BoardDTO>> searchBoards(@RequestParam String query,@RequestParam(defaultValue = "title") String type) {
         List<BoardDTO> boards;
         if ("title".equalsIgnoreCase(type)) {
             boards = boardService.searchBoardsByTitle(query);

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { OpenVidu } from 'openvidu-browser';
 
 const useOpenVidu = ({ title, id }) => {
@@ -8,6 +8,52 @@ const useOpenVidu = ({ title, id }) => {
     const videoRef = useRef(null);
     const OV = useRef(new OpenVidu()).current;
 
+    // leaveSession을 useCallback으로 감싸기
+    const leaveSession = useCallback(() => {
+        console.log('Leaving session');
+        const session = sessionRef.current;
+        if (session) {
+            if (publisher) {
+                session.unpublish(publisher);
+                if (publisher.streamManager) {
+                    const videoElements = publisher.streamManager.videos || [];
+                    videoElements.forEach(video => {
+                        if (video && video.video && video.video.parentNode && document.contains(video.video)) {
+                            try {
+                                video.video.parentNode.removeChild(video.video);
+                            } catch (error) {
+                                console.error('Error removing publisher video element:', error);
+                            }
+                        }
+                    });
+                    publisher.streamManager = null; // 추가 참조 방지
+                }
+            }
+            subscribers.forEach(subscriber => {
+                session.unsubscribe(subscriber);
+                if (subscriber.streamManager) {
+                    const videoElements = subscriber.streamManager.videos || [];
+                    videoElements.forEach(video => {
+                        if (video && video.video && video.video.parentNode && document.contains(video.video)) {
+                            try {
+                                video.video.parentNode.removeChild(video.video);
+                            } catch (error) {
+                                console.error('Error removing subscriber video element:', error);
+                            }
+                        }
+                    });
+                    subscriber.streamManager = null; // 추가 참조 방지
+                }
+            });
+            session.disconnect();
+            sessionRef.current = null;
+        }
+        setPublisher(null);
+        setSubscribers([]);
+        console.log('Session cleaned up');
+    }, [publisher, subscribers]);  // 의존성 배열에 publisher와 subscribers 추가
+
+    // useEffect에서 leaveSession을 의존성 배열에 추가
     useEffect(() => {
         const handleBeforeUnload = (event) => {
             leaveSession();
@@ -20,7 +66,7 @@ const useOpenVidu = ({ title, id }) => {
             window.removeEventListener('beforeunload', handleBeforeUnload);
             leaveSession();
         };
-    }, []);
+    }, [leaveSession]);
 
     const startCall = async () => {
         console.log('Starting call...');
@@ -86,50 +132,6 @@ const useOpenVidu = ({ title, id }) => {
         } catch (error) {
             console.error('Error starting call:', error);
         }
-    };
-
-    const leaveSession = () => {
-        console.log('Leaving session');
-        const session = sessionRef.current;
-        if (session) {
-            if (publisher) {
-                session.unpublish(publisher);
-                if (publisher.streamManager) {
-                    const videoElements = publisher.streamManager.videos || [];
-                    videoElements.forEach(video => {
-                        if (video && video.video && video.video.parentNode && document.contains(video.video)) {
-                            try {
-                                video.video.parentNode.removeChild(video.video);
-                            } catch (error) {
-                                console.error('Error removing publisher video element:', error);
-                            }
-                        }
-                    });
-                    publisher.streamManager = null; // Avoid any further references
-                }
-            }
-            subscribers.forEach(subscriber => {
-                session.unsubscribe(subscriber);
-                if (subscriber.streamManager) {
-                    const videoElements = subscriber.streamManager.videos || [];
-                    videoElements.forEach(video => {
-                        if (video && video.video && video.video.parentNode && document.contains(video.video)) {
-                            try {
-                                video.video.parentNode.removeChild(video.video);
-                            } catch (error) {
-                                console.error('Error removing subscriber video element:', error);
-                            }
-                        }
-                    });
-                    subscriber.streamManager = null; // Avoid any further references
-                }
-            });
-            session.disconnect();
-            sessionRef.current = null;
-        }
-        setPublisher(null);
-        setSubscribers([]);
-        console.log('Session cleaned up');
     };
 
     return {
