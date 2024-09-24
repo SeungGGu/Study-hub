@@ -7,6 +7,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { IoEyeSharp } from "react-icons/io5";
 import { AddSquare } from 'iconsax-react';
+
 function MainCommunity() {
     const [boards, setBoards] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
