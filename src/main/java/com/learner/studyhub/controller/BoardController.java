@@ -9,7 +9,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -64,10 +67,21 @@ public class BoardController {
         }).collect(Collectors.toList());
     }
     @PostMapping("/{boardId}/like")
-    public ResponseEntity<Void> toggleLikeBoard(@PathVariable Integer boardId, @RequestParam String userNickname) {
-        boardService.toggleLikeBoard(boardId, userNickname);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Map<String, Object>> toggleLikeBoard(@PathVariable Integer boardId, @RequestParam String userNickname) {
+        boolean isLiked = boardService.toggleLikeBoard(boardId, userNickname);
+        Map<String, Object> response = new HashMap<>();
+        response.put("isLiked", isLiked);
+        return ResponseEntity.ok(response);
     }
+    // 사용자가 특정 게시물에 좋아요를 눌렀는지 확인
+    @GetMapping("/{boardId}/is-liked")
+    public ResponseEntity<Map<String, Object>> isBoardLikedByUser(@PathVariable Integer boardId, @RequestParam String userNickname) {
+        boolean isLiked = boardService.isBoardLikedByUser(boardId, userNickname);
+        Map<String, Object> response = new HashMap<>();
+        response.put("isLiked", isLiked);
+        return ResponseEntity.ok(response);
+    }
+
 
     @DeleteMapping("/{boardId}")
     public ResponseEntity<Void> deleteBoard(@PathVariable Integer boardId) {

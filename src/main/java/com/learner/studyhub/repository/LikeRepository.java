@@ -11,6 +11,5 @@ public interface LikeRepository extends JpaRepository<LikeEntity, Long> {
     Optional<LikeEntity> findByBoardAndUser(BoardEntity board, UserEntity user);
     long countByBoard(BoardEntity board);
     boolean existsByUserAndBoard(UserEntity user, BoardEntity board);
-
-
+    boolean existsByBoardAndUser(BoardEntity board, UserEntity user);
 }
