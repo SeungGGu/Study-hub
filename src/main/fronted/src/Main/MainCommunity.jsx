@@ -6,7 +6,7 @@ import axios from "axios";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { IoEyeSharp } from "react-icons/io5";
-
+import { AddSquare } from 'iconsax-react';
 function MainCommunity() {
     const [boards, setBoards] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
@@ -78,11 +78,9 @@ function MainCommunity() {
                                 style={{ borderRadius: "10px" }}
                             />
                             <div className="col-auto" style={{marginLeft: "20px"}}>
-                                <Button variant="secondary" onClick={() => {
+                                <AddSquare size="32" color="#D2D2D2" variant="Bold" onClick={() => {
                                     navigate('/MainBoards');
-                                }}>
-                                    글쓰기
-                                </Button>
+                                }}/>
                             </div>
                         </InputGroup>
                     </div>
