@@ -1,6 +1,9 @@
 // StudyHeader.js
 import React from 'react';
 import Container from 'react-bootstrap/Container';
+import { PiPhoneCallFill } from "react-icons/pi";
+import { BsPencilSquare } from "react-icons/bs";
+import { IoExitOutline } from "react-icons/io5";
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import '../styles/StudyHeader.css';
@@ -31,9 +34,15 @@ export const StudyHeader = ({title, currentPage, setCurrentPage, disconnect, lea
                     <Navbar.Toggle aria-controls="responsive-navbar-nav"/>
                     <Navbar.Collapse id="responsive-navbar-nav">
                         <Nav className="ms-auto nav-ms-auto">
-                            <Nav.Link onClick={handleStartCall}>통화</Nav.Link>
-                            <Nav.Link onClick={handleStartDraw}>그리기</Nav.Link>
-                            <Nav.Link href="/mainStudy" onClick={handleLeaveSession}>나가기</Nav.Link>
+                            <Nav.Link onClick={handleStartCall}>
+                                <PiPhoneCallFill size={35}/>
+                            </Nav.Link>
+                            <Nav.Link onClick={handleStartDraw}>
+                                <BsPencilSquare size={35} />
+                            </Nav.Link>
+                            <Nav.Link href="/mainStudy" onClick={handleLeaveSession}>
+                                <IoExitOutline size={35}/>
+                            </Nav.Link>
                         </Nav>
                     </Navbar.Collapse>
                 </Container>

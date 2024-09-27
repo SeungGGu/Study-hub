@@ -1,11 +1,11 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { Button, Card, Form, InputGroup, Pagination } from "react-bootstrap";
-import { fabric } from 'fabric';
+import React, {useEffect, useState, useRef} from 'react';
+import {Button, Card, Form, InputGroup, Pagination} from "react-bootstrap";
+import {fabric} from 'fabric';
 import axios from 'axios';
 import '../../styles/Canvas.css';
 import DrawCanvas from './DrawCanvas'; // DrawCanvas 컴포넌트를 임포트
 
-const Canvas = ({ id, setCurrentPage }) => {
+const Canvas = ({id, setCurrentPage}) => {
     const [canvasPage, setCanvasPage] = useState(1);
     const itemsPerPage = 6;
     const [currentGroup, setCurrentGroup] = useState(0);
@@ -112,7 +112,7 @@ const Canvas = ({ id, setCurrentPage }) => {
 
             const objectsWidth = maxX - minX;
             const objectsHeight = maxY - minY;
-            const canvasCenter = { x: fabricCanvas.getWidth() / 2, y: fabricCanvas.getHeight() / 2 };
+            const canvasCenter = {x: fabricCanvas.getWidth() / 2, y: fabricCanvas.getHeight() / 2};
 
             const scaleFactor = Math.min(fabricCanvas.getWidth() / objectsWidth, fabricCanvas.getHeight() / objectsHeight);
 
@@ -145,12 +145,12 @@ const Canvas = ({ id, setCurrentPage }) => {
 
     if (editingCanvas) {
         return <DrawCanvas id={studyId} canvasId={canvasId} canvasData={editingCanvas}
-                           setCurrentPage={setCurrentPage} />;
+                           setCurrentPage={setCurrentPage}/>;
     }
 
     return (
         <div className="Canvas">
-            <InputGroup className="mb-3 mt-3">
+            <InputGroup className="InputTextBox mb-3 mt-3">
                 <Form.Control
                     placeholder="캔버스를 검색해보세요"
                     aria-label="search"
@@ -164,14 +164,14 @@ const Canvas = ({ id, setCurrentPage }) => {
                     const imageSrc = generateImage(card.canvasData);
                     const canDelete = card.nickname === currentUserNickname; // 삭제 권한 확인
                     return (
-                        <Card key={index} style={{ width: '18rem' }}
+                        <Card key={index} style={{width: '18rem'}}
                               onMouseEnter={() => setHoveredIndex(index)}
                               onMouseLeave={() => setHoveredIndex(null)}
                               className="card-hover"
                               onClick={() => handleCardClick(card)} // 클릭 시 수정 모드로 전환
                         >
                             <div className="card-image-container">
-                                <Card.Img variant="top" src={imageSrc} />
+                                <Card.Img variant="top" src={imageSrc}/>
                                 {hoveredIndex === index && canDelete && ( // 같은 사용자만 삭제 버튼을 볼 수 있음
                                     <Button variant="danger" className="delete-button" onClick={(e) => {
                                         e.stopPropagation();
@@ -190,12 +190,12 @@ const Canvas = ({ id, setCurrentPage }) => {
             </div>
             <div className="pagination-container">
                 <Pagination>
-                    {currentGroup > 0 && <Pagination.Prev onClick={prevGroup} />}
+                    {currentGroup > 0 && <Pagination.Prev onClick={prevGroup}/>}
                     {items}
-                    {currentGroup < totalGroups - 1 && <Pagination.Next onClick={nextGroup} />}
+                    {currentGroup < totalGroups - 1 && <Pagination.Next onClick={nextGroup}/>}
                 </Pagination>
             </div>
-            <canvas ref={hiddenCanvasRef} style={{ display: 'none' }} />
+            <canvas ref={hiddenCanvasRef} style={{display: 'none'}}/>
         </div>
     );
 };

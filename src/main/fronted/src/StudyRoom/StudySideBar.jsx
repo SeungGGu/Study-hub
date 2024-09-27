@@ -13,35 +13,35 @@ export const StudySideBar = ({onChannelSelect}) => {
     ]); // 초기 채널 목록
 
     return (
-        <div className="sidebar-container">
-            <div className="title-display">
+        <div className="study-sidebar-container">
+            <div className="study-title-display">
                 {title}
             </div>
-            <hr/>
+            <hr className="study-hr"></hr>
             {/* 여기에 구분선 추가 */}
             <ul className="nav flex-column">
                 <li className="nav-title">
                     <div className="channel-header">
-                        <Link to="#" className="nav-link" onClick={() => setShowChannels(!showChannels)}>ⅴ 채널</Link>
+                        <Link to="#" className="study-nav-link" onClick={() => setShowChannels(!showChannels)}>ⅴ 채널</Link>
                         {/*<button onClick={addChannel} className="add-channel-btn">+</button>*/}
                         {/* 추가 버튼 */}
                     </div>
                 </li>
                 {showChannels && channels.map(channel => (
-                    <li className="nav-item" key={channel.name}>
-                        <Link to="#" className="nav-link" onClick={() => onChannelSelect(channel.name)}>
+                    <li className="study-nav-item" key={channel.name}>
+                        <Link to="#" className="study-nav-link" onClick={() => onChannelSelect(channel.name)}>
                             # {channel.name}
                         </Link>
                     </li>
                 ))}
                 <li>
-                    <div className="channel-header">
-                        <Link to="#" className="nav-link" onClick={() => onChannelSelect("캘린더")}>캘린더</Link>
+                    <div className="study-channel-header">
+                        <Link to="#" className="study-nav-link" onClick={() => onChannelSelect("캘린더")}>캘린더</Link>
                     </div>
                 </li>
                 <li>
-                    <div className="channel-header">
-                        <Link to="#" className="nav-link" onClick={() => onChannelSelect("캔버스")}>캔버스</Link>
+                    <div className="study-channel-header">
+                        <Link to="#" className="study-nav-link" onClick={() => onChannelSelect("캔버스")}>캔버스</Link>
                     </div>
                 </li>
             </ul>

@@ -1,6 +1,7 @@
 import { MainHeader } from "./include/MainHeader";
 import { Button, Form, InputGroup, Badge, ListGroup } from "react-bootstrap";
 import {useContext, useEffect, useState} from "react";
+import { HiPencilSquare } from "react-icons/hi2";
 import Community from "./Community";
 import axios from "axios";
 import React from "react";
@@ -81,7 +82,7 @@ function MainCommunity() {
                                 <Button variant="secondary" onClick={() => {
                                     navigate('/MainBoards');
                                 }}>
-                                    글쓰기
+                                    <HiPencilSquare size={30}/>
                                 </Button>
                             </div>
                         </InputGroup>
