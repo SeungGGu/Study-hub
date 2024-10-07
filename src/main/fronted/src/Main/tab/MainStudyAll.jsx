@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Nav, Button, Card, Col, Row, CardFooter, Modal, Form} from "react-bootstrap";
 import {useNavigate} from "react-router-dom";
 import TabHeader from "../include/TabHeader";
-import "../../styles/TabHeader.css";
+import "../../styles/MainStudyAll.css"
 import {Lock} from 'react-bootstrap-icons';
 
 function MainStudyAll({type}) {
@@ -146,15 +146,17 @@ function MainStudyAll({type}) {
 
     return (
         <div>
+            {/* TabHeader 컴포넌트 위로 여백이 없도록 설정 */}
             <TabHeader
                 onSearch={handleSearch}
                 topLikedStudies={getTopLikedStudies()}
                 onStudyClick={handleStudyClick}
                 onPasswordCheck={handlePasswordCheck}
             />
-            <div className="row mt-4" style={{margin: '30px'}}>
+            {/* 탭 스타일을 위한 custom-nav-container 추가 */}
+            <div className="row mt-4 custom-nav-container">
                 <div className="col">
-                    <Nav variant="underline" defaultActiveKey="최신순">
+                    <Nav className="sort-option" defaultActiveKey="최신순">
                         <Nav.Item className="me-3" onClick={() => handleSortOptionClick('최신순')}>
                             <Nav.Link eventKey="최신순">최신순</Nav.Link>
                         </Nav.Item>
@@ -164,7 +166,7 @@ function MainStudyAll({type}) {
                     </Nav>
                 </div>
                 <div className="col-auto">
-                    <Button variant="secondary" onClick={handleCreate}>만들기</Button>
+                    <Button variant="secondary" className="custom-nav-button" onClick={handleCreate}>만들기</Button>
                 </div>
             </div>
             <hr/>

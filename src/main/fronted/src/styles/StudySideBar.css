@@ -1,51 +1,75 @@
 /* Sidebar 전체 스타일 */
-.sidebar-container {
+.study-sidebar-container {
     height: 100vh;
     overflow-y: auto;
-    background-color: #DADADA;
+    background-color: #f5f5f5; /* 밝고 부드러운 색상으로 변경 */
     padding-left: 20px;
+    padding-right: 20px;
     text-align: left;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 효과 */
+    border-radius: 10px; /* 모서리를 둥글게 처리 */
 }
 
 /* 타이틀 디스플레이 스타일 */
-.title-display {
-    font-size: 40px;
-    color: black;
+.study-title-display {
+    font-size: 36px;
+    color: #333; /* 좀 더 어두운 색상으로 변경 */
+    font-weight: bold; /* 제목을 더 두껍게 */
+    margin-top: 20px;
 }
 
 /* 채널 헤더 스타일 */
-.channel-header {
+.study-channel-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     font-size: 20px;
+    margin-bottom: 10px; /* 아래쪽에 여백 추가 */
 }
 
 /* 네비게이션 링크 스타일 */
-.nav-link {
-    color: black; /* 링크 색상을 검은색으로 설정 */
-    text-decoration: none; /* 밑줄 없애기 */
-    flex-grow: 1; /* 링크가 가능한 모든 공간을 차지하게 함 */
+/* 네비게이션 링크 스타일 - 가로줄 전체에 배경 적용 */
+.study-nav-link {
+    display: block;
+    color: #333;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    width: 100%;
+}
+
+.study-nav-link:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+
+/* 네비게이션 아이템 간격 */
+.study-nav-item {
+    margin-left: 20px;
+    margin-bottom: 5px; /* 항목 사이에 간격 추가 */
+}
+
+/* 구분선 스타일 */
+.study-hr {
+    border: none;
+    border-top: 1px solid #ddd; /* 부드러운 구분선 */
+    margin: 10px 0; /* 상하 여백 추가 */
 }
 
 /* 추가 버튼 스타일 */
-.add-channel-btn {
-    background-color: #f0f0f0;
+.study-add-channel-btn {
+    background-color: #007bff; /* 파란색 배경 */
+    color: white; /* 흰색 텍스트 */
     border: none;
     cursor: pointer;
     padding: 5px 10px;
-    margin-left: 5px;
-    margin-right: 20px;
+    margin-left: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
 }
 
-.nav-item{
-    margin-left: 25px;
-}
-/*.nav-link:hover {
-    text-decoration: underline; /* 호버 시 밑줄 표시 */
-/*}*/
-hr {
-    border: none;  /* 기본 테두리 제거 */
-    border-top: 2px solid black;  /* 위쪽 테두리만 적용하여 구분선처럼 보이게 함 */
-    margin: 10px 0;  /* 상하 여백 추가 */
+.add-channel-btn:hover {
+    background-color: #0056b3; /* 호버 시 더 어두운 파란색 */
 }

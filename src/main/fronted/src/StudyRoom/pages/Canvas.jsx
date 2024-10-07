@@ -11,18 +11,21 @@ const Canvas = ({id, setCurrentPage}) => {
     const [currentGroup, setCurrentGroup] = useState(0);
     const pagesPerGroup = 10;
     const [canvasData, setCanvasData] = useState([]);
+    const [filteredCanvasData, setFilteredCanvasData] = useState([]); // 필터링된 데이터
     const studyId = sessionStorage.getItem('studyId');
     const hiddenCanvasRef = useRef(null);
     const [canvasId, setCanvasId] = useState(null);
     const [editingCanvas, setEditingCanvas] = useState(null); // 현재 수정 중인 캔버스 데이터
     const [hoveredIndex, setHoveredIndex] = useState(null); // hover 상태를 개별 카드에 적용하기 위한 상태
     const currentUserNickname = sessionStorage.getItem('nickname'); // 현재 사용자 닉네임 가져오기
+    const [searchQuery, setSearchQuery] = useState(""); // 검색어 상태
 
     useEffect(() => {
         const fetchCanvasData = async () => {
             try {
                 const response = await axios.get(`/api/canvas/view?studyId=${studyId}`);
                 setCanvasData(response.data);
+                setFilteredCanvasData(response.data); // 기본적으로 전체 데이터를 필터링된 데이터로 설정
             } catch (error) {
                 console.error("Failed to fetch data", error);
             }
@@ -32,13 +35,21 @@ const Canvas = ({id, setCurrentPage}) => {
         }
     }, [studyId]);
 
+    useEffect(() => {
+        // 검색어에 맞게 canvasData를 필터링
+        const filtered = canvasData.filter((canvas) =>
+            canvas.drawTitle.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+        setFilteredCanvasData(filtered);
+    }, [searchQuery, canvasData]);
+
     const indexOfLastItem = canvasPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = canvasData.slice(indexOfFirstItem, indexOfLastItem);
+    const currentItems = filteredCanvasData.slice(indexOfFirstItem, indexOfLastItem);
 
     const paginate = (pageNumber) => setCanvasPage(pageNumber);
 
-    const pageCount = Math.ceil(canvasData.length / itemsPerPage);
+    const pageCount = Math.ceil(filteredCanvasData.length / itemsPerPage);
     const totalGroups = Math.ceil(pageCount / pagesPerGroup);
     let active = canvasPage;
     let items = [];
@@ -139,15 +150,14 @@ const Canvas = ({id, setCurrentPage}) => {
 
     return (
         <div className="Canvas">
-            <InputGroup className="mb-3 mt-3">
+            <InputGroup className="InputTextBox mb-3 mt-3">
                 <Form.Control
                     placeholder="캔버스를 검색해보세요"
                     aria-label="search"
                     aria-describedby="search"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)} // 실시간 검색
                 />
-                <Button variant="outline-secondary" id="searchButton">
-                    검색
-                </Button>
             </InputGroup>
             <div className="card-grid">
                 {currentItems.map((card, index) => {

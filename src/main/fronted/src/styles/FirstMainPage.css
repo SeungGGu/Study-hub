@@ -1,16 +1,189 @@
-html, body {
-    height: 100%;
+/* 전체 페이지 설정 */
+body, html {
     margin: 0;
     padding: 0;
-    overflow: auto;
+    overflow-x: hidden;
+    background-color: #FFFFFF; /* 전체 페이지 기본 배경을 화이트로 설정 */
+    font-family: 'Roboto', sans-serif;
 }
 
 .firstMainPage {
-    overflow: auto;
-    height: 100%;
-   /* Ensure it takes full height */
+    background-color: #FFFFFF; /* 메인 페이지 배경 색상 */
+    color: #2F4156; /* 기본 텍스트 색상 Navy */
+    padding-top: 80px;
 }
 
-.container.marketing {
-    padding-bottom: 50px;  /* Add some padding at the bottom if needed */
+/* 헤더 스타일 */
+.header-nav {
+    background-color: #2F4156; /* 헤더 배경을 Navy로 설정 */
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    padding: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* 가벼운 그림자 효과 */
+}
+
+.header-nav .navbar-brand {
+    color: #FFFFFF; /* 브랜드명 색상 White */
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.nav-link {
+    color: #C8D9E6; /* 링크 색상 Sky Blue */
+    margin: 0 15px;
+}
+
+.nav-link:hover {
+    color: #FFFFFF; /* 링크 호버 시 색상 White */
+}
+
+.text-gold {
+    color: #567C8D; /* 강조 텍스트 색상 Teal */
+}
+
+/* 카드 섹션 스타일 */
+.card-container {
+    padding: 50px 0;
+    background-color: #F5EFEF; /* 카드 섹션 배경을 Beige로 설정 */
+}
+
+.study-card {
+    background: #FFFFFF; /* 카드 배경을 White로 설정 */
+    border: 1px solid #C8D9E6; /* 카드 테두리 색상 Sky Blue */
+    border-radius: 15px;
+    padding: 30px;
+    margin: 20px;
+    text-align: center;
+    color: #2F4156; /* 텍스트 색상 Navy */
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.study-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.card-img {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    margin-bottom: 20px;
+    background-color: #C8D9E6; /* 이미지 배경을 Sky Blue로 설정 */
+}
+
+.card-title {
+    font-size: 22px;
+    font-weight: bold;
+    color: #2F4156; /* 카드 제목 색상 Navy */
+}
+
+.card-description {
+    color: #567C8D; /* 카드 설명 색상 Teal */
+    margin-bottom: 20px;
+}
+
+.card-button {
+    background: #2F4156; /* 버튼 배경을 Navy로 설정 */
+    color: #FFFFFF; /* 버튼 텍스트 색상 White */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.card-button:hover {
+    background: #567C8D; /* 버튼 호버 시 배경을 Teal로 설정 */
+}
+
+/* 콘텐츠 섹션 스타일 */
+.feature-section {
+    margin: 50px 0;
+    padding: 30px;
+    background-color: #FFFFFF; /* 섹션 배경을 White로 설정 */
+    border: 1px solid #F5EFEF; /* 섹션 테두리를 연한 Beige로 설정 */
+    border-radius: 15px;
+}
+
+.feature-title {
+    font-size: 30px;
+    font-weight: bold;
+    color: #2F4156; /* 타이틀 색상 Navy */
+}
+
+.feature-description {
+    color: #567C8D; /* 설명 텍스트 색상 Teal */
+    font-size: 18px;
+}
+
+.feature-image {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* 부드러운 그림자 */
+}
+
+/* 푸터 스타일 */
+.footerScreen {
+    background-color: #2F4156; /* 푸터 배경을 Navy로 설정 */
+    color: #FFFFFF; /* 푸터 텍스트 색상 White */
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+.footerScreen h5 {
+    color: #FFFFFF; /* 푸터 제목 색상 White */
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.footerScreen ul {
+    padding: 0;
+    list-style: none;
+}
+
+.footerScreen ul li {
+    margin-bottom: 10px;
+}
+
+.footerScreen .link-secondary {
+    color: rgba(255, 255, 255, 0.7); /* 링크 색상 White의 반투명 */
+    transition: color 0.2s ease-in-out;
+}
+
+.footerScreen .link-secondary:hover {
+    color: #FFFFFF; /* 링크 호버 시 색상 White */
+}
+
+.footerScreen svg path,
+.footerScreen svg circle {
+    stroke: #FFFFFF; /* SVG 아이콘 색상 White */
+}
+
+/* 반응형 미디어 쿼리 */
+@media only screen and (max-width: 768px) {
+    .header-nav {
+        padding: 10px;
+    }
+
+    .nav-link {
+        margin: 5px 0;
+    }
+
+    .feature-title {
+        font-size: 24px;
+    }
+
+    .card-title {
+        font-size: 20px;
+    }
+
+    .feature-description {
+        font-size: 16px;
+    }
+
+    .footerScreen h5 {
+        font-size: 18px;
+    }
 }

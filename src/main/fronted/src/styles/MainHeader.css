@@ -1,6 +1,69 @@
-.nav-link {
-    color: white; /* 링크 색상을 검은색으로 설정 */
+.headerScreen {
+    margin-bottom: 80px; /* 헤더와 컨텐츠 사이의 간격 */
 }
-.nav-items {
-    color: white; /* 링크 색상을 검은색으로 설정 */
+
+/* 헤더 스타일 */
+.header-nav {
+    background-color: #2d2d2d;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000; /* 헤더가 다른 요소들 위에 표시되도록 설정 */
+    padding: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.header-nav .navbar-brand {
+    color: #daa520;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.navbar-toggler {
+    border: none;
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=UTF8,%3Csvg viewBox='0 0 16 16' fill='%23f5f5f5' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' d='M0 4h16v2H0V4zm0 5h16v2H0V9zM0 14h16v2H0v-2z'/%3E%3C/svg%3E");
+}
+
+.nav-link {
+    color: #f5f5f5;
+    margin: 0 15px;
+}
+
+.nav-link:hover {
+    color: #daa520;
+}
+
+.text-gold {
+    color: #daa520;
+}
+
+/* 버튼 스타일 */
+.btn-outline-gold {
+    border: 1px solid #567C8D; /* 테두리 색상을 Teal로 설정 */
+    color: #567C8D; /* 텍스트 색상을 Teal로 설정 */
+    background-color: transparent;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.btn-outline-gold:hover {
+    background-color: #2F4156; /* 호버 시 버튼 배경 색상을 Navy로 설정 */
+    color: #FFFFFF; /* 호버 시 텍스트 색상을 White로 설정 */
+}
+
+/* 반응형 레이아웃 */
+@media only screen and (max-width: 768px) {
+    .header-nav {
+        padding: 10px;
+    }
+
+    .nav-link {
+        margin: 5px 0;
+    }
+
+    .navbar-collapse {
+        text-align: center;
+    }
 }
