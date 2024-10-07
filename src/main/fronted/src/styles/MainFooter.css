@@ -1,0 +1,75 @@
+.footerScreen {
+    background-color: #343a40; /* 다크 배경 */
+    color: #ffffff; /* 흰색 텍스트 */
+    padding: 30px 0; /* 상하 여백 설정 */
+    width: 100%; /* 전체 화면 너비 */
+    margin: 0; /* 좌우 여백 제거 */
+}
+
+.footerScreen h5 {
+    color: #ffffff;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.footerScreen ul {
+    padding: 0;
+    list-style: none;
+}
+
+.footerScreen ul li {
+    margin-bottom: 10px;
+}
+
+.footerScreen .link-secondary {
+    color: rgba(255, 255, 255, 0.7);
+    transition: color 0.2s ease-in-out;
+}
+
+.footerScreen .link-secondary:hover {
+    color: #ffffff;
+    text-decoration: underline;
+}
+
+.footerScreen small {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.footerScreen svg {
+    fill: #ffffff;
+    margin-bottom: 15px;
+}
+
+.footerScreen svg path,
+.footerScreen svg circle {
+    stroke: #ffffff;
+}
+
+/* 반응형 레이아웃 설정 */
+@media only screen and (max-width: 768px) {
+    .footerScreen .col-12 {
+        text-align: center; /* 작은 화면에서 중앙 정렬 */
+    }
+
+    .footerScreen ul {
+        padding-left: 0; /* 좌측 여백 제거 */
+    }
+
+    .footerScreen ul li {
+        margin-bottom: 5px; /* 항목 간 간격 축소 */
+    }
+}
+
+@media only screen and (max-width: 576px) {
+    .footerScreen {
+        padding: 20px 0; /* 상하 여백 축소 */
+    }
+
+    .footerScreen h5 {
+        font-size: 18px; /* 제목 크기 축소 */
+    }
+
+    .footerScreen ul li {
+        margin-bottom: 3px; /* 항목 간 간격 더 축소 */
+    }
+}

@@ -1,0 +1,145 @@
+/* BestStudyCard 관련 스타일 */
+.BestStudyCard {
+    margin: 0 30px; /* 좌우 여백 조정 */
+}
+
+/* 카드 이미지 컨테이너 */
+.card-img-container {
+    overflow: hidden;
+    border-radius: 15px;
+}
+
+.card-img-container .responsive-img {
+    width: 100%;
+    height: auto;
+    object-fit: cover; /* 이미지 비율 유지 */
+}
+
+.responsive-img {
+    max-height: 200px; /* 이미지 최대 높이 */
+}
+
+/* 전체 탭 스타일 */
+.custom-nav {
+    display: flex; /* 플렉스 레이아웃 사용 */
+    justify-content: center; /* 중앙 정렬 */
+    padding: 0; /* 상하 패딩 제거 */
+    margin: 0 0 20px 0; /* 상단, 하단 여백 조정 */
+    border-bottom: 1px solid #D1D5DB; /* 전체 탭의 하단 경계선 */
+    gap: 20px; /* 각 항목 간의 간격 */
+}
+
+/* 기본 탭 스타일 */
+.custom-nav .nav-link {
+    color: #6b7280; /* 기본 텍스트 색상 Light Gray */
+    font-size: 1.2rem; /* 폰트 크기 */
+    font-weight: 500; /* 기본 폰트 굵기 */
+    border: none; /* 테두리 제거 */
+    background: transparent; /* 배경색 제거 */
+    padding: 8px 15px; /* 탭 패딩 */
+    position: relative; /* 밑줄을 위해 상대 위치 지정 */
+    transition: all 0.3s ease; /* 부드러운 전환 효과 */
+    border-radius: 15px; /* 둥근 모서리 추가 */
+    text-align: center;
+}
+
+/* 선택되지 않은 탭 호버 시 스타일 */
+.custom-nav .nav-link:hover {
+    color: #111827; /* 호버 시 텍스트 색상 */
+    background-color: #F0F4F8; /* 호버 시 배경색 */
+}
+
+/* 선택된 탭 스타일 */
+.custom-nav .nav-link.active {
+    color: #111827; /* 선택된 탭 텍스트 색상 (짙은 회색) */
+    font-weight: 700; /* 선택된 탭의 폰트 굵기 */
+    background-color: #E5E7EB; /* 선택된 탭 배경색 (Light Gray) */
+    border: 1px solid #D1D5DB; /* 선택된 탭의 테두리 */
+}
+
+/* 버튼 스타일 */
+.custom-nav-button {
+    color: #ffffff;
+    background-color: #3B82F6; /* 기본 배경색 Blue */
+    border: none; /* 테두리 제거 */
+    border-radius: 15px; /* 둥근 모서리 */
+    padding: 8px 20px; /* 버튼 패딩 */
+    font-size: 1.1rem; /* 버튼 폰트 크기 */
+    font-weight: 500; /* 버튼 폰트 굵기 */
+    transition: all 0.3s ease; /* 부드러운 전환 효과 */
+}
+
+/* 버튼 호버 스타일 */
+.custom-nav-button:hover {
+    background-color: #2563EB; /* 호버 시 배경색 Deep Blue */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 호버 시 그림자 */
+    transform: translateY(-2px); /* 호버 시 살짝 떠오르는 효과 */
+}
+
+/* 페이지네이션 스타일 */
+.pagination .page-item.active .page-link {
+    background-color: #3B82F6; /* 활성화된 페이지 배경색 */
+    border-color: #3B82F6; /* 테두리 색상 */
+    color: #FFFFFF; /* 텍스트 색상 */
+}
+
+/* 상단 여백 조정 */
+.row.mt-4.custom-nav-container {
+    margin-top: 10px; /* 상단 여백 조정 */
+}
+
+/* 최신순, 추천순 버튼 스타일 */
+.sort-option {
+    display: inline-flex; /* 가로 배치 */
+    gap: 10px; /* 버튼 간 간격 */
+}
+
+.sort-option .nav-link {
+    background-color: #F3F4F6; /* 기본 배경색 */
+    color: #6b7280; /* 기본 텍스트 색상 */
+    border: 1px solid #D1D5DB; /* 기본 테두리 */
+    border-radius: 15px; /* 둥근 모서리 */
+    padding: 8px 15px; /* 버튼 크기 */
+    transition: all 0.3s ease; /* 부드러운 전환 효과 */
+}
+
+.sort-option .nav-link:hover {
+    color: #111827; /* 호버 시 텍스트 색상 */
+    background-color: #E5E7EB; /* 호버 시 배경색 */
+    border-color: #3B82F6; /* 호버 시 테두리 색상 */
+}
+
+.sort-option .nav-link.active {
+    background-color: #3B82F6; /* 활성화된 버튼 배경색 */
+    color: #FFFFFF; /* 텍스트 색상 */
+    border: 1px solid #3B82F6; /* 활성화된 버튼 테두리 색상 */
+}
+
+/* 페이지네이션 스타일 */
+.pagination .page-item.active .page-link {
+    background-color: #567C8D; /* 활성화된 페이지 배경색 */
+    border-color: #567C8D; /* 테두리 색상 */
+    color: #FFFFFF; /* 텍스트 색상 */
+}
+
+/* 상단 여백 조정 */
+.row.mt-4 {
+    margin-top: 0 !important; /* 상단 여백 제거 */
+}
+
+/* 탭 간격 및 높이 조정 */
+.custom-tabs .nav-tabs {
+    border-bottom: 1px solid #C8D9E6; /* 탭 경계선 */
+    margin-top: 0;
+    padding-top: 0;
+}
+
+.custom-tabs .nav-item {
+    flex: 1; /* 균일 분배 */
+    text-align: center;
+}
+
+/* 선택되지 않은 탭 텍스트 색상 */
+.custom-tabs .nav-item .nav-link {
+    color: #495057 !important; /* 기본 텍스트 색상 Dark Gray */
+}
