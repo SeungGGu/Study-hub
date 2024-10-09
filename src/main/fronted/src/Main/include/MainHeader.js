@@ -43,7 +43,7 @@ export const MainHeader = () => {
                             {isAuthenticated ? (
                                 <>
                                     <div className="me-2 text-gold">{nickname}</div>
-                                    <button className="btn btn-outline-gold me-2" onClick={() => navigate('/profile')}>
+                                    <button className="btn btn-outline-gold me-2" onClick={() => navigate('/myPage')}>
                                         마이페이지
                                     </button>
                                     <button className="btn btn-outline-gold" onClick={handleLogout}>

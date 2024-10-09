@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -16,12 +18,11 @@ public class UserService {
 
     public String loginUser(UsersDTO usersDTO){
         UserEntity data = userRepository.findByUserId(usersDTO.getId());
-        System.out.println(data.getName());
         if (data == null || !passwordEncoder.matches(usersDTO.getPassword(), data.getPassword())) {
             return "로그인 실패";
         }
-        // If the user exists and the password matches, return success message
-        return data.getName() + "|" + data.getNickname();
+        // 이메일도 함께 반환
+        return data.getName() + "|" + data.getNickname() + "|" + data.getEmail();
     }
 
     public String registerUser(UsersDTO users) {
@@ -59,4 +60,63 @@ public class UserService {
 
         return "success";
     }
+
+
+    // 회원 정보 조회
+    public UsersDTO getUserProfile(String userId) {
+        Optional<UserEntity> userOptional = userRepository.findById(userId);
+        if (userOptional.isPresent()) {
+            UserEntity user = userOptional.get();
+            UsersDTO userDTO = new UsersDTO();
+            userDTO.setId(user.getUserId());
+            userDTO.setName(user.getName());
+            userDTO.setNickname(user.getNickname());
+            userDTO.setEmail(user.getEmail());
+            userDTO.setPhone(user.getPhone());
+            userDTO.setGender(user.getGender());
+            userDTO.setBirthDate(user.getBirthDate());
+
+            System.out.println("Retrieved user email: " + user.getEmail());
+            return userDTO;
+        }
+        return null;
+    }
+
+    // 회원 정보 수정
+    // 회원 정보 수정
+    public void updateUserProfile(String userId, UsersDTO updatedUserData) {
+        Optional<UserEntity> userOptional = userRepository.findById(userId);
+        if (userOptional.isPresent()) {
+            UserEntity user = userOptional.get();
+
+            // 필드 업데이트 확인 (email 필드 추가)
+            if (updatedUserData.getName() != null && !updatedUserData.getName().isEmpty()) {
+                user.setName(updatedUserData.getName());
+            } else {
+                throw new IllegalArgumentException("Name cannot be null or empty");
+            }
+
+            user.setNickname(updatedUserData.getNickname());
+            user.setPhone(updatedUserData.getPhone());
+            user.setGender(updatedUserData.getGender());
+            user.setBirthDate(updatedUserData.getBirthDate());
+
+            // 이메일 업데이트 추가
+            if (updatedUserData.getEmail() != null && !updatedUserData.getEmail().isEmpty()) {
+                user.setEmail(updatedUserData.getEmail());
+            }
+
+            // 비밀번호가 제공되었으면 암호화 후 저장
+            if (updatedUserData.getPassword() != null && !updatedUserData.getPassword().isEmpty()) {
+                user.setPassword(passwordEncoder.encode(updatedUserData.getPassword()));
+            }
+
+            userRepository.save(user);
+        } else {
+            throw new IllegalArgumentException("User not found with ID: " + userId);
+        }
+    }
+
+
+
 }

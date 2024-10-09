@@ -1,0 +1,481 @@
+.mypage {
+    font-family: 'Roboto', sans-serif;
+    width: 60%;
+    margin: 0 auto;
+    padding-top: 5%;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.mypage-header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.mypage-profile, .mypage-story {
+    width: 48%;
+}
+
+.mypage-profile-content, .mypage-story-content {
+    padding: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    height: auto;
+}
+
+/* 스토리 패딩 줄이기 */
+.mypage-story-content {
+    padding-top: 20px;
+    padding-bottom: 5px; /* 아래 패딩 최대한 줄임 */
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* 연속 출석 문구 */
+.mypage-streak-text {
+    color: #27ae60; /* 초록색 */
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* 잔디밭 그리드 */
+.mypage-attendance-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 각 그리드 아이템 크기 조정 */
+.mypage-grid-item {
+    width: 25px;
+    height: 25px;
+    background-color: #ebedf0;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.mypage-grid-item.mypage-active {
+    background-color: #216e39;
+}
+
+/* 활동이 중간 정도일 때 크기 줄이기 */
+.mypage-grid-item.mypage-semi-active {
+    background-color: #30a14e;
+}
+
+.mypage-grid-item.mypage-low-active {
+    background-color: #9be9a8;
+}
+
+.mypage-grid-item:hover {
+    background-color: #1b5e33;
+    transform: scale(1.1);
+}
+
+.mypage-profile-details {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.mypage-profile-img {
+    font-size: 48px;
+}
+
+.mypage-profile-info {
+    margin-left: 15px;
+    flex: 1;
+}
+
+.mypage-nickname {
+    font-weight: bold;
+    font-size: 18px;
+    text-align: left;
+}
+
+.mypage-email {
+    color: #777;
+    font-size: 14px;
+    text-align: left;
+}
+
+hr {
+    border: none;
+    border-bottom: 1px solid #e0e0e0;
+    margin: 10px 0;
+}
+
+.mypage-profile-extra p {
+    margin: 5px 0;
+    font-size: 14px;
+    text-align: left;
+}
+
+.mypage-edit-btn {
+    padding: 5px 10px;
+    background-color: #fff;
+    color: #333;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.mypage-edit-btn:hover {
+    background-color: #f0f0f0;
+}
+
+/* 내 활동 그리드 레이아웃 */
+.mypage-activity-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: auto 1fr;
+    gap: 20px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+/* 왼쪽 상단: 내 게시물 */
+.mypage-activity-posts {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+    background-color: #f9f9f9;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.mypage-activity-posts h4 {
+    margin-bottom: 10px;
+}
+
+.mypage-post-items {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.mypage-post-item {
+    background-color: #e0e0e0;
+    padding: 20px;
+    border-radius: 8px;
+    width: 150px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.mypage-post-item h5 {
+    margin-bottom: 8px;
+}
+
+/* 우측 상단: 내 뱃지 */
+.mypage-activity-badges {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+    background-color: #f9f9f9;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.mypage-activity-badges h4 {
+    margin-bottom: 10px;
+}
+
+.mypage-badge-items {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.mypage-badge-item {
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 50%;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* 하단: 막대 그래프 */
+.mypage-activity-graph {
+    grid-column: 1 / 3;
+    grid-row: 2 / 3;
+    background-color: #f9f9f9;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.mypage-bar-graph {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    height: 150px;
+    margin-top: 20px;
+}
+
+.mypage-bar {
+    width: 30px;
+    background-color: #b3b3b3;
+    border-radius: 5px;
+    text-align: center;
+    color: white;
+    padding-top: 5px;
+    font-size: 12px;
+}
+
+.mypage-bar-1 { height: 60px; }
+.mypage-bar-2 { height: 100px; }
+.mypage-bar-3 { height: 120px; }
+.mypage-bar-4 { height: 80px; }
+.mypage-bar-5 { height: 50px; }
+
+/* 기록 테이블 */
+.mypage-record-table {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.mypage-record-table table {
+    width: 100%;
+    border: 1px solid #ddd;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+.mypage-record-table th, .mypage-record-table td {
+    padding: 12px 8px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+    word-wrap: break-word;
+}
+
+.mypage-record-table th {
+    background-color: #f0f0f0;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.mypage-record-table td {
+    background-color: #fff;
+    font-size: 13px;
+}
+
+.mypage-record-table tbody tr:hover {
+    background-color: #f9f9f9;
+}
+
+/* 다시 풀기 버튼 스타일 */
+.mypage-retry-btn {
+    padding: 8px 12px;
+    background-color: #b3b3b3;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.mypage-retry-btn:hover {
+    background-color: #999;
+}
+
+/* 태그 관리 그리드 레이아웃 */
+.mypage-tag-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: auto 1fr;
+    gap: 20px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.mypage-tag-search {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    background-color: #f9f9f9;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.mypage-tag-search input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.mypage-tag-search button {
+    padding: 10px;
+    background-color: #b3b3b3;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.mypage-tag-search button:hover {
+    background-color: #999;
+}
+
+/* 내가 등록한 태그 */
+.mypage-tag-registered {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+    background-color: #f9f9f9;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.mypage-tag-registered h4 {
+    margin-bottom: 10px;
+}
+
+.mypage-tag-registered span, .mypage-tag-popular span {
+    display: inline-block;
+    padding: 8px 15px;
+    background-color: #f0f4f8;
+    border-radius: 25px;
+    font-size: 14px;
+    color: #333;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-right: 8px;
+    margin-bottom: 8px;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.mypage-tag-registered span:hover, .mypage-tag-popular span:hover {
+    background-color: #d0e4f1;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* 인기 태그 */
+.mypage-tag-popular {
+    grid-column: 2 / 3;
+    grid-row: 1 / 3;
+    background-color: #f9f9f9;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.mypage-tag-popular h4 {
+    margin-bottom: 10px;
+}
+
+/* 스터디 관리 테이블 */
+.mypage-study-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.mypage-study-table table {
+    width: 100%;
+    border: 1px solid #ddd;
+    table-layout: fixed;
+}
+
+.mypage-study-table th, .mypage-study-table td {
+    padding: 12px 8px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+    word-wrap: break-word;
+}
+
+.mypage-study-table th {
+    background-color: #f0f0f0;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.mypage-study-table td {
+    background-color: #fff;
+    font-size: 13px;
+}
+
+.mypage-study-table tbody tr:hover {
+    background-color: #f9f9f9;
+}
+
+.mypage-tag {
+    display: inline-block;
+    padding: 8px 15px;
+    background-color: #f0f4f8;
+    border-radius: 25px;
+    font-size: 14px;
+    color: #333;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-right: 8px;
+    margin-bottom: 8px;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.mypage-tag:hover {
+    background-color: #d0e4f1;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* 나가기 버튼 스타일 */
+.mypage-leave-btn {
+    padding: 8px 12px;
+    background-color: #b3b3b3;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.mypage-leave-btn:hover {
+    background-color: #999;
+}
+
+/* 탭 스타일 */
+.mypage-tabs {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.mypage-tabs button {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.mypage-tabs button.mypage-active {
+    background-color: #b3b3b3;
+    color: white;
+}
+
+.mypage-tabs button:hover {
+    background-color: #ddd;
+}
