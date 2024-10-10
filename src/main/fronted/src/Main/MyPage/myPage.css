@@ -479,3 +479,40 @@ hr {
 .mypage-tabs button:hover {
     background-color: #ddd;
 }
+
+
+
+
+
+
+
+
+
+.grass-field {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-gap: 5px;
+}
+
+.grass-item {
+    width: 20px;
+    height: 20px;
+    background-color: gray;
+}
+
+.grass-item.dark-green {
+    background-color: #006400;
+}
+
+.grass-item.green {
+    background-color: #32CD32;
+}
+
+.grass-item.light-green {
+    background-color: #90EE90;
+}
+
+.grass-item.gray {
+    background-color: #d3d3d3;
+}
+

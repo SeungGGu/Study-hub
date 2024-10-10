@@ -1,8 +1,10 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import './myPage.css';
-import {MainHeader} from "../include/MainHeader";
-import {useNavigate} from "react-router-dom"
+import { MainHeader } from "../include/MainHeader";
+import { useNavigate } from "react-router-dom";
 import { UserContext } from '../../context/UserContext';
+import StorySection from "./components/StroySection";
+
 
 const MyPage = () => {
     const [activeTab, setActiveTab] = useState('activity');
@@ -19,9 +21,7 @@ const MyPage = () => {
         navigate('/editProfile'); // editProfile 페이지로 이동
     };
 
-
     const renderContent = () => {
-
         switch (activeTab) {
             case 'activity':
                 return (
@@ -84,7 +84,6 @@ const MyPage = () => {
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {/* 5개의 임시 데이터 */}
                                 <tr>
                                     <td>스터디 A</td>
                                     <td>Multiple Choice</td>
@@ -242,26 +241,12 @@ const MyPage = () => {
                         </div>
                     </div>
                 </div>
+
+                {/* StorySection을 렌더링 */}
                 <div className="mypage-story">
                     <h3>내 스토리</h3>
                     <div className="mypage-story-content">
-                        <p className="mypage-streak-text">5일 연속 출석 중!!</p>
-                        <div className="mypage-attendance-grid">
-                            {[...Array(35)].map((_, index) => {
-                                let activityClass = '';
-                                if (index < 5) activityClass = 'mypage-active';
-                                else if (index < 10) activityClass = 'mypage-semi-active';
-                                else if (index < 15) activityClass = 'mypage-low-active';
-                                else activityClass = '';
-
-                                return (
-                                    <div
-                                        className={`mypage-grid-item ${activityClass}`}
-                                        key={index}
-                                    ></div>
-                                );
-                            })}
-                        </div>
+                        <StorySection /> {/* 스토리 섹션을 컴포넌트로 추가 */}
                     </div>
                 </div>
             </div>
@@ -287,4 +272,3 @@ const MyPage = () => {
 };
 
 export default MyPage;
-

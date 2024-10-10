@@ -17,8 +17,22 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/loginProc")
-    public Object loginUser(@RequestBody UsersDTO usersDTO){
-        return userService.loginUser(usersDTO);
+    public ResponseEntity<String> loginUser(@RequestBody UsersDTO usersDTO) {
+        try {
+            // 로그인 처리 및 사용자 정보 반환
+            String loginResult = userService.loginUser(usersDTO);
+
+            if (loginResult.equals("로그인 실패")) {
+                return ResponseEntity.status(401).body("로그인 실패");
+            }
+
+            // 로그인 성공 시 사용자 정보를 반환
+            return ResponseEntity.ok(loginResult);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("로그인 중 오류가 발생했습니다.");
+        }
     }
 
 

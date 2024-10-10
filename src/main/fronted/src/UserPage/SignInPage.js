@@ -27,20 +27,18 @@ function SignInPage() {
                 if (response.data === "로그인 실패") {
                     alert("아이디 또는 비밀번호가 올바르지 않습니다.");
                 } else {
-                    // 응답에서 이메일도 함께 분리
                     const [name, nickname, email] = response.data.split('|');
                     const userData = {
                         id: credentials.id,
                         name,
                         nickname,
-                        email, // 이메일 추가
+                        email,  // 로그인 시 이메일 추가
                     };
 
-                    // sessionStorage에 저장
                     sessionStorage.setItem('userId', credentials.id);
                     sessionStorage.setItem('name', name);
                     sessionStorage.setItem('nickname', nickname);
-                    sessionStorage.setItem('email', email); // 이메일도 저장
+                    sessionStorage.setItem('email', email);  // 이메일 세션 저장
 
                     // UserContext를 통해 로그인된 유저 정보 업데이트
                     updateUser(userData);
