@@ -6,14 +6,7 @@ import com.learner.studyhub.service.StudyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -35,7 +28,7 @@ public class StudyController {
 
     @PostMapping("/upload")
     public ResponseEntity<String> uploadFile(@RequestParam("image") MultipartFile file) {
-        String uploadDir = "C:\\inWorkSpace\\Study-hub\\src\\main\\fronted\\public\\images";
+        String uploadDir = "C:\\spring\\study\\Study_hub\\src\\main\\fronted\\public\\images";
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
             String currentTimeStamp = dateFormat.format(new Date());
@@ -100,6 +93,16 @@ public class StudyController {
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+    @DeleteMapping("/{studyId}")
+    public ResponseEntity<Void> deleteStudy(@PathVariable int studyId) {
+        try {
+            studyService.deleteStudy(studyId);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

@@ -7,6 +7,7 @@ import com.learner.studyhub.users.entity.UserEntity;
 import com.learner.studyhub.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -75,4 +76,9 @@ public class StudyService {
 
         return study;
     }
+    @Transactional
+    public void deleteStudy(int studyId) {
+        studyRepository.deleteById(studyId); // studyId를 이용해 스터디 삭제
+    }
+
 }

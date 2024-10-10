@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { UserContext } from '../../context/UserContext';
 import StorySection from "./components/StroySection";
 import RecordSection from "./components/RecordSection";
+import StudyManagement from "./components/StudyManagement";
 
 
 const MyPage = () => {
@@ -83,7 +84,8 @@ const MyPage = () => {
                 );
             case 'activity':
                 return (
-                    <div className="mypage-content mypage-activity-content">
+                    <div className="mypage-content">
+                        <StudyManagement />
                     </div>
                 );
             case 'record':
