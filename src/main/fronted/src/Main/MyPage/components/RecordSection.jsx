@@ -1,30 +1,55 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import axios from 'axios'; // Axios로 API 호출
 import '../myPage.css';
+import { useNavigate } from 'react-router-dom';
+import { UserContext } from '../../../context/UserContext'; // 사용자 정보를 위한 컨텍스트 추가
 
 function RecordSection() {
     // 탭 상태를 관리하기 위한 state 추가
     const [activeTab, setActiveTab] = useState('board');
+    const [boardData, setBoardData] = useState([]);
+    const [commentData, setCommentData] = useState([]); // 댓글 데이터
+    const { user } = useContext(UserContext); // 로그인한 사용자 정보 가져오기
+    const navigate = useNavigate();  // useNavigate 훅 사용
 
-    // 게시글 데이터 (임시)
-    const [boardData, setBoardData] = useState([
-        // 여기에 더 많은 데이터를 추가하면 페이지당 20개씩 보여줄 수 있음.
-        { boardId: 1, boardCategory: 'test1', boardTitle: '제목칸', boardDetail: '설명란입니다', boardView: 1 },
-        { boardId: 2, boardCategory: 'test2', boardTitle: 'Test Title입니다', boardDetail: 'test 설명란입니다.', boardView: 0 },
-        { boardId: 3, boardCategory: 'test3', boardTitle: 'boardTest입니다', boardDetail: 'test로 적어봤습니다.', boardView: 0 },
-        { boardId: 4, boardCategory: 'test4', boardTitle: 'boardTest입니다', boardDetail: 'test로 적어봤습니다.', boardView: 0 },
-        // 총 데이터가 40개를 넘도록 임시 데이터 추가
-        // 필요한 만큼 데이터를 추가하세요.
-    ]);
-
-    // 댓글 데이터 (임시)
-    const [commentData, setCommentData] = useState([
-        { commentId: 1, boardTitle: 'Test Title입니다', commentText: 'ㅇㅇㅇ', createdDate: '2024-10-07 19:45:58'},
-        { commentId: 2, boardTitle: 'Test Title입니다', commentText: 'test로 댓글을 달아봤습니다', createdDate: '2024-10-10 13:35:18' }
-    ]);
-
-    // 현재 페이지 상태
+    // 페이지 네비게이션 관련 상태
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 20;
+
+
+    // 날짜 포맷을 사람이 보기 쉽게 변환하는 함수
+    const formatDate = (dateString) => {
+        const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' };
+        return new Date(dateString).toLocaleString('ko-KR', options); // 한국식 날짜 및 시간 포맷
+    };
+
+    // 게시글 데이터 가져오는 함수
+    const fetchUserBoards = async () => {
+        try {
+            const response = await axios.get(`/api/boards?userNickname=${user.nickname}`);
+            setBoardData(response.data);
+        } catch (error) {
+            console.error('Error fetching user boards:', error);
+        }
+    };
+
+    // 댓글 데이터 가져오는 함수
+    const fetchUserComments = async () => {
+        try {
+            const response = await axios.get(`/api/comments/user/${user.nickname}`);
+            setCommentData(response.data);
+        } catch (error) {
+            console.error('Error fetching user comments:', error);
+        }
+    };
+
+    useEffect(() => {
+        // 사용자가 로그인한 상태일 때 게시글과 댓글 데이터를 불러옴
+        if (user && user.nickname) {
+            fetchUserBoards();
+            fetchUserComments();
+        }
+    }, [user]);
 
     // 페이지에 맞는 게시글 데이터 가져오기
     const indexOfLastItem = currentPage * itemsPerPage;
@@ -37,11 +62,52 @@ function RecordSection() {
     // 페이지 변경 함수
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-    // 페이지 번호 생성 (예: 1, 2, 3 ...)
+    // 페이지 번호 생성
     const pageNumbers = [];
-    for (let i = 1; i <= Math.ceil(boardData.length / itemsPerPage); i++) {
+    for (let i = 1; i <= Math.ceil(activeTab === 'board' ? boardData.length / itemsPerPage : commentData.length / itemsPerPage); i++) {
         pageNumbers.push(i);
     }
+
+    // 삭제 버튼 클릭 시 실행되는 함수
+    const handleDeleteComment = async (commentId) => {
+        const userConfirmed = window.confirm("정말 삭제 하겠습니까?");
+
+        if (userConfirmed) { // 사용자가 확인을 눌렀을 때만 삭제 진행
+            try {
+                await axios.delete(`/api/comments/${commentId}`); // 댓글 삭제 API 호출
+                setCommentData(commentData.filter(comment => comment.commentId !== commentId)); // 삭제 후 화면에서 제거
+                console.log('댓글이 성공적으로 삭제되었습니다.');
+            } catch (error) {
+                console.error('댓글 삭제 중 오류 발생:', error);
+            }
+        }
+    };
+
+    // 확인 버튼 클릭 시 게시글로 이동하는 함수
+    const handleViewPost = (boardId) => {
+        navigate(`/boards/${boardId}`); // 해당 게시물로 이동
+    };
+
+
+    // 게시글 삭제 버튼 클릭 시 실행되는 함수
+    const handleDeleteBoard = async (boardId) => {
+        const userConfirmed = window.confirm("정말 삭제 하겠습니까?");
+
+        if (userConfirmed) { // 사용자가 확인을 눌렀을 때만 삭제 진행
+            try {
+                await axios.delete(`/api/boards/${boardId}`); // 게시글 삭제 API 호출
+                setBoardData(boardData.filter(board => board.boardId !== boardId)); // 삭제 후 화면에서 제거
+                console.log('게시글이 성공적으로 삭제되었습니다.');
+            } catch (error) {
+                console.error('게시글 삭제 중 오류 발생:', error);
+            }
+        }
+    };
+
+    // 게시글 조회 버튼 클릭 시 게시글 상세 페이지로 이동하는 함수
+    const handleViewBoard = (boardId) => {
+        navigate(`/boards/${boardId}`); // 해당 게시물로 이동
+    };
 
     return (
         <div className="record-section">
@@ -68,20 +134,38 @@ function RecordSection() {
                         <thead>
                         <tr>
                             <th>#</th>
-                            <th>카테고리</th>
                             <th>제목</th>
+                            <th>카테고리</th>
                             <th>설명</th>
                             <th>조회수</th>
+                            <th>조회하기</th>
+                            <th>삭제하기</th>
                         </tr>
                         </thead>
                         <tbody>
                         {currentBoardData.map((board, index) => (
                             <tr key={board.boardId}>
                                 <td>{index + 1 + (currentPage - 1) * itemsPerPage}</td>
-                                <td><span className="mypage-tag">{board.boardCategory}</span></td>
                                 <td>{board.boardTitle}</td>
+                                <td><span className="mypage-tag">{board.boardCategory}</span></td>
                                 <td>{board.boardDetail}</td>
                                 <td>{board.boardView}</td>
+                                <td>
+                                    <button
+                                        className="view-board-btn"
+                                        onClick={() => handleViewBoard(board.boardId)} // 게시물로 이동
+                                    >
+                                        🔍 조회
+                                    </button>
+                                </td>
+                                <td>
+                                    <button
+                                        className="delete-btn"
+                                        onClick={() => handleDeleteBoard(board.boardId)} // 게시물 삭제
+                                    >
+                                        ❌ 삭제
+                                    </button>
+                                </td>
                             </tr>
                         ))}
                         </tbody>
@@ -107,7 +191,7 @@ function RecordSection() {
                 <>
                     <h3>내 댓글</h3>
                     <table className="comment-table">
-                        <thead>
+                    <thead>
                         <tr>
                             <th>#</th>
                             <th>게시글 제목</th>
@@ -118,14 +202,29 @@ function RecordSection() {
                         </tr>
                         </thead>
                         <tbody>
-                        {currentCommentData.map((comment, index) => (
+                        {commentData.map((comment, index) => (
                             <tr key={comment.commentId}>
-                                <td>{index + 1 + (currentPage - 1) * itemsPerPage}</td>
+                                <td>{index + 1}</td>
                                 <td>{comment.boardTitle}</td>
                                 <td>{comment.commentText}</td>
-                                <td>{comment.createdDate}</td>
-                                <td>🔴</td>
-                                <td>❌</td>
+                                <td>{formatDate(comment.createdDate)}</td>
+                                {/* 날짜를 포맷팅해서 표시 */}
+                                <td>
+                                    <button
+                                        className="view-post-btn"
+                                        onClick={() => handleViewPost(comment.boardId)} // 게시물로 이동
+                                    >
+                                        🔍 조회
+                                    </button>
+                                </td>
+                                <td>
+                                    <button
+                                        className="delete-btn"
+                                        onClick={() => handleDeleteComment(comment.commentId)}
+                                    >
+                                        ❌ 삭제
+                                    </button>
+                                </td>
                             </tr>
                         ))}
                         </tbody>

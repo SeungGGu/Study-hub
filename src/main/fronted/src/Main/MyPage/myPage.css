@@ -214,9 +214,13 @@ hr {
 .record-section {
     padding: 40px;
     font-family: 'Arial', sans-serif;
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
     width: 100%;
+    background-color: #f9f9f9;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    padding: 20px;
 }
 
 /* 탭 스타일 */
@@ -227,13 +231,13 @@ hr {
 }
 
 .record-tab {
-    padding: 10px 20px;
-    border-radius: 50px;
-    background-color: #ddd;
+    padding: 12px 24px;
+    border-radius: 30px;
+    background-color: #eee;
     cursor: pointer;
-    transition: background-color 0.3s, color 0.3s;
+    transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
     font-weight: bold;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     border: none;
     text-align: center;
     width: 200px;
@@ -242,80 +246,85 @@ hr {
 .record-tab.active {
     background-color: #4caf50;
     color: white;
-    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .record-tab:hover {
-    background-color: #45a049;
+    background-color: #3a9d47;
     color: white;
+    box-shadow: 0px 5px 12px rgba(0, 0, 0, 0.15);
 }
 
 /* 게시글 테이블 */
-.board-table {
+.board-table, .comment-table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 30px;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
 }
 
-.board-table th, .board-table td {
-    border: 1px solid #e0e0e0;
-    padding: 15px;
-    font-size: 1em;
-}
-
-.board-table th {
-    background-color: #f5f5f5;
-    text-align: left;
-    font-weight: bold;
-    color: #444;
-}
-
-.board-table td {
-    text-align: left;
-    color: #666;
-}
-
-.board-table tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-.board-table tr:hover {
-    background-color: #f1f1f1;
-    transition: background-color 0.3s;
-}
-
-/* 댓글 테이블 */
-.comment-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 30px;
-}
-
+.board-table th, .board-table td,
 .comment-table th, .comment-table td {
-    border: 1px solid #e0e0e0;
-    padding: 15px;
+    padding: 16px;
+    text-align: left;
     font-size: 1em;
 }
 
-.comment-table th {
-    background-color: #f5f5f5;
+.board-table th, .comment-table th {
+    background-color: #fafafa;
     text-align: left;
     font-weight: bold;
     color: #444;
 }
 
-.comment-table td {
-    text-align: left;
-    color: #666;
+.board-table td, .comment-table td {
+    color: #555;
 }
 
+.board-table tr:nth-child(even),
 .comment-table tr:nth-child(even) {
-    background-color: #f9f9f9;
+    background-color: #f7f7f7;
 }
 
+.board-table tr:hover,
 .comment-table tr:hover {
-    background-color: #f1f1f1;
+    background-color: #e9f5e9;
     transition: background-color 0.3s;
+}
+
+/* 버튼 스타일 */
+button {
+    padding: 8px 16px;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 6px;
+    border: none;
+    transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+}
+
+.view-board-btn, .view-post-btn {
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+}
+
+.view-board-btn:hover, .view-post-btn:hover {
+    background-color: #0056b3;
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+.delete-btn {
+    background-color: #ff4444;
+    color: white;
+    border-radius: 5px;
+}
+
+.delete-btn:hover {
+    background-color: #cc0000;
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* 페이지네이션 스타일 */
@@ -326,23 +335,26 @@ hr {
 }
 
 .pagination button {
-    background-color: #ddd;
+    background-color: #eee;
     border: none;
-    padding: 10px 15px;
+    padding: 12px 20px;
     margin: 0 5px;
-    border-radius: 5px;
+    border-radius: 50%;
     cursor: pointer;
-    transition: background-color 0.3s;
+    font-weight: bold;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 .pagination button:hover {
-    background-color: #ccc;
+    background-color: #ddd;
 }
 
 .pagination button.active {
     background-color: #4caf50;
     color: white;
     font-weight: bold;
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.2);
 }
+
 
 
