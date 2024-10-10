@@ -1,6 +1,6 @@
 import React, { useEffect, useContext } from 'react';
 import axios from 'axios';
-import { UserContext } from './UserContext';  // 사용자 정보를 가져오는 컨텍스트
+import { UserContext } from './UserContext';
 
 const TimeTracker = ({ children }) => {
     const { user } = useContext(UserContext);  // 로그인한 사용자 정보
@@ -11,7 +11,7 @@ const TimeTracker = ({ children }) => {
             try {
                 if (user && user.id) {
                     await axios.put(`/api/user/activity/update-duration/${user.id}`, {
-                        duration: 1  // 1분 추가
+                        duration: 1
                     });
                     console.log("1분 누적되었습니다.");
                 }
