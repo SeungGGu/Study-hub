@@ -154,7 +154,7 @@ public boolean toggleLikeBoard(Integer boardId, String userNickname) {
         if (boardOptional.isPresent() && userOptional.isPresent()) {
             BoardEntity board = boardOptional.get();
             UserEntity user = userOptional.get();
-            return likeRepository.existsByBoardAndUser(board, user);
+            return likeRepository.existsLikeEntityByBoardAndUser(board, user);
         } else {
             throw new IllegalArgumentException("Invalid boardId or userNickname");
         }
