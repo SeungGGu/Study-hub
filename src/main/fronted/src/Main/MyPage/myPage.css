@@ -1,0 +1,425 @@
+.mypage {
+    width: 80%; /* 전체 페이지 가로 너비를 100%로 설정 */
+    max-width: 1600px; /* 최대 1600px까지 확장 */
+    margin: 0 auto; /* 중앙 정렬 */
+    padding: 40px 20px;
+    font-family: 'Arial', sans-serif;
+
+}
+
+.mypage-header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+/* ----------------------------------프로필 영역 --------------------------------------*/
+.mypage-profile, .mypage-story {
+    width: 48%;
+}
+
+.mypage-profile-content, .mypage-story-content {
+    padding: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    height: auto;
+}
+
+/* 스토리 패딩 줄이기 */
+.mypage-story-content {
+    padding-top: 20px;
+    padding-bottom: 5px; /* 아래 패딩 최대한 줄임 */
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.mypage-profile-details {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.mypage-profile-img {
+    font-size: 48px;
+}
+
+.mypage-profile-info {
+    margin-left: 15px;
+    flex: 1;
+}
+
+.mypage-nickname {
+    font-weight: bold;
+    font-size: 18px;
+    text-align: left;
+}
+
+.mypage-email {
+    color: #777;
+    font-size: 14px;
+    text-align: left;
+}
+
+hr {
+    border: none;
+    border-bottom: 1px solid #e0e0e0;
+    margin: 10px 0;
+}
+
+.mypage-profile-extra p {
+    margin: 5px 0;
+    font-size: 14px;
+    text-align: left;
+}
+
+.mypage-edit-btn {
+    padding: 5px 10px;
+    background-color: #fff;
+    color: #333;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.mypage-edit-btn:hover {
+    background-color: #f0f0f0;
+}
+
+/* 내 활동 그리드 레이아웃 */
+.mypage-activity-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: auto 1fr;
+    gap: 20px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+
+
+/*--------------------------- 스터디 관리 테이블 ------------------------- */
+.mypage-study-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.mypage-study-table table {
+    width: 100%;
+    border: 1px solid #ddd;
+    table-layout: fixed;
+}
+
+.mypage-study-table th, .mypage-study-table td {
+    padding: 12px 8px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+    word-wrap: break-word;
+}
+
+.mypage-study-table th {
+    background-color: #f0f0f0;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.mypage-study-table td {
+    background-color: #fff;
+    font-size: 13px;
+}
+
+.mypage-study-table tbody tr:hover {
+    background-color: #f9f9f9;
+}
+
+.mypage-tag {
+    display: inline-block;
+    padding: 8px 15px;
+    background-color: #f0f4f8;
+    border-radius: 25px;
+    font-size: 14px;
+    color: #333;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-right: 8px;
+    margin-bottom: 8px;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.mypage-tag:hover {
+    background-color: #d0e4f1;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* 나가기 버튼 스타일 */
+.mypage-leave-btn {
+    padding: 8px 12px;
+    background-color: #b3b3b3;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.mypage-leave-btn:hover {
+    background-color: #999;
+}
+
+ /* ------------------------탭 스타일 -------------------------------------------*/
+.mypage-tabs {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.mypage-tabs button {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.mypage-tabs button.mypage-active {
+    background-color: #b3b3b3;
+    color: white;
+}
+
+.mypage-tabs button:hover {
+    background-color: #ddd;
+}
+
+
+
+
+
+
+
+
+/*--------------<RecordSection.css>--------------------*/
+
+/* 전체 레이아웃 */
+.record-section {
+    padding: 40px;
+    font-family: 'Arial', sans-serif;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+    background-color: #f9f9f9;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    padding: 20px;
+}
+
+/* 탭 스타일 */
+.record-tabs {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.record-tab {
+    padding: 12px 24px;
+    border-radius: 30px;
+    background-color: #eee;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+    font-weight: bold;
+    font-size: 1.2rem;
+    border: none;
+    text-align: center;
+    width: 200px;
+}
+
+.record-tab.active {
+    background-color: #4caf50;
+    color: white;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.record-tab:hover {
+    background-color: #3a9d47;
+    color: white;
+    box-shadow: 0px 5px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* 게시글 테이블 */
+.board-table, .comment-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 30px;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.board-table th, .board-table td,
+.comment-table th, .comment-table td {
+    padding: 16px;
+    text-align: left;
+    font-size: 1em;
+}
+
+.board-table th, .comment-table th {
+    background-color: #fafafa;
+    text-align: left;
+    font-weight: bold;
+    color: #444;
+}
+
+.board-table td, .comment-table td {
+    color: #555;
+}
+
+.board-table tr:nth-child(even),
+.comment-table tr:nth-child(even) {
+    background-color: #f7f7f7;
+}
+
+.board-table tr:hover,
+.comment-table tr:hover {
+    background-color: #e9f5e9;
+    transition: background-color 0.3s;
+}
+
+/* 버튼 스타일 */
+button {
+    padding: 8px 16px;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 6px;
+    border: none;
+    transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+}
+
+.view-board-btn, .view-post-btn {
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+}
+
+.view-board-btn:hover, .view-post-btn:hover {
+    background-color: #0056b3;
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+.delete-btn {
+    background-color: #ff4444;
+    color: white;
+    border-radius: 5px;
+}
+
+.delete-btn:hover {
+    background-color: #cc0000;
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 페이지네이션 스타일 */
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination button {
+    background-color: #eee;
+    border: none;
+    padding: 12px 20px;
+    margin: 0 5px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.pagination button:hover {
+    background-color: #ddd;
+}
+
+.pagination button.active {
+    background-color: #4caf50;
+    color: white;
+    font-weight: bold;
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.2);
+}
+
+
+
+/* -------------------- 내 스터디 관리---------------------------*/
+/* StudyManagement 페이지 스타일 */
+
+.study-management {
+    padding: 40px;
+    font-family: 'Arial', sans-serif;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.study-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 30px;
+}
+
+.study-table th, .study-table td {
+    border: 1px solid #e0e0e0;
+    padding: 15px;
+    font-size: 1em;
+}
+
+.study-table th {
+    background-color: #f5f5f5;
+    text-align: left;
+    font-weight: bold;
+    color: #444;
+}
+
+.study-table td {
+    text-align: left;
+    color: #666;
+}
+
+.study-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.study-table tr:hover {
+    background-color: #f1f1f1;
+    transition: background-color 0.3s;
+}
+
+.view-study-btn, .delete-study-btn {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1em;
+    padding: 5px 10px;
+    color: #555;
+    transition: color 0.3s, background-color 0.3s;
+}
+
+.view-study-btn:hover {
+    color: #007BFF;
+}
+
+.delete-study-btn:hover {
+    color: #FF0000;
+}
+
+button:focus {
+    outline: none;
+}

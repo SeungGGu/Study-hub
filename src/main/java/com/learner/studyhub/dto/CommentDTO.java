@@ -13,5 +13,6 @@ public class CommentDTO {
     private String userNickname;
     private String commentText;
     private Date createdDate;
+    private String boardTitle;
 }
 

@@ -1,5 +1,6 @@
 package com.learner.studyhub.users.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.learner.studyhub.entity.BoardEntity;
 import com.learner.studyhub.entity.StudyEntity;
 import jakarta.persistence.*;
@@ -52,4 +53,9 @@ public class UserEntity {
         inverseJoinColumns = @JoinColumn(name = "study_id")
     )
     private Set<StudyEntity> likedStudies = new HashSet<>();
+
+    // UserActivity와의 관계 (순환 참조 방지)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private Set<UserActivity> activities = new HashSet<>();
 }

@@ -10,6 +10,8 @@ import Register from "../UserPage/SignUpPage";
 import MainBoards from "./tab/MainBoards";
 import MainStudyCreate from "./MainStudyCreate";
 import BoardDetail from "./tab/BoardDetail";
+import MyPage from "./MyPage/MyPage";
+import EditProfile from "../UserPage/EditProfile";
 
 const Router = () => {
     return (
@@ -25,6 +27,8 @@ const Router = () => {
             <Route path="/MainBoards" element={<MainBoards/>}/>
             <Route path="/register" element={<Register/>}/>
             <Route path="/studyCreate" element={<MainStudyCreate/>}/>
+            <Route path="/myPage" element={<MyPage/>}/>
+            <Route path="/editProfile" element={<EditProfile/>}/>
 
             <Route path='/*' element={ //*이란? 지정된 페이지 이외의 모든것들을 에러처리
                 <>

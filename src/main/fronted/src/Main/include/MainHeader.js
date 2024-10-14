@@ -1,17 +1,18 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import '../../styles/MainHeader.css';
+import { UserContext } from '../../context/UserContext';  // 사용자 정보를 가져오기 위한 컨텍스트
 
 export const MainHeader = () => {
-    const nickname = sessionStorage.getItem('nickname');
-    const isAuthenticated = sessionStorage.getItem('userId') !== null;
+    const { user, updateUser } = useContext(UserContext);  // 유저 정보를 가져옴
+    const nickname = user?.nickname;  // user가 null일 경우를 방지
+    const isAuthenticated = user && user.email;  // 유저 이메일로 로그인 여부 확인
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        sessionStorage.removeItem('userId');
-        sessionStorage.removeItem('nickname');
-        sessionStorage.removeItem('name');
-        navigate('/');
+        sessionStorage.removeItem('user');  // 모든 사용자 정보를 세션에서 제거
+        updateUser(null);  // Context 내의 유저 정보도 비움
+        navigate('/');  // 메인 화면으로 이동
     };
 
     return (
@@ -43,7 +44,7 @@ export const MainHeader = () => {
                             {isAuthenticated ? (
                                 <>
                                     <div className="me-2 text-gold">{nickname}</div>
-                                    <button className="btn btn-outline-gold me-2" onClick={() => navigate('/profile')}>
+                                    <button className="btn btn-outline-gold me-2" onClick={() => navigate('/myPage')}>
                                         마이페이지
                                     </button>
                                     <button className="btn btn-outline-gold" onClick={handleLogout}>
@@ -66,4 +67,4 @@ export const MainHeader = () => {
             </nav>
         </div>
     );
-}
+};
