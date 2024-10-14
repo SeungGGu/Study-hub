@@ -40,4 +40,11 @@ public class CommentController {
         commentService.deleteComment(commentId);
         return ResponseEntity.noContent().build();
     }
+
+
+    @GetMapping("/user/{userNickname}")
+    public ResponseEntity<List<CommentDTO>> getCommentsByUserNickname(@PathVariable String userNickname) {
+        List<CommentDTO> comments = commentService.getCommentsByUserNickname(userNickname);
+        return ResponseEntity.ok(comments);
+    }
 }

@@ -11,6 +11,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.List;
@@ -73,15 +74,18 @@ public class BoardService {
 
     @Transactional
     public void deleteBoard(Integer boardId) {
-        Optional<BoardEntity> boardOptional = boardRepository.findById(boardId);
-        if (boardOptional.isPresent()) {
-            BoardEntity board = boardOptional.get();
-            boardRepository.deleteById(boardId); // 게시물 삭제
+        try {
+            boardRepository.deleteById(boardId); // 게시글과 연관된 모든 데이터 삭제
             logger.info("Deleted board with ID: {}", boardId);
-        } else {
+        } catch (EmptyResultDataAccessException e) {
+            logger.error("Board with ID {} not found.", boardId);
             throw new IllegalArgumentException("Board with ID " + boardId + " not found.");
+        } catch (Exception e) {
+            logger.error("Error deleting board with ID {}: {}", boardId, e.getMessage());
+            throw new RuntimeException("Error occurred while deleting board.");
         }
     }
+
     // 게시물 업데이트 메서드 추가
     @Transactional
     public BoardDTO updateBoard(Integer boardId, BoardDTO boardDTO) {

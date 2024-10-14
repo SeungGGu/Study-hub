@@ -34,7 +34,12 @@ public class BoardEntity {
 
     @Column(nullable = false)
     private int boardGreat;
+
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CommentEntity> comments;
+
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<LikeEntity> likes;
+
 
 }
