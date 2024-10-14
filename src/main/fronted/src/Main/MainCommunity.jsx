@@ -66,7 +66,7 @@ function MainCommunity() {
     };
 
     return (
-        <div className="MainCommunity" style={{ paddingTop: "56px", marginLeft: "150px", marginRight: '150px' }}>
+        <div className="MainCommunity" style={{ paddingTop: "30px", marginLeft: "150px", marginRight: '150px' }}>
             <MainHeader />
             <div className="row g-5">
                 <div className="col-md-8">
@@ -79,10 +79,7 @@ function MainCommunity() {
                                 style={{ borderRadius: "10px" }}
                             />
                             <div className="col-auto" style={{ marginLeft: "20px" }}>
-                                <Button onClick={() => navigate('/MainBoards')}>
-                                    <AddSquare size="32" color="#D2D2D2" variant="Bold" />
-                                    <HiPencilSquare size={30} />
-                                </Button>
+                                    <HiPencilSquare onClick={() => navigate('/MainBoards')} size={30} />
                             </div>
                         </InputGroup>
                     </div>
