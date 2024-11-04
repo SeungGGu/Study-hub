@@ -1,14 +1,15 @@
-/* SignUpPage.css */
+/* SignInPage.css */
 
-.signup-background {
+.signin-background {
     display: flex;
     align-items: center;
     justify-content: center;
     min-height: 100vh;
     background: linear-gradient(135deg, #2F4156, #7D6D57);
+    color: #333;
+    position: relative;
     padding: 20px;
     box-sizing: border-box;
-    position: relative;
 }
 
 .back-button {
@@ -18,36 +19,50 @@
     cursor: pointer;
 }
 
-.signup-card {
+.signin-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
-    max-width: 500px;
+    max-width: 100%;
+}
+
+.signin-card {
+    width: 100%;
+    max-width: 400px;
     padding: 2rem;
     background-color: #ffffff;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     text-align: center;
+    transition: transform 0.3s ease;
 }
 
-.signup-header {
+.signin-card:hover {
+    transform: translateY(-5px);
+}
+
+.signin-header {
     font-size: 2rem;
     color: #2F4156;
     margin-bottom: 1.5rem;
     font-weight: bold;
+    letter-spacing: 1px;
 }
 
-.signup-form {
+.signin-form {
     display: flex;
     flex-direction: column;
     gap: 1.2rem;
 }
 
-.signup-form label {
+.signin-form label {
     text-align: left;
     font-weight: 500;
     color: #3D4856;
 }
 
-.signup-form input {
+.signin-form input {
     padding: 0.8rem;
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -57,43 +72,12 @@
     transition: border-color 0.3s;
 }
 
-.signup-form input:focus {
+.signin-form input:focus {
     outline: none;
     border-color: #2F4156;
 }
 
-.field-with-button {
-    display: flex;
-    gap: 0.5rem;
-}
-
-.field-with-button input {
-    flex: 1;
-}
-
-.field-with-button button {
-    padding: 0.5rem 1rem;
-    background-color: #4C3D29;
-    color: #ffffff;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    font-weight: bold;
-}
-
-.field-with-button button:hover {
-    background-color: #3D4856;
-}
-
-.button-group {
-    display: flex;
-    justify-content: space-between;
-    gap: 1rem;
-    margin-top: 1rem;
-}
-
-.submit-button {
+.signin-button {
     background-color: #2F4156;
     color: #ffffff;
     border: none;
@@ -105,11 +89,11 @@
     font-weight: bold;
 }
 
-.submit-button:hover {
+.signin-button:hover {
     background-color: #1e2c3b;
 }
 
-.cancel-button {
+.signup-button {
     background-color: #7D6D57;
     color: #ffffff;
     border: none;
@@ -121,6 +105,19 @@
     font-weight: bold;
 }
 
-.cancel-button:hover {
+.signup-button:hover {
     background-color: #5e5242;
+}
+
+.forgot-link {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: #4C3D29;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.forgot-link:hover {
+    color: #3D4856;
+    text-decoration: underline;
 }

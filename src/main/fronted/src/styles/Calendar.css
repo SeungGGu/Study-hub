@@ -1,25 +1,43 @@
-/* Calendar container styling */
+/* 캘린더 전체 컨테이너 */
 .calendar-container {
-    width: 100%; /* 가로 길이 늘리기 */
-    height: 100%;  /* 세로 길이 늘리기 */
-    margin: 0 auto; /* 가운데 정렬 */
-    padding: 20px;
+    width: 100%;
+    height: calc(100vh - 60px); /* 헤더 높이를 제외한 화면 높이 */
+    padding: 2rem; /* rem 단위로 여백 조정 */
     background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 0.625rem; /* 반응형 크기 조정 */
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
+
+/*!* Calendar container styling *!*/
+/*.calendar-container {*/
+/*    width: 100%;*/
+/*    height: calc(100vh - 60px); !* 헤더 높이를 제외한 화면 높이 *!*/
+/*    margin: 0 auto;*/
+/*    padding: 20px;*/
+/*    background-color: #fff;*/
+/*    border-radius: 10px;*/
+/*    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    overflow: hidden;*/
+/*}*/
 
 /* Content section styling */
 .content {
     display: flex;
+    flex: 1;
+    overflow: hidden;
 }
 
 /* Calendar section styling */
 .calendar-section {
     flex: 1;
     margin-right: 20px;
+    max-height: 100vh; /* 최대 높이를 화면의 70%로 제한 */
+    overflow: hidden; /* 스크롤 제거 */
 }
 
 /* Schedule section styling */
@@ -31,276 +49,46 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
 }
 
-/* Schedule header styling */
-.schedule-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.schedule-header h3 {
-    margin: 0;
-}
-
-.event-item{
-    margin-bottom: 10px;
-    padding: 10px;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    justify-content: space-between;
-    align-items: center;
-}
-
-.event-time{
-    font-weight: bold;
-    font-family: 'Arial', sans-serif;
-}
-
-
-.schedule-header .add-event-button {
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.schedule-header .add-event-button:hover {
-    background-color: #45a049;
-}
-
-
-/* Toolbar styling */
-.fc .fc-toolbar {
-    background-color: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 10px;
-    margin-bottom: 20px;
-    font-family: 'Arial', sans-serif;
-}
-
-/* Event styling for dayGrid and timeGrid */
-.fc .fc-daygrid-event, .fc .fc-timegrid-event {
-    background-color: #2196f3;
-    color: white;
-    border: 1px solid #1976d2;
-    border-radius: 5px;
-    padding: 5px;
-    font-family: 'Arial', sans-serif;
-    opacity: 0.9;
-    transition: background-color 0.3s ease, opacity 0.3s ease;
-    z-index: 1;
-}
-
-/* Event hover effect */
-.fc .fc-daygrid-event:hover, .fc .fc-timegrid-event:hover {
-    background-color: #1976d2;
-    opacity: 1;
-    z-index: 2;
-}
-
-/* Time grid slot styling */
-.fc .fc-timegrid-slot {
-    background-color: #f9f9f9;
-    border: none;
-}
-
-/* Time grid all day slot styling */
-.fc .fc-timegrid-all-day {
-    background-color: #fff;
-    border-top: 2px solid #1976d2;
-    border-bottom: 2px solid #1976d2;
-    font-weight: bold;
-    font-family: 'Arial', sans-serif;
-}
-
-/* Add event button styling */
-.add-event-button {
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.add-event-button:hover {
-    background-color: #45a049;
-}
-
-/* Custom event content styling */
-.custom-event-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-/* Event modal styling */
-.event-modal {
-    width: 70%; /* Increased width for larger modal */
-    max-width: 800px; /* Increased max width */
-    background-color: #ffffff;
-    padding: 30px; /* Increased padding for more space inside modal */
-    border-radius: 15px; /* More rounded corners */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Slightly stronger shadow */
-    z-index: 1000;
-    position: absolute; /* Center the modal */
-    top: 50%; /* Center the modal */
-    left: 50%; /* Center the modal */
-    transform: translate(-50%, -50%); /* Center the modal */
-    font-family: 'Arial', sans-serif;
-}
-
-.event-modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.6); /* Darker overlay */
-    z-index: 999;
-}
-
-/* Event form styling */
-.event-form {
+/* FullCalendar 스타일을 조정하여 크기 조정 */
+.fc {
+    max-height: 100%;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
 }
 
-.event-form label {
-    margin-bottom: 15px; /* Increased space between labels */
-    font-weight: bold;
-    font-family: 'Arial', sans-serif;
-}
-
-.event-form input, .event-form select, .event-form textarea {
-    padding: 12px; /* Increased padding for inputs */
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-family: 'Arial', sans-serif;
-    margin-top: 5px; /* Added margin for space between label and input */
-    width: 100%; /* Increased width */
-}
-
-.event-form .horizontal-group {
-    display: flex;
-    justify-content: space-between;
-}
-
-.event-form .horizontal-group label {
+.fc .fc-view-container {
     flex: 1;
+    overflow: hidden;
 }
 
-.event-form button {
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    padding: 12px 25px; /* Increased padding for button */
-    font-size: 16px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    align-self: flex-start; /* Align button to the start */
-    margin-top: 10px; /* Added margin-top for space above button */
+/* FullCalendar day cell styling */
+.fc .fc-daygrid-day {
+    height: 40px; /* 날짜 셀의 높이를 줄여서 크기 조정 */
+    padding: 2px; /* 셀 내부 패딩 조정 */
 }
 
-.event-form button:hover {
-    background-color: #45a049;
+/* 날짜 텍스트 크기 조정 */
+.fc .fc-daygrid-day-top {
+    font-size: 0.8em; /* 날짜 텍스트의 크기를 줄여서 셀 크기 조정 */
+    padding: 2px 0;
 }
 
-.event-form textarea {
-    resize: vertical; /* Allow vertical resize for textarea */
-}
-/* Adjusting 종일 and 공개 positioning */
-.checkbox-group {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-    gap: 10px; /* Reduced space between the checkboxes */
+/* 이벤트 텍스트 크기 및 패딩 조정 */
+.fc .fc-daygrid-event {
+    font-size: 0.75em; /* 이벤트 텍스트 크기 줄이기 */
+    padding: 2px 4px; /* 이벤트 내부 패딩 조정 */
+    margin: 1px 0; /* 이벤트 상하 여백 최소화 */
 }
 
-/* Flex container for checkboxes */
-.checkbox-container {
-    display: flex;
-    gap: 10px;
+/* 툴바 및 헤더 크기 조정 */
+.fc .fc-toolbar-title {
+    font-size: 1em; /* 달력 제목(월/년)의 크기 조정 */
 }
 
-/* Container for 종일 */
-.checkbox-all-day {
-    display: flex;
-    align-items: center;
-}
-
-/* Container for 공개 */
-.checkbox-public {
-    display: flex;
-    align-items: center;
-    margin-left: 288px;
-}
-
-.checkbox-label {
-    display: flex;
-    align-items: center;
-    position: relative;
-    cursor: pointer;
-    font-size: 16px;
-    user-select: none;
-}
-
-.checkbox-label input[type="checkbox"] {
-    display: none; /* Hide the default checkbox */
-}
-
-.custom-checkbox {
-    width: 20px;
-    height: 20px;
-    border: 2px solid #2196f3;
-    border-radius: 5px;
-    margin-right: 10px;
-    display: inline-block;
-    position: relative;
-    transition: background-color 0.3s ease;
-}
-
-.checkbox-label input[type="checkbox"]:checked + .custom-checkbox {
-    background-color: #2196f3;
-}
-
-.checkbox-label input[type="checkbox"]:checked + .custom-checkbox::after {
-    content: '';
-    position: absolute;
-    top: 2px;
-    left: 6px;
-    width: 5px;
-    height: 10px;
-    border: solid white;
-    border-width: 0 2px 2px 0;
-    transform: rotate(45deg);
-}
-
-.checkbox-label input[type="checkbox"]:not(:checked) + .custom-checkbox::after {
-    content: '';
-    position: absolute;
-    top: 2px;
-    left: 6px;
-    width: 5px;
-    height: 10px;
-    border: solid transparent;
-    border-width: 0 2px 2px 0;
-    transform: rotate(45deg);
-}
-
-.checkbox-label:hover .custom-checkbox {
-    background-color: #e3f2fd;
+.fc .fc-daygrid-event-dot {
+    margin: 0 2px; /* 이벤트 점 크기 조정 */
 }

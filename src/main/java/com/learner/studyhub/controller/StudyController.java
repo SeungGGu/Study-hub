@@ -28,7 +28,7 @@ public class StudyController {
 
     @PostMapping("/upload")
     public ResponseEntity<String> uploadFile(@RequestParam("image") MultipartFile file) {
-        String uploadDir = "C:\\spring\\study\\Study_hub\\src\\main\\fronted\\public\\images";
+        String uploadDir = "C:\\inWorkSpace\\Study-hub\\src\\main\\fronted\\public\\images";
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
             String currentTimeStamp = dateFormat.format(new Date());
