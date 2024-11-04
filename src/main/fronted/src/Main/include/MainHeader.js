@@ -36,9 +36,6 @@ export const MainHeader = () => {
                             <li className="nav-item">
                                 <a className="nav-link text-gold" href="/mainCommunity">커뮤니티</a>
                             </li>
-                            <li className="nav-item">
-                                <a className="nav-link text-gold" href="/">고객센터</a>
-                            </li>
                         </ul>
                         <div className="d-flex">
                             {isAuthenticated ? (

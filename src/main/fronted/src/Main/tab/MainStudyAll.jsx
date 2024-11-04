@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from "react";
-import {Nav, Button, Card, Col, Row, CardFooter, Modal, Form} from "react-bootstrap";
+import {Button, Card, Col, Row, CardFooter, Modal, Form} from "react-bootstrap";
 import {useNavigate} from "react-router-dom";
 import TabHeader from "../include/TabHeader";
 import "../../styles/MainStudyAll.css"
 import {Lock} from 'react-bootstrap-icons';
+import {Add} from "iconsax-react";
 
 function MainStudyAll({type}) {
     const nickname = sessionStorage.getItem("nickname");
@@ -122,9 +123,9 @@ function MainStudyAll({type}) {
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-    const handleSortOptionClick = (sortOption) => {
-        console.log(`Sorting by ${sortOption}`, `type: ${type}`);
-    };
+    // const handleSortOptionClick = (sortOption) => {
+    //     console.log(`Sorting by ${sortOption}`, `type: ${type}`);
+    // };
 
     const handleCreate = () => {
         if (!nickname) {
@@ -155,19 +156,22 @@ function MainStudyAll({type}) {
             />
             {/* 탭 스타일을 위한 custom-nav-container 추가 */}
             <div className="row mt-4 custom-nav-container">
-                <div className="col">
-                    <Nav className="sort-option" defaultActiveKey="최신순">
-                        <Nav.Item className="me-3" onClick={() => handleSortOptionClick('최신순')}>
-                            <Nav.Link eventKey="최신순">최신순</Nav.Link>
-                        </Nav.Item>
-                        <Nav.Item className="me-3" onClick={() => handleSortOptionClick('추천순')}>
-                            <Nav.Link eventKey="추천순">추천순</Nav.Link>
-                        </Nav.Item>
-                    </Nav>
+                {/*<div className="col">*/}
+                {/*    <Nav className="sort-option" defaultActiveKey="최신순">*/}
+                {/*        <Nav.Item className="me-3" onClick={() => handleSortOptionClick('최신순')}>*/}
+                {/*            <Nav.Link eventKey="최신순">최신순</Nav.Link>*/}
+                {/*        </Nav.Item>*/}
+                {/*        <Nav.Item className="me-3" onClick={() => handleSortOptionClick('추천순')}>*/}
+                {/*            <Nav.Link eventKey="추천순">추천순</Nav.Link>*/}
+                {/*        </Nav.Item>*/}
+                {/*    </Nav>*/}
+                {/*</div>*/}
+                <div className="col-auto d-flex align-items-center create-study-button" onClick={handleCreate}
+                     style={{cursor: 'pointer'}}>
+                    <span className="ms-2" style={{color: '#2ccce4', fontWeight: 'bold'}}>새로운 스터디 만들기</span>
+                    <Add size="32" color="#2ccce4" variant="Bold"/>
                 </div>
-                <div className="col-auto">
-                    <Button variant="secondary" className="custom-nav-button" onClick={handleCreate}>만들기</Button>
-                </div>
+
             </div>
             <hr/>
             <div className="BestStudyCard">

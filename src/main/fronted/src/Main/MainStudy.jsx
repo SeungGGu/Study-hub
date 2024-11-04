@@ -11,18 +11,18 @@ function MainStudy() {
         <div className="MainStudy">
             <MainHeader />
 
-            {/* 상단 탭 레이아웃 */}
-            <div className="custom-tabs">
-                <div className={`tab-item ${tab === 'all' ? 'active' : ''}`} onClick={() => setTab('all')}>
-                    전체
-                </div>
-                <div className={`tab-item ${tab === 'recruiting' ? 'active' : ''}`} onClick={() => setTab('recruiting')}>
-                    모집 중
-                </div>
-                <div className={`tab-item ${tab === 'recruitingComplete' ? 'active' : ''}`} onClick={() => setTab('recruitingComplete')}>
-                    모집 완료
-                </div>
-            </div>
+            {/*/!* 상단 탭 레이아웃 *!/*/}
+            {/*<div className="custom-tabs">*/}
+            {/*    <div className={`tab-item ${tab === 'all' ? 'active' : ''}`} onClick={() => setTab('all')}>*/}
+            {/*        전체*/}
+            {/*    </div>*/}
+            {/*    <div className={`tab-item ${tab === 'recruiting' ? 'active' : ''}`} onClick={() => setTab('recruiting')}>*/}
+            {/*        모집 중*/}
+            {/*    </div>*/}
+            {/*    <div className={`tab-item ${tab === 'recruitingComplete' ? 'active' : ''}`} onClick={() => setTab('recruitingComplete')}>*/}
+            {/*        모집 완료*/}
+            {/*    </div>*/}
+            {/*</div>*/}
 
             {/* 선택된 탭에 따라 다른 컴포넌트 로드 */}
             <div className="tab-content">
