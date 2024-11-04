@@ -1,8 +1,10 @@
-import React, {useState} from "react";
-import {Container, Row, Col, Form, Button, Card} from "react-bootstrap";
+// SignUpPage.js
+
+import React, { useState } from "react";
 import axios from "axios";
-import {useNavigate} from "react-router-dom";
-import '../styles/SignUpPage.css'; // Importing custom CSS
+import { useNavigate } from "react-router-dom";
+import { Back } from 'iconsax-react'; // 뒤로가기 아이콘 import
+import '../styles/SignUpPage.css';
 
 function SignUpPage() {
     const navigate = useNavigate();
@@ -12,18 +14,19 @@ function SignUpPage() {
         confirmPassword: '',
         name: '',
         nickname: '',
-        email: '',
-        phone: '',
-        gender: '',
-        birthDate: ''
+        email: ''
     });
 
     const handleGoLogin = () => {
         navigate('/login');
     };
 
+    const handleBack = () => {
+        navigate('/'); // 뒤로가기 버튼 클릭 시 메인 페이지로 이동
+    };
+
     const handleChange = (e) => {
-        const {name, value} = e.target;
+        const { name, value } = e.target;
         setFormData(prevState => ({
             ...prevState,
             [name]: value
@@ -42,19 +45,8 @@ function SignUpPage() {
             return;
         }
 
-        // 여기에서 birthDate를 병합합니다.
-        const {birthYear, birthMonth, birthDay} = formData;
-        const birthDate = `${birthYear}-${birthMonth.padStart(2, '0')}-${birthDay.padStart(2, '0')}`;
-
-        // birthDate를 제외한 나머지 데이터와 함께 병합된 birthDate를 전송 데이터에 포함
-        const submitData = {
-            ...formData,
-            birthDate
-        };
-
-        axios.post("/api/user/register", submitData)
+        axios.post("/api/user/register", formData)
             .then((response) => {
-                console.log("Registration successful:", response.data);
                 if (response.data === "success") {
                     handleGoLogin();
                 } else {
@@ -66,10 +58,7 @@ function SignUpPage() {
                     confirmPassword: "",
                     name: "",
                     nickname: "",
-                    email: "",
-                    phone: "",
-                    gender: "",
-                    birthDate: ""
+                    email: ""
                 });
             })
             .catch((error) => {
@@ -77,131 +66,45 @@ function SignUpPage() {
             });
     };
 
-    const generateYears = () => {
-        const currentYear = new Date().getFullYear();
-        return Array.from({length: 101}, (v, i) => currentYear - i);
-    };
-
-    const generateMonths = () => {
-        return Array.from({length: 12}, (v, i) => i + 1);
-    };
-
-    const generateDays = (year, month) => {
-        const daysInMonth = new Date(year, month, 0).getDate();
-        return Array.from({length: daysInMonth}, (v, i) => i + 1);
-    };
-
     return (
-        <Container className="signup-container">
-            <Row className="justify-content-center align-items-center min-vh-100">
-                <Col md={6} sm={12}>
-                    <Card className="p-4 shadow">
-                        <Card.Body>
-                            <h2 className="text-center mb-4">회원가입</h2>
-                            <Form onSubmit={handleSubmit}>
-                                <Form.Group controlId="formId">
-                                    <Form.Label>아이디</Form.Label>
-                                    <Row>
-                                        <Col>
-                                            <Form.Control type="text" placeholder="아이디" name="id" value={formData.id}
-                                                          onChange={handleChange}/>
-                                        </Col>
-                                        <Col xs={4}>
-                                            <Button variant="outline-primary"
-                                                    onClick={() => handleDuplicateCheck('id')}>중복확인</Button>
-                                        </Col>
-                                    </Row>
-                                </Form.Group>
-                                <Form.Group controlId="formPassword">
-                                    <Form.Label>비밀번호</Form.Label>
-                                    <Form.Control type="password" placeholder="비밀번호" name="password"
-                                                  value={formData.password}
-                                                  onChange={handleChange}/>
-                                </Form.Group>
-                                <Form.Group controlId="formConfirmPassword">
-                                    <Form.Label>비밀번호 확인</Form.Label>
-                                    <Form.Control type="password" placeholder="비밀번호 확인" name="confirmPassword"
-                                                  value={formData.confirmPassword} onChange={handleChange}/>
-                                </Form.Group>
-                                <Form.Group controlId="formName">
-                                    <Form.Label>이름</Form.Label>
-                                    <Form.Control type="text" placeholder="이름" name="name" value={formData.name}
-                                                  onChange={handleChange}/>
-                                </Form.Group>
-                                <Form.Group controlId="formNickname">
-                                    <Form.Label>닉네임</Form.Label>
-                                    <Row>
-                                        <Col>
-                                            <Form.Control type="text" placeholder="닉네임" name="nickname"
-                                                          value={formData.nickname} onChange={handleChange}/>
-                                        </Col>
-                                        <Col xs={4}>
-                                            <Button variant="outline-primary"
-                                                    onClick={() => handleDuplicateCheck('nickname')}>중복확인</Button>
-                                        </Col>
-                                    </Row>
-                                </Form.Group>
-                                <Form.Group controlId="formEmail">
-                                    <Form.Label>이메일</Form.Label>
-                                    <Form.Control type="email" placeholder="이메일" name="email" value={formData.email}
-                                                  onChange={handleChange}/>
-                                </Form.Group>
-                                <Form.Group controlId="formPhone">
-                                    <Form.Label>휴대폰번호</Form.Label>
-                                    <Form.Control type="tel" placeholder="휴대폰번호" name="phone" value={formData.phone}
-                                                  onChange={handleChange}/>
-                                </Form.Group>
-                                <Form.Group controlId="formGender">
-                                    <Form.Label>성별</Form.Label>
-                                    <Form.Control as="select" name="gender" value={formData.gender}
-                                                  onChange={handleChange}>
-                                        <option value="">선택...</option>
-                                        <option value="male">남성</option>
-                                        <option value="female">여성</option>
-                                    </Form.Control>
-                                </Form.Group>
-                                <Form.Group controlId="formBirthDate">
-                                    <Form.Label>생년월일</Form.Label>
-                                    <Row>
-                                        <Col>
-                                            <Form.Control as="select" name="birthYear" value={formData.birthYear}
-                                                          onChange={handleChange}>
-                                                <option value="">년</option>
-                                                {generateYears().map(year => (
-                                                    <option key={year} value={year}>{year}</option>
-                                                ))}
-                                            </Form.Control>
-                                        </Col>
-                                        <Col>
-                                            <Form.Control as="select" name="birthMonth" value={formData.birthMonth}
-                                                          onChange={handleChange}>
-                                                <option value="">월</option>
-                                                {generateMonths().map(month => (
-                                                    <option key={month} value={month}>{month}</option>
-                                                ))}
-                                            </Form.Control>
-                                        </Col>
-                                        <Col>
-                                            <Form.Control as="select" name="birthDay" value={formData.birthDay}
-                                                          onChange={handleChange}>
-                                                <option value="">일</option>
-                                                {generateDays(formData.birthYear, formData.birthMonth).map(day => (
-                                                    <option key={day} value={day}>{day}</option>
-                                                ))}
-                                            </Form.Control>
-                                        </Col>
-                                    </Row>
-                                </Form.Group>
-                                <div className="text-center">
-                                    <Button variant="primary" type="submit">회원가입</Button>
-                                    <Button variant="secondary" onClick={handleGoLogin} className="ml-2">취소</Button>
-                                </div>
-                            </Form>
-                        </Card.Body>
-                    </Card>
-                </Col>
-            </Row>
-        </Container>
+        <div className="signup-background">
+            <div className="back-button" onClick={handleBack}>
+                <Back size="32" color="#A1ACBD" />
+            </div>
+            <div className="signup-card">
+                <h2 className="signup-header">회원가입</h2>
+                <form onSubmit={handleSubmit} className="signup-form">
+                    <label>아이디</label>
+                    <div className="field-with-button">
+                        <input type="text" placeholder="아이디" name="id" value={formData.id} onChange={handleChange} required />
+                        <button type="button" onClick={() => handleDuplicateCheck('id')}>중복확인</button>
+                    </div>
+
+                    <label>비밀번호</label>
+                    <input type="password" placeholder="비밀번호" name="password" value={formData.password} onChange={handleChange} required />
+
+                    <label>비밀번호 확인</label>
+                    <input type="password" placeholder="비밀번호 확인" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} required />
+
+                    <label>이름</label>
+                    <input type="text" placeholder="이름" name="name" value={formData.name} onChange={handleChange} required />
+
+                    <label>닉네임</label>
+                    <div className="field-with-button">
+                        <input type="text" placeholder="닉네임" name="nickname" value={formData.nickname} onChange={handleChange} required />
+                        <button type="button" onClick={() => handleDuplicateCheck('nickname')}>중복확인</button>
+                    </div>
+
+                    <label>이메일</label>
+                    <input type="email" placeholder="이메일" name="email" value={formData.email} onChange={handleChange} required />
+
+                    <div className="button-group">
+                        <button type="submit" className="submit-button">회원가입</button>
+                        <button type="button" className="cancel-button" onClick={handleGoLogin}>취소</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     );
 }
 

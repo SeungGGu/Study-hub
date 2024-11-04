@@ -31,15 +31,6 @@ public class UserEntity {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false, unique = true)
-    private String phone;
-
-    @Column(nullable = false)
-    private String gender;
-
-    @Column(nullable = false)
-    private String birthDate;
-
     @Column(nullable = false)
     private String role;
 
