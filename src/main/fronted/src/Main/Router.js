@@ -12,13 +12,17 @@ import MainStudyCreate from "./MainStudyCreate";
 import BoardDetail from "./tab/BoardDetail";
 import MyPage from "./MyPage/MyPage";
 import EditProfile from "../UserPage/EditProfile";
+import Main from "./Main";
 import FindAccountPage from "../UserPage/FindAccountPage";
 import ResetPasswordPage from "../UserPage/ResetPasswordPage";
+
 
 const Router = () => {
     return (
         <Routes>
-            <Route exact path="/" element={<FirstMainPage/>}/>
+            {/*<Route exact path="/" element={<FirstMainPage/>}/>*/}
+            <Route exact path="/" element={<Main/>}/>
+
             <Route path="/login" element={<SignInPage/>}/>
             <Route path="/main" element={<FirstMainPage/>}/>
             <Route path="/studyRoom/:id/:title" element={<StudyRoom/>}/>

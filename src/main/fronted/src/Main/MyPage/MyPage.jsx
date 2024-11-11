@@ -7,17 +7,19 @@ import StorySection from "./components/StroySection";
 import RecordSection from "./components/RecordSection";
 import StudyManagement from "./components/StudyManagement";
 
-
 const MyPage = () => {
     const [activeTab, setActiveTab] = useState('activity');
-    const navigate = useNavigate(); // navigate 훅 사용
+    const navigate = useNavigate();
     const { user } = useContext(UserContext);
 
     useEffect(() => {
-        const profileHeight = document.querySelector('.mypage-profile-content').offsetHeight;
+        // DOM이 렌더링된 후에만 프로필과 스토리의 높이를 맞춤
+        const profileHeight = document.querySelector('.mypage-profile-content')?.offsetHeight;
         const storyContent = document.querySelector('.mypage-story-content');
-        storyContent.style.height = `${profileHeight}px`;
-    }, []);
+        if (storyContent && profileHeight) {
+            storyContent.style.height = `${profileHeight}px`;
+        }
+    }, [user]); // user 값이 변경될 때마다 실행되도록 수정
 
     const handleEditProfile = () => {
         navigate('/editProfile'); // editProfile 페이지로 이동
@@ -99,6 +101,11 @@ const MyPage = () => {
         }
     };
 
+    // user가 null일 때 로딩 상태 처리
+    if (!user) {
+        return <div>Loading...</div>;
+    }
+
     return (
         <div className="mypage">
             <MainHeader/>
@@ -117,9 +124,9 @@ const MyPage = () => {
                                 <hr/>
                                 <div className="mypage-profile-extra">
                                     <p>닉네임 | {user.nickname || '닉네임 정보 없음'}</p>
-                                    <p>상태메시지 | 아자아자 화이팅~</p> {/* 상태 메시지는 임시값 */}
-                                    <p>목표 | 디자인 얼른 끝내기 ㅎㅎ</p> {/* 목표도 임시값 */}
-                                    <p>소셜 로그인 | KAKAO</p> {/* 소셜 로그인은 임시값 */}
+                                    <p>상태메시지 | 아자아자 화이팅~</p>
+                                    <p>목표 | 디자인 얼른 끝내기 ㅎㅎ</p>
+                                    <p>소셜 로그인 | KAKAO</p>
                                 </div>
                             </div>
                             <button className="mypage-edit-btn" onClick={handleEditProfile}>수정</button>
@@ -127,11 +134,10 @@ const MyPage = () => {
                     </div>
                 </div>
 
-                {/* StorySection을 렌더링 */}
                 <div className="mypage-story">
                     <h3>내 스토리</h3>
                     <div className="mypage-story-content">
-                        <StorySection /> {/* 스토리 섹션을 컴포넌트로 추가 */}
+                        <StorySection />
                     </div>
                 </div>
             </div>
