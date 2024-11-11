@@ -37,6 +37,8 @@ public class OpenViduController {
 
     @PostConstruct
     public void init() {
+        System.out.println("OPENVIDU_URL: " + OPENVIDU_URL);
+        System.out.println("OPENVIDU_SECRET: " + OPENVIDU_SECRET);
         this.openvidu = new OpenVidu(OPENVIDU_URL, OPENVIDU_SECRET);
     }
 
@@ -44,12 +46,19 @@ public class OpenViduController {
     public ResponseEntity<String> initializeSession(@RequestBody Map<String, String> requestBody)
             throws OpenViduJavaClientException, OpenViduHttpException {
 
-        String title = requestBody.get("title"); // 프론트엔드로부터 전달된 title 정보
-        String sessionId = title.replaceAll("\\s+", "_"); // title에서 공백을 _로 대체하여 세션 ID 생성
+        String title = requestBody.get("title");
+        // 허용된 문자만 남기고 다른 문자는 제거
+        String sessionId = title.replaceAll("[^a-zA-Z0-9_-]", "_");
 
+        // 기존 세션 확인
+        Session existingSession = openvidu.getActiveSession(sessionId);
+        if (existingSession != null) {
+            return new ResponseEntity<>(existingSession.getSessionId(), HttpStatus.OK);
+        }
+
+        // 새 세션 생성
         SessionProperties properties = new SessionProperties.Builder().customSessionId(sessionId).build();
         Session session = openvidu.createSession(properties);
-        System.out.println(session.getSessionId());
         return new ResponseEntity<>(session.getSessionId(), HttpStatus.OK);
     }
 

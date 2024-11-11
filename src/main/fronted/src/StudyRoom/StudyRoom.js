@@ -10,6 +10,7 @@ import Canvas from './pages/Canvas';
 import DrawCanvas from "./pages/DrawCanvas";
 import VideoContainer from "./pages/VideoContainer";
 import useOpenVidu from "./useOpenVidu";
+import {UserOctagon} from "iconsax-react";
 
 function StudyRoom() {
     const nickname = sessionStorage.getItem('nickname');
@@ -118,12 +119,12 @@ function StudyRoom() {
                         <ul className="message-list">
                             {filteredMessages.slice().reverse().map((msg, index) => (
                                 <li className="message" key={index}>
-                                    <img src="profile-placeholder.png" alt="profile" className="profile-pic"/>
+                                    <UserOctagon size="32" className="profile-pic" color="#2ccce4" variant="Bold"/>
+                                    {/*<img src="profile-placeholder.png" alt="profile" className="profile-pic"/>*/}
                                     <div className="message-info">
                                         <div className="message-top">
                                             <span className="nickname">{msg.userId}</span>
-                                            <span
-                                                className="timestamp">{new Date(msg.timestamp).toLocaleTimeString()}</span>
+                                            <span className="timestamp">{new Date(msg.timestamp).toLocaleDateString()}</span>
                                         </div>
                                         <div className="message-text">{msg.message}</div>
                                     </div>

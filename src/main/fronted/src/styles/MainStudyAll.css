@@ -143,3 +143,11 @@
 .custom-tabs .nav-item .nav-link {
     color: #495057 !important; /* 기본 텍스트 색상 Dark Gray */
 }
+
+/* 버튼을 오른쪽으로 이동시키기 위한 Flex 설정 */
+.custom-nav-container {
+    display: flex;
+    justify-content: flex-end; /* 오른쪽 정렬 */
+    align-items: center;
+    margin-right: 15px;
+}
