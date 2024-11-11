@@ -74,7 +74,7 @@ function StorySection() {
 
     return (
         <div className="story-section">
-            <p>{streak > 0 ? `${streak}일 연속 접속중!` : '현재 연속 접속이 없습니다.'}</p> {/* 연속 접속 일 수 표시 */}
+            <p>{streak > 0 ? `${streak}일 연속 접속중!` : '1일 연속 접속중!'}</p> {/* 연속 접속 일 수 표시 */}
             <div
                 className="grass-field"
                 style={{

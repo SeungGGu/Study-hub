@@ -8,6 +8,7 @@ import { Container, Row, Col, Form, Button, Card } from 'react-bootstrap';
 function EditProfile() {
     const { user, updateUser } = useContext(UserContext);
     const [formData, setFormData] = useState({
+        id: user.id || '',  // 아이디 필드 추가
         name: user.name || '',
         nickname: user.nickname || '',
         password: '',
@@ -32,6 +33,7 @@ function EditProfile() {
                 .then((response) => {
                     const userData = response.data;
                     setFormData({
+                        id: userData.id,  // 서버에서 받아온 id 값 추가
                         name: userData.name,
                         nickname: userData.nickname,
                         email: userData.email,
@@ -95,7 +97,6 @@ function EditProfile() {
             });
     };
 
-
     const generateYears = () => {
         const currentYear = new Date().getFullYear();
         return Array.from({ length: 101 }, (v, i) => currentYear - i);
@@ -120,12 +121,22 @@ function EditProfile() {
                             <h2 className="text-center mb-4">회원정보 수정</h2>
                             <Form onSubmit={handleSubmit} className="edit-profile-form">
                                 <Form.Group>
+                                    <Form.Label>아이디</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        placeholder="아이디"
+                                        name="id"
+                                        value={formData.id} // 아이디 필드에 값 설정
+                                        disabled // 아이디 필드를 수정할 수 없도록 설정
+                                    />
+                                </Form.Group>
+                                <Form.Group>
                                     <Form.Label>비밀번호</Form.Label>
                                     <Form.Control
                                         type="password"
                                         placeholder="새 비밀번호"
                                         name="password"
-                                        value={formData.password  || ''}
+                                        value={formData.password || ''}
                                         onChange={handleChange}
                                     />
                                 </Form.Group>
@@ -155,7 +166,7 @@ function EditProfile() {
                                         type="text"
                                         placeholder="닉네임"
                                         name="nickname"
-                                        value={formData.nickname  || ''}
+                                        value={formData.nickname || ''}
                                         onChange={handleChange}
                                     />
                                 </Form.Group>
@@ -165,7 +176,7 @@ function EditProfile() {
                                         type="email"
                                         placeholder="이메일"
                                         name="email"
-                                        value={formData.email  || ''}
+                                        value={formData.email || ''}
                                         onChange={handleChange}
                                     />
                                 </Form.Group>
@@ -184,7 +195,7 @@ function EditProfile() {
                                     <Form.Control
                                         as="select"
                                         name="gender"
-                                        value={formData.gender  || ''}
+                                        value={formData.gender || ''}
                                         onChange={handleChange}
                                     >
                                         <option value="">선택...</option>
