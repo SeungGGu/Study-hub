@@ -1,153 +1,239 @@
-/* BestStudyCard 관련 스타일 */
-.BestStudyCard {
-    margin: 0 30px; /* 좌우 여백 조정 */
+/* 전체 페이지 배경 설정 */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
 }
 
-/* 카드 이미지 컨테이너 */
-.card-img-container {
-    overflow: hidden;
-    border-radius: 15px;
+.main-study-all {
+    padding: 20px;
+    background: linear-gradient(135deg, #2F4156, #7D6D57);
+    min-height: 100vh;
+    max-width: 100vw;
+    color: #f0f0f0;
+    overflow-x: hidden;
 }
 
-.card-img-container .responsive-img {
-    width: 100%;
-    height: auto;
-    object-fit: cover; /* 이미지 비율 유지 */
-}
-
-.responsive-img {
-    max-height: 200px; /* 이미지 최대 높이 */
-}
-
-/* 전체 탭 스타일 */
-.custom-nav {
-    display: flex; /* 플렉스 레이아웃 사용 */
-    justify-content: center; /* 중앙 정렬 */
-    padding: 0; /* 상하 패딩 제거 */
-    margin: 0 0 20px 0; /* 상단, 하단 여백 조정 */
-    border-bottom: 1px solid #D1D5DB; /* 전체 탭의 하단 경계선 */
-    gap: 20px; /* 각 항목 간의 간격 */
-}
-
-/* 기본 탭 스타일 */
-.custom-nav .nav-link {
-    color: #6b7280; /* 기본 텍스트 색상 Light Gray */
-    font-size: 1.2rem; /* 폰트 크기 */
-    font-weight: 500; /* 기본 폰트 굵기 */
-    border: none; /* 테두리 제거 */
-    background: transparent; /* 배경색 제거 */
-    padding: 8px 15px; /* 탭 패딩 */
-    position: relative; /* 밑줄을 위해 상대 위치 지정 */
-    transition: all 0.3s ease; /* 부드러운 전환 효과 */
-    border-radius: 15px; /* 둥근 모서리 추가 */
-    text-align: center;
-}
-
-/* 선택되지 않은 탭 호버 시 스타일 */
-.custom-nav .nav-link:hover {
-    color: #111827; /* 호버 시 텍스트 색상 */
-    background-color: #F0F4F8; /* 호버 시 배경색 */
-}
-
-/* 선택된 탭 스타일 */
-.custom-nav .nav-link.active {
-    color: #111827; /* 선택된 탭 텍스트 색상 (짙은 회색) */
-    font-weight: 700; /* 선택된 탭의 폰트 굵기 */
-    background-color: #E5E7EB; /* 선택된 탭 배경색 (Light Gray) */
-    border: 1px solid #D1D5DB; /* 선택된 탭의 테두리 */
-}
-
-/* 버튼 스타일 */
-.custom-nav-button {
-    color: #ffffff;
-    background-color: #3B82F6; /* 기본 배경색 Blue */
-    border: none; /* 테두리 제거 */
-    border-radius: 15px; /* 둥근 모서리 */
-    padding: 8px 20px; /* 버튼 패딩 */
-    font-size: 1.1rem; /* 버튼 폰트 크기 */
-    font-weight: 500; /* 버튼 폰트 굵기 */
-    transition: all 0.3s ease; /* 부드러운 전환 효과 */
-}
-
-/* 버튼 호버 스타일 */
-.custom-nav-button:hover {
-    background-color: #2563EB; /* 호버 시 배경색 Deep Blue */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 호버 시 그림자 */
-    transform: translateY(-2px); /* 호버 시 살짝 떠오르는 효과 */
-}
-
-/* 페이지네이션 스타일 */
-.pagination .page-item.active .page-link {
-    background-color: #3B82F6; /* 활성화된 페이지 배경색 */
-    border-color: #3B82F6; /* 테두리 색상 */
-    color: #FFFFFF; /* 텍스트 색상 */
-}
-
-/* 상단 여백 조정 */
-.row.mt-4.custom-nav-container {
-    margin-top: 10px; /* 상단 여백 조정 */
-}
-
-/* 최신순, 추천순 버튼 스타일 */
-.sort-option {
-    display: inline-flex; /* 가로 배치 */
-    gap: 10px; /* 버튼 간 간격 */
-}
-
-.sort-option .nav-link {
-    background-color: #F3F4F6; /* 기본 배경색 */
-    color: #6b7280; /* 기본 텍스트 색상 */
-    border: 1px solid #D1D5DB; /* 기본 테두리 */
-    border-radius: 15px; /* 둥근 모서리 */
-    padding: 8px 15px; /* 버튼 크기 */
-    transition: all 0.3s ease; /* 부드러운 전환 효과 */
-}
-
-.sort-option .nav-link:hover {
-    color: #111827; /* 호버 시 텍스트 색상 */
-    background-color: #E5E7EB; /* 호버 시 배경색 */
-    border-color: #3B82F6; /* 호버 시 테두리 색상 */
-}
-
-.sort-option .nav-link.active {
-    background-color: #3B82F6; /* 활성화된 버튼 배경색 */
-    color: #FFFFFF; /* 텍스트 색상 */
-    border: 1px solid #3B82F6; /* 활성화된 버튼 테두리 색상 */
-}
-
-/* 페이지네이션 스타일 */
-.pagination .page-item.active .page-link {
-    background-color: #567C8D; /* 활성화된 페이지 배경색 */
-    border-color: #567C8D; /* 테두리 색상 */
-    color: #FFFFFF; /* 텍스트 색상 */
-}
-
-/* 상단 여백 조정 */
-.row.mt-4 {
-    margin-top: 0 !important; /* 상단 여백 제거 */
-}
-
-/* 탭 간격 및 높이 조정 */
-.custom-tabs .nav-tabs {
-    border-bottom: 1px solid #C8D9E6; /* 탭 경계선 */
-    margin-top: 0;
-    padding-top: 0;
-}
-
-.custom-tabs .nav-item {
-    flex: 1; /* 균일 분배 */
-    text-align: center;
-}
-
-/* 선택되지 않은 탭 텍스트 색상 */
-.custom-tabs .nav-item .nav-link {
-    color: #495057 !important; /* 기본 텍스트 색상 Dark Gray */
-}
-
-/* 버튼을 오른쪽으로 이동시키기 위한 Flex 설정 */
-.custom-nav-container {
+.action-bar {
     display: flex;
-    justify-content: flex-end; /* 오른쪽 정렬 */
-    align-items: center;
-    margin-right: 15px;
+    justify-content: flex-end;
+    margin-top: 10px;
 }
+
+.create-button {
+    background-color: #3D4856;
+    color: white;
+    padding: 10px;
+    margin-right: 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.create-button:hover {
+    background-color: #2F4156;
+}
+
+.pagination-button {
+    background-color: #4C3D29;
+    border: none;
+    color: white;
+    font-weight: bold;
+}
+/* 검색 영역 스타일 */
+.tab-header .search-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.search-input {
+    width: 100%;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #A1ACBD;
+    font-size: 1rem;
+}
+
+.reset-button {
+    background-color: #4C3D29;
+    color: #f0f0f0;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.reset-button:hover {
+    background-color: #A1ACBD;
+}
+
+/* 주간 인기 스터디 섹션 스타일 */
+.best-study-card h4 {
+    font-size: 1.25rem;
+    color: #A1ACBD;
+}
+
+.study-cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+/* 개별 카드 스타일 */
+.study-card {
+    width: 100%;
+    max-width: 250px;
+    background: #ffffff;
+    color: #2F4156;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    transition: transform 0.2s;
+    cursor: pointer;
+    position: relative;
+}
+
+.study-card:hover {
+    transform: translateY(-5px);
+}
+
+.card-image {
+    height: 140px;
+    background-color: #f8f8f8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card-content {
+    padding: 15px;
+}
+
+.card-content h5 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #2F4156;
+    margin-bottom: 8px;
+}
+
+.card-content p {
+    font-size: 0.9rem;
+    color: #3D4856;
+    margin-bottom: 10px;
+}
+
+.card-content small {
+    display: block;
+    font-size: 0.8rem;
+    color: #A1ACBD;
+}
+
+/* 좋아요 및 잠금 아이콘 배치 */
+.likes-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    background-color: #f0f0f0;
+    border-top: 1px solid #ddd;
+    font-size: 0.9rem;
+}
+
+.likes-container span {
+    font-weight: bold;
+    color: #4C3D29;
+}
+
+.likes-container .lock-icon {
+    color: #A1ACBD;
+}
+
+/* 비밀번호 모달 스타일 */
+.modal-content {
+    background-color: #f8f8f8;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.modal-content input[type="password"] {
+    width: 100%;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    margin-top: 10px;
+}
+
+/*에러 메세지*/
+.error-text {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: 5px;
+}
+
+
+/* 페이징 버튼 스타일 */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    gap: 5px;
+}
+
+/* 페이지 번호 버튼 */
+.Study-page-button {
+    background-color: #3D4856 !important; /* 기본 색상 */
+    color: #ffffff !important; /* 기본 글자 색상 */
+    padding: 8px 12px !important;
+    border-radius: 50% !important; /* 둥근 버튼 */
+    font-weight: bold !important;
+    cursor: pointer !important;
+    transition: background-color 0.3s, transform 0.2s !important;
+    border: 2px solid transparent !important; /* 강조를 위해 테두리 추가 */
+}
+
+.Study-page-button.active {
+    background-color: #2F4156 !important; /* 활성화된 페이지 색상 */
+    color: #A1ACBD !important; /* 활성화된 글자 색상 */
+    border: 2px solid #A1ACBD !important; /* 활성화된 페이지 강조 테두리 */
+    transform: scale(1.1) !important; /* 활성화된 버튼 크기 */
+}
+
+.Study-page-button:hover:not(.active) {
+    background-color: #4C3D29 !important; /* 호버 시 색상 */
+}
+
+/* 페이지 화살표 */
+.page-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    color: #A1ACBD;
+    background-color: #3D4856;
+}
+
+.page-arrow:hover:not(.disabled) {
+    background-color: #2F4156;
+    transform: scale(1.1);
+}
+
+.page-arrow.disabled {
+    color: #4C3D29;
+    background-color: transparent;
+    cursor: not-allowed;
+}
+

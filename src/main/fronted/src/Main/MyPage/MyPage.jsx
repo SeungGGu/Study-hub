@@ -1,16 +1,18 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import './myPage.css';
-import { MainHeader } from "../include/MainHeader";
-import { useNavigate } from "react-router-dom";
-import { UserContext } from '../../context/UserContext';
+import {MainHeader} from "../include/MainHeader";
+import {useNavigate} from "react-router-dom";
+import {UserContext} from '../../context/UserContext';
 import StorySection from "./components/StroySection";
 import RecordSection from "./components/RecordSection";
 import StudyManagement from "./components/StudyManagement";
+import axios from 'axios';
 
 const MyPage = () => {
     const [activeTab, setActiveTab] = useState('activity');
+    const [joinedStudies, setJoinedStudies] = useState([]);
     const navigate = useNavigate();
-    const { user } = useContext(UserContext);
+    const {user} = useContext(UserContext);
 
     useEffect(() => {
         // DOM이 렌더링된 후에만 프로필과 스토리의 높이를 맞춤
@@ -21,8 +23,21 @@ const MyPage = () => {
         }
     }, [user]); // user 값이 변경될 때마다 실행되도록 수정
 
+    useEffect(() => {
+        if (user && user.id) {
+            axios.get(`/api/studyMember/byUser/${user.id}`)
+                .then(response => {
+                    setJoinedStudies(response.data);
+                })
+                .catch(error => {
+                    console.error('스터디 조회 오류:', error);
+                    setJoinedStudies([]);
+                });
+        }
+    }, [user]);
+
     const handleEditProfile = () => {
-        navigate('/editProfile'); // editProfile 페이지로 이동
+        navigate('/editProfile');
     };
 
     const renderContent = () => {
@@ -31,69 +46,44 @@ const MyPage = () => {
                 return (
                     <div className="mypage-content">
                         <h3>가입한 스터디 목록</h3>
-                        <div className="mypage-study-table">
-                            <table>
-                                <thead>
-                                <tr>
-                                    <th>스터디 이름</th>
-                                    <th>태그</th>
-                                    <th>나가기</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>스터디 A</td>
-                                    <td>
-                                        <span className="mypage-tag">#JavaScript</span>
-                                        <span className="mypage-tag">#React</span>
-                                    </td>
-                                    <td><button className="mypage-leave-btn">나가기</button></td>
-                                </tr>
-                                <tr>
-                                    <td>스터디 B</td>
-                                    <td><span className="mypage-tag">#Python</span></td>
-                                    <td><button className="mypage-leave-btn">나가기</button></td>
-                                </tr>
-                                <tr>
-                                    <td>스터디 C</td>
-                                    <td>
-                                        <span className="mypage-tag">#React</span>
-                                        <span className="mypage-tag">#NodeJS</span>
-                                        <span className="mypage-tag">#Express</span>
-                                    </td>
-                                    <td><button className="mypage-leave-btn">나가기</button></td>
-                                </tr>
-                                <tr>
-                                    <td>스터디 D</td>
-                                    <td>
-                                        <span className="mypage-tag">#NodeJS</span>
-                                        <span className="mypage-tag">#MongoDB</span>
-                                    </td>
-                                    <td><button className="mypage-leave-btn">나가기</button></td>
-                                </tr>
-                                <tr>
-                                    <td>스터디 E</td>
-                                    <td>
-                                        <span className="mypage-tag">#CSS</span>
-                                        <span className="mypage-tag">#HTML</span>
-                                    </td>
-                                    <td><button className="mypage-leave-btn">나가기</button></td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                        {joinedStudies && joinedStudies.length > 0 ? (
+                            <div className="mypage-study-table">
+                                <table>
+                                    <thead>
+                                    <tr>
+                                        <th>스터디 이름</th>
+                                        <th>설명</th>
+                                        <th>나가기</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {joinedStudies.map(study => (
+                                        <tr key={study.studyId}>
+                                            <td>{study.studyTitle}</td>
+                                            <td>{study.studyComment}</td>
+                                            <td>
+                                                <button className="mypage-leave-btn">나가기</button>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        ) : (
+                            <p>아직 가입한 스터디가 없습니다.</p>
+                        )}
                     </div>
                 );
             case 'activity':
                 return (
                     <div className="mypage-content">
-                        <StudyManagement />
+                        <StudyManagement/>
                     </div>
                 );
             case 'record':
                 return (
                     <div className="mypage-content">
-                        <RecordSection />
+                        <RecordSection/>
                     </div>
                 );
             default:
@@ -118,12 +108,12 @@ const MyPage = () => {
                                 <span role="img" aria-label="profile" className="mypage-emoji">👤</span>
                             </div>
                             <div className="mypage-profile-info">
-                                {/* 로그인한 사용자 정보 표시 */}
-                                <p className="mypage-nickname">{user.nickname || '닉네임 정보 없음'}</p>
-                                <p className="mypage-email">{user.email || '이메일 정보 없음'}</p>
+                                {/* 로그인한 사용자 정보 표시, user가 있을 때만 접근 */}
+                                <p className="mypage-nickname">{user ? user.nickname : '닉네임 정보 없음'}</p>
+                                <p className="mypage-email">{user ? user.email : '이메일 정보 없음'}</p>
                                 <hr/>
                                 <div className="mypage-profile-extra">
-                                    <p>닉네임 | {user.nickname || '닉네임 정보 없음'}</p>
+                                    <p>닉네임 | {user ? user.nickname : '닉네임 정보 없음'}</p>
                                     <p>상태메시지 | 아자아자 화이팅~</p>
                                     <p>목표 | 디자인 얼른 끝내기 ㅎㅎ</p>
                                     <p>소셜 로그인 | KAKAO</p>
@@ -137,7 +127,7 @@ const MyPage = () => {
                 <div className="mypage-story">
                     <h3>내 스토리</h3>
                     <div className="mypage-story-content">
-                        <StorySection />
+                        <StorySection/>
                     </div>
                 </div>
             </div>

@@ -1,36 +1,25 @@
 package com.learner.studyhub.entity;
 
-import com.learner.studyhub.entity.map.MapStudyMemberPK;
-import com.learner.studyhub.users.entity.UserEntity;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.MapsId;
-import jakarta.persistence.Table;
-import lombok.AccessLevel;
+import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Setter
 @Getter
-@Table(name = "studyMember")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class StudyMemberEntity {
+
     @Id
-    @EmbeddedId
-    private MapStudyMemberPK mapStudyMemberPK;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @MapsId(value = "userId")
-    @ManyToOne
-    @JoinColumn(name = "userId", referencedColumnName = "userId")
-    private UserEntity userId;
+    @Column(nullable = false)
+    private int studyId;  // StudyEntity의 studyId 값 저장
 
-    @MapsId(value = "studyId")
-    @ManyToOne
-    @JoinColumn(name = "studyId", referencedColumnName = "studyId")
-    private StudyEntity studyId;
+    @Column(nullable = false)
+    private String userId;  // UserEntity의 userId 값 저장
+
+    // 기본 생성자
+    public StudyMemberEntity() {
+    }
 }
