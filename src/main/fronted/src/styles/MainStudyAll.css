@@ -173,28 +173,67 @@
     margin-top: 10px;
 }
 
+/*에러 메세지*/
 .error-text {
     color: red;
     font-size: 0.9rem;
     margin-top: 5px;
 }
 
+
+/* 페이징 버튼 스타일 */
 .pagination {
     display: flex;
     justify-content: center;
+    align-items: center;
     margin-top: 20px;
+    gap: 5px;
 }
 
-.page-item {
-    padding: 10px;
-    margin: 0 5px;
+/* 페이지 번호 버튼 */
+.Study-page-button {
+    background-color: #3D4856 !important; /* 기본 색상 */
+    color: #ffffff !important; /* 기본 글자 색상 */
+    padding: 8px 12px !important;
+    border-radius: 50% !important; /* 둥근 버튼 */
+    font-weight: bold !important;
+    cursor: pointer !important;
+    transition: background-color 0.3s, transform 0.2s !important;
+    border: 2px solid transparent !important; /* 강조를 위해 테두리 추가 */
+}
+
+.Study-page-button.active {
+    background-color: #2F4156 !important; /* 활성화된 페이지 색상 */
+    color: #A1ACBD !important; /* 활성화된 글자 색상 */
+    border: 2px solid #A1ACBD !important; /* 활성화된 페이지 강조 테두리 */
+    transform: scale(1.1) !important; /* 활성화된 버튼 크기 */
+}
+
+.Study-page-button:hover:not(.active) {
+    background-color: #4C3D29 !important; /* 호버 시 색상 */
+}
+
+/* 페이지 화살표 */
+.page-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    border-radius: 50%;
     cursor: pointer;
-    background-color: #f0f0f0;
-    border-radius: 5px;
+    transition: background-color 0.3s, transform 0.2s;
+    color: #A1ACBD;
+    background-color: #3D4856;
 }
 
-.page-item.active {
+.page-arrow:hover:not(.disabled) {
     background-color: #2F4156;
-    color: #fff;
-    font-weight: bold;
+    transform: scale(1.1);
 }
+
+.page-arrow.disabled {
+    color: #4C3D29;
+    background-color: transparent;
+    cursor: not-allowed;
+}
+
