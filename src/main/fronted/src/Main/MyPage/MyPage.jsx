@@ -115,7 +115,7 @@ const MyPage = () => {
                                 <div className="mypage-profile-extra">
                                     <p>닉네임 | {user ? user.nickname : '닉네임 정보 없음'}</p>
                                     <p>상태메시지 | 아자아자 화이팅~</p>
-                                    <p>목표 | 디자인 얼른 끝art내기 ㅎㅎ</p>
+                                    <p>목표 | 디자인 얼른 끝내기 ㅎㅎ</p>
                                     <p>소셜 로그인 | KAKAO</p>
                                 </div>
                             </div>
