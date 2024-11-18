@@ -1,39 +1,42 @@
 package com.learner.studyhub.controller;
 
-import com.learner.studyhub.entity.BoardEntity;
-import com.learner.studyhub.repository.BoardRepository;
 import com.learner.studyhub.service.LikeService;
-import com.learner.studyhub.users.entity.UserEntity;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/likes")
+@RequiredArgsConstructor
 public class LikeController {
 
     private final LikeService likeService;
-    private final BoardRepository boardRepository;
 
-    @Autowired
-    public LikeController(LikeService likeService, BoardRepository boardRepository) {
-        this.likeService = likeService;
-        this.boardRepository = boardRepository;
+    // 좋아요 토글 (추가 또는 삭제)
+    @PostMapping("/toggle")
+    public ResponseEntity<Map<String, Object>> toggleLike(
+            @RequestParam String nickname,
+            @RequestParam Integer boardId) {
+        boolean isLiked = likeService.toggleLike(nickname, boardId);
+        return ResponseEntity.ok(Map.of("isLiked", isLiked));
     }
 
+    // 사용자가 특정 게시물을 좋아하는지 확인
     @GetMapping("/check")
-    public ResponseEntity<Boolean> hasLiked(@RequestParam Integer boardId, @AuthenticationPrincipal UserEntity user) {
-        // boardId로 게시물 조회 로직 추가
-        BoardEntity board = boardRepository.findById(boardId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "게시물을 찾을 수 없습니다."));
+    public ResponseEntity<Boolean> isBoardLikedByUser(
+            @RequestParam String nickname,
+            @RequestParam Integer boardId) {
+        boolean isLiked = likeService.isBoardLikedByUser(nickname, boardId);
+        return ResponseEntity.ok(isLiked);
+    }
 
-        boolean liked = likeService.hasLiked(user, board);
-        return ResponseEntity.ok(liked);
+    // 사용자가 좋아요한 게시물 목록 조회
+    @GetMapping("/user/{nickname}")
+    public ResponseEntity<List<Integer>> getUserLikedBoards(@PathVariable String nickname) {
+        List<Integer> likedBoards = likeService.getUserLikedBoards(nickname);
+        return ResponseEntity.ok(likedBoards);
     }
 }

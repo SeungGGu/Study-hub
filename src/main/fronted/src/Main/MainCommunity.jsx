@@ -1,12 +1,13 @@
 import { MainHeader } from "./include/MainHeader";
 import { Button, Form, InputGroup, Badge, ListGroup } from "react-bootstrap";
-import {useContext, useEffect, useState} from "react";
+import { useContext, useEffect, useState } from "react";
 import { HiPencilSquare } from "react-icons/hi2";
 import Community from "./Community";
 import axios from "axios";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { IoEyeSharp } from "react-icons/io5";
+import { AddSquare } from 'iconsax-react';
 
 function MainCommunity() {
     const [boards, setBoards] = useState([]);
@@ -14,7 +15,6 @@ function MainCommunity() {
     const [popularTags, setPopularTags] = useState([]);
     const [popularBoards, setPopularBoards] = useState([]);
     const [filteredBoards, setFilteredBoards] = useState([]); // 검색 결과를 저장할 상태 추가
-
 
     const navigate = useNavigate();
 
@@ -66,7 +66,7 @@ function MainCommunity() {
     };
 
     return (
-        <div className="MainCommunity" style={{ paddingTop: "56px", marginLeft: "150px", marginRight: '150px' }}>
+        <div className="MainCommunity" style={{ paddingTop: "30px", marginLeft: "150px", marginRight: '150px' }}>
             <MainHeader />
             <div className="row g-5">
                 <div className="col-md-8">
@@ -78,12 +78,8 @@ function MainCommunity() {
                                 onChange={(e) => handleSearch(e.target.value)} // 입력할 때마다 실시간 검색
                                 style={{ borderRadius: "10px" }}
                             />
-                            <div className="col-auto" style={{marginLeft: "20px"}}>
-                                <Button variant="secondary" onClick={() => {
-                                    navigate('/MainBoards');
-                                }}>
-                                    <HiPencilSquare size={30}/>
-                                </Button>
+                            <div className="col-auto" style={{ marginLeft: "20px" }}>
+                                    <HiPencilSquare onClick={() => navigate('/MainBoards')} size={30} />
                             </div>
                         </InputGroup>
                     </div>
