@@ -1,0 +1,79 @@
+/* 전체 컨테이너 스타일 */
+.community-container {
+    padding-top: 10px;
+}
+
+/* 카드 디자인 */
+.card {
+    border-radius: 15px;
+    border: none;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+    margin-bottom: 15px;
+    background-color: #fff;
+}
+
+.card:hover {
+    transform: scale(1.01);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* 카드 헤더 스타일 */
+.card-title {
+    font-weight: 600;
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+    text-align: left;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+
+/* 좋아요 버튼 스타일 */
+.like-button {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 0.9rem;
+    margin-left: 10px;
+    color: #2F4156;
+    transition: color 0.3s ease;
+    outline: none;
+}
+
+.like-button:hover {
+    color: #2F4156; /* 좋아요 시 빨간색으로 변경 */
+}
+
+/* 삭제 드롭다운 스타일 */
+.dropdown-toggle {
+    color: #000;
+    padding: 0;
+    display: flex;
+    align-items: center;
+}
+
+.dropdown-menu {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 게시물 본문 텍스트 스타일 */
+.card-text {
+    margin-bottom: 20px;
+    font-size: 1rem;
+    color: #333;
+    display: flex;
+    justify-content: left;
+}
+
+/* 게시물 정보 (닉네임, 조회수) 스타일 */
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9rem;
+    color: #666;
+    background-color: white;
+
+}

@@ -5,9 +5,7 @@
     box-sizing: border-box;
 }
 
-
-
-.main-m-container {
+.main-container {
     width: 100%;
     overflow: hidden;
     background-color: #1e1e2e;

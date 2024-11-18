@@ -112,14 +112,14 @@ function MainStudyCreate() {
     return (
         <div className="MainStudyCreate">
             <MainHeader/>
-            <div className="container mt-5">
-                <h5>스터디 작성 페이지</h5>
-                <hr className="featurette-divider"/>
+            <div className="main-study-container mt-5">
+                <h5 className="main-study-title">Make Study Room</h5>
+                <hr className="main-study-divider"/>
                 <Form onSubmit={handleSubmit}>
                     <Row>
                         <Col xs={6} md={3}> {/* 왼쪽 부분 */}
                             <Form.Group controlId="fileUpload">
-                                <div>
+                                <div className="image-preview-container">
                                     {selectedImage ? (
                                         <img
                                             src={URL.createObjectURL(selectedImage)}
@@ -128,7 +128,7 @@ function MainStudyCreate() {
                                         />
                                     ) : (
                                         <img
-                                            src="/images/studyHub.png" // 파일이 선택되지 않은 경우 기본 이미지 표시
+                                            src="/images/Study_Room_.png"
                                             alt="Default"
                                             className="image-preview"
                                         />
@@ -138,14 +138,15 @@ function MainStudyCreate() {
                         </Col>
                         <Col xs={6} md={9}> {/* 오른쪽 부분 */}
                             <Form.Group controlId="fileUpload">
-                                <Form.Label>사진 등록 : 700 X 400 크기로 등록하세요</Form.Label>
+                                <Form.Label className="main-study-label">사진 등록 : 700 X 400 크기로 등록하세요</Form.Label>
                                 <div className="d-flex">
-                                    <Form.Control type="file" onChange={handleFileChange}/>
+                                    <Form.Control className="main-study-input" type="file" onChange={handleFileChange}/>
                                 </div>
                             </Form.Group>
                             <Form.Group controlId="studyTitle">
-                                <Form.Label>스터디 제목</Form.Label>
+                                <Form.Label className="main-study-label">스터디 제목</Form.Label>
                                 <Form.Control
+                                    className="main-study-input"
                                     type="text"
                                     value={studyTitle}
                                     onChange={(e) => setStudyTitle(e.target.value)}
@@ -156,8 +157,9 @@ function MainStudyCreate() {
                         </Col>
                         <Row>
                             <Form.Group controlId="studyContent">
-                                <Form.Label>스터디 내용</Form.Label>
+                                <Form.Label className="main-study-label">스터디 내용</Form.Label>
                                 <Form.Control
+                                    className="main-study-input"
                                     as="textarea"
                                     rows={3}
                                     value={studyComment}
@@ -167,8 +169,9 @@ function MainStudyCreate() {
                                 />
                             </Form.Group>
                             <Form.Group as={Col} controlId="startDate">
-                                <Form.Label>시작 날짜</Form.Label>
+                                <Form.Label className="main-study-label">시작 날짜</Form.Label>
                                 <Form.Control
+                                    className="main-study-input"
                                     type="date"
                                     value={studyCreateDate}
                                     onChange={(e) => setStartDate(e.target.value)}
@@ -176,8 +179,9 @@ function MainStudyCreate() {
                                 />
                             </Form.Group>
                             <Form.Group as={Col} controlId="endDate">
-                                <Form.Label>종료 날짜</Form.Label>
+                                <Form.Label className="main-study-label">종료 날짜</Form.Label>
                                 <Form.Control
+                                    className="main-study-input"
                                     type="date"
                                     value={studyLastDate}
                                     onChange={(e) => setEndDate(e.target.value)}
@@ -188,10 +192,11 @@ function MainStudyCreate() {
                         <Form.Group controlId="passwordProtected">
                             <Row>
                                 <Col>
-                                    <Form.Label>비밀방</Form.Label>
+                                    <Form.Label className="main-study-label">비밀방</Form.Label>
                                 </Col>
                                 <Col>
                                     <Form.Check
+                                        className="main-study-switch"
                                         type="switch"
                                         checked={pwStatus}
                                         onChange={(e) => setPasswordProtected(e.target.checked)}
@@ -201,8 +206,9 @@ function MainStudyCreate() {
                         </Form.Group>
                         {pwStatus && (
                             <Form.Group controlId="password">
-                                <Form.Label>비밀번호</Form.Label>
+                                <Form.Label className="main-study-label">비밀번호</Form.Label>
                                 <Form.Control
+                                    className="main-study-input"
                                     type="password"
                                     value={studyPw}
                                     onChange={(e) => setPassword(e.target.value)}
@@ -211,12 +217,12 @@ function MainStudyCreate() {
                             </Form.Group>
                         )}
                     </Row>
-                    <Button variant="primary" type="submit">
+                    <Button className="main-study-submit-btn" type="submit">
                         만들기
                     </Button>
                 </Form>
             </div>
-            <hr className="featurette-divider"/>
+            <hr className="main-study-divider"/>
             <MainFooter/>
         </div>
     );
