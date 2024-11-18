@@ -82,8 +82,6 @@ public class StudyController {
                 .collect(Collectors.toList());
         return ResponseEntity.ok(studyEntities);
     }
-
-
     @PostMapping("/{studyId}/like")
     public ResponseEntity<Map<String, Integer>> toggleLike(@PathVariable int studyId, @RequestParam String nickname) {
         try {
