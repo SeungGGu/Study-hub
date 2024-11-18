@@ -1,6 +1,7 @@
 package com.learner.studyhub.controller;
 
 import com.learner.studyhub.dto.StudyDTO;
+import com.learner.studyhub.entity.ApplicationStatus;
 import com.learner.studyhub.entity.StudyEntity;
 import com.learner.studyhub.service.StudyService;
 import lombok.RequiredArgsConstructor;
@@ -102,5 +103,48 @@ public class StudyController {
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    //마이페이지 닉네임으로 스터디 조회
+    @GetMapping("/creator")
+    public List<StudyDTO> getStudiesByCreator(@RequestParam String nickname) {
+        return studyService.getStudiesByCreator(nickname);
+    }
+
+    @GetMapping("/checkMembership")
+    public ResponseEntity<Boolean> checkMembership(@RequestParam int studyId, @RequestParam String userId) {
+        boolean isMember = studyService.isMember(studyId, userId);
+        return ResponseEntity.ok(isMember);
+    }
+
+    @PostMapping("/saveApplication")
+    public ResponseEntity<String> saveApplication(@RequestBody Map<String, String> payload) {
+        String studyId = payload.get("studyId");
+        String userId = payload.get("userId");
+
+        studyService.saveApplicationStatus(studyId, userId);
+
+        return ResponseEntity.ok("가입 신청 상태가 저장되었습니다.");
+    }
+
+    // 특정 스터디의 가입 신청 목록 조회
+    @GetMapping("/{studyId}/applications")
+    public ResponseEntity<List<ApplicationStatus>> getApplications(@PathVariable int studyId) {
+        List<ApplicationStatus> applications = studyService.getApplicationsByStudyId(studyId);
+        return ResponseEntity.ok(applications);
+    }
+
+    // 가입 신청 승인
+    @PostMapping("/{studyId}/applications/{userId}/approve")
+    public ResponseEntity<String> approveApplication(@PathVariable int studyId, @PathVariable String userId) {
+        studyService.approveApplication(studyId, userId);
+        return ResponseEntity.ok("가입이 승인되었습니다.");
+    }
+
+    // 가입 신청 거절
+    @PostMapping("/{studyId}/applications/{userId}/reject")
+    public ResponseEntity<String> rejectApplication(@PathVariable int studyId, @PathVariable String userId) {
+        studyService.rejectApplication(studyId, userId);
+        return ResponseEntity.ok("가입 신청이 거절되었습니다.");
     }
 }

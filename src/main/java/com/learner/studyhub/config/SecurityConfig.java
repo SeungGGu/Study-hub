@@ -23,6 +23,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/user/**").permitAll()
                         .requestMatchers("/api/sessions/**").permitAll()
                         .requestMatchers("/openvidu/api/sessions/**").permitAll()
+                        .requestMatchers("/api/studyMember/**").permitAll()
                         .anyRequest().permitAll()
                 )
                 .cors(); // Enable CORS

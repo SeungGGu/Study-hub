@@ -1,15 +1,7 @@
 package com.learner.studyhub.entity;
 
-import com.learner.studyhub.entity.map.MapStudyMemberPK;
 import com.learner.studyhub.users.entity.UserEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.MapsId;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,19 +13,24 @@ import lombok.Setter;
 @Table(name = "studyTime")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class StudyTimeEntity {
+
     @Id
-    @EmbeddedId
-    private MapStudyMemberPK mapStudyMemberPK;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;  // 기본 키 필드
 
-    @MapsId(value = "userId")
-    @ManyToOne
-    @JoinColumn(name = "userId", referencedColumnName = "userId")
-    private UserEntity userId;
+    @Column(nullable = false)
+    private int studyId;  // StudyEntity의 studyId 값 저장
 
-    @MapsId(value = "studyId")
+    @Column(nullable = false)
+    private String userId;  // UserEntity의 userId 값 저장
+
     @ManyToOne
-    @JoinColumn(name = "studyId", referencedColumnName = "studyId")
-    private StudyEntity studyId;
+    @JoinColumn(name = "userId", insertable = false, updatable = false)
+    private UserEntity userEntity;
+
+    @ManyToOne
+    @JoinColumn(name = "studyId", insertable = false, updatable = false)
+    private StudyEntity studyEntity;
 
     @Column(nullable = false)
     private String studyTimeStart;
