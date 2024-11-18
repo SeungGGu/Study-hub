@@ -5,16 +5,13 @@
     box-sizing: border-box;
 }
 
-body {
-    font-family: 'Arial', sans-serif;
-    line-height: 1.6;
-    background-color: #1e1e2e;
-    color: #333;
-}
 
-.main-container {
+
+.main-m-container {
     width: 100%;
     overflow: hidden;
+    background-color: #1e1e2e;
+    color: #333;
 }
 
 /* Header 스타일 */
