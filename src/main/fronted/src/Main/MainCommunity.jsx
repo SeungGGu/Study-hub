@@ -1,13 +1,13 @@
-import { MainHeader } from "./include/MainHeader";
-import { Button, Form, InputGroup, Badge, ListGroup } from "react-bootstrap";
-import { useContext, useEffect, useState } from "react";
-import { HiPencilSquare } from "react-icons/hi2";
+import {MainHeader} from "./include/MainHeader";
+import {Button, Form, InputGroup, Badge, ListGroup} from "react-bootstrap";
+import {useContext, useEffect, useState} from "react";
+import {HiPencilSquare} from "react-icons/hi2";
 import Community from "./Community";
 import axios from "axios";
 import React from "react";
-import { useNavigate } from "react-router-dom";
-import { IoEyeSharp } from "react-icons/io5";
-import { AddSquare } from 'iconsax-react';
+import {useNavigate} from "react-router-dom";
+import {IoEyeSharp} from "react-icons/io5";
+import {AddSquare} from 'iconsax-react';
 
 function MainCommunity() {
     const [boards, setBoards] = useState([]);
@@ -42,9 +42,7 @@ function MainCommunity() {
         if (query.trim() === "") {
             setFilteredBoards(boards); // 검색어가 없으면 모든 게시물 표시
         } else {
-            const filtered = boards.filter(board =>
-                board.boardTitle.toLowerCase().includes(query.toLowerCase())
-            );
+            const filtered = boards.filter(board => board.boardTitle.toLowerCase().includes(query.toLowerCase()));
             setFilteredBoards(filtered);
         }
     };
@@ -65,65 +63,67 @@ function MainCommunity() {
         }
     };
 
-    return (
-        <div className="MainCommunity" style={{ paddingTop: "30px", marginLeft: "150px", marginRight: '150px' }}>
-            <MainHeader />
+    return (<div className="MainCommunity"
+                 style={{paddingTop: "30px", marginLeft: "150px", marginRight: '150px', marginTop: "80px"}}>
+            <MainHeader/>
             <div className="row g-5">
                 <div className="col-md-8">
-                    <div className="mt-3" style={{ marginRight: '50px' }}>
+                    <div className="mt-3" style={{marginRight: '50px'}}>
                         <InputGroup className="mb-3">
                             <Form.Control
                                 placeholder="게시물 제목으로 검색해 보세요!"
                                 value={searchQuery}
                                 onChange={(e) => handleSearch(e.target.value)} // 입력할 때마다 실시간 검색
-                                style={{ borderRadius: "10px" }}
+                                style={{borderRadius: "10px"}}
                             />
-                            <div className="col-auto" style={{ marginLeft: "20px" }}>
-                                    <HiPencilSquare onClick={() => navigate('/MainBoards')} size={30} />
+                            <div className="col-auto" style={{marginLeft: "20px"}}>
+                                <HiPencilSquare onClick={() => navigate('/MainBoards')} size={30}/>
                             </div>
                         </InputGroup>
                     </div>
                     {/* 검색 결과 */}
                     <div>
-                        <Community boards={filteredBoards} /> {/* 검색된 결과 또는 전체 게시물 표시 */}
+                        <Community boards={filteredBoards}/> {/* 검색된 결과 또는 전체 게시물 표시 */}
                     </div>
                 </div>
                 <div className="col-md-4">
                     <div className="p-4 mb-3 rounded"
-                         style={{ border: '1px solid #ddd', margin: '5px', borderRadius: '5px', marginTop: '20px' }}>
-                        <h6 style={{ color: 'black', textAlign: "left", fontWeight: 'bold' }}># 인기 태그</h6>
-                        {popularTags.map((tag, index) => (
-                            <Badge
+                         style={{border: '1px solid #ddd', margin: '5px', borderRadius: '5px', marginTop: '20px'}}>
+                        <h6 style={{color: 'black', textAlign: "left", fontWeight: 'bold'}}># 인기 태그</h6>
+                        {popularTags.map((tag, index) => (<Badge
                                 key={index}
                                 pill
                                 bg="secondary"
                                 onClick={() => handleTagClick(tag)}
-                                style={{ cursor: 'pointer', marginRight: '5px' }}
+                                style={{cursor: 'pointer', marginRight: '5px'}}
                             >
                                 <Badge pill bg="black">#</Badge>{tag}
-                            </Badge>
-                        ))}
+                            </Badge>))}
                     </div>
-                    <div className="p-4 mt-3 rounded" style={{ border: '1px solid #ddd', margin: '5px', borderRadius: '5px' }}>
-                        <h6 style={{ color: 'black', textAlign: "left", fontWeight: 'bold' }}>인기 게시물</h6>
+                    <div className="p-4 mt-3 rounded"
+                         style={{border: '1px solid #ddd', margin: '5px', borderRadius: '5px'}}>
+                        <h6 style={{color: 'black', textAlign: "left", fontWeight: 'bold'}}>인기 게시물</h6>
                         <ListGroup variant="flush">
-                            {popularBoards.map((board, index) => (
-                                <ListGroup.Item
+                            {popularBoards.map((board, index) => (<ListGroup.Item
                                     key={index}
-                                    style={{ cursor: 'pointer', padding: '10px 15px', border: '1px solid #ddd', margin: '5px', borderRadius: '5px' }}
+                                    style={{
+                                        cursor: 'pointer',
+                                        padding: '10px 15px',
+                                        border: '1px solid #ddd',
+                                        margin: '5px',
+                                        borderRadius: '5px'
+                                    }}
                                     onClick={() => handleBoardClick(board.boardId)}
                                     className="popular-board-item"
                                 >
-                                    <div style={{ fontWeight: 'bold' }}>{board.boardTitle}</div>
-                                    <div><IoEyeSharp style={{ color: "lightgray" }} />{board.boardView}</div>
-                                </ListGroup.Item>
-                            ))}
+                                    <div style={{fontWeight: 'bold'}}>{board.boardTitle}</div>
+                                    <div><IoEyeSharp style={{color: "lightgray"}}/>{board.boardView}</div>
+                                </ListGroup.Item>))}
                         </ListGroup>
                     </div>
                 </div>
             </div>
-        </div>
-    );
+        </div>);
 }
 
 export default MainCommunity;

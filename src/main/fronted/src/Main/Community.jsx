@@ -88,7 +88,7 @@ function Community({ boards }) {
                                     </Dropdown>
                                 )}
                             </h4>
-                            <p className="card-text">{board.boardDetail}</p>
+                            <p className="card-text" style={{textAlign:"left"}}>{board.boardDetail}</p>
                         </div>
                         <div className="card-footer">
                             <small>작성자: {board.boardNickname}</small>
