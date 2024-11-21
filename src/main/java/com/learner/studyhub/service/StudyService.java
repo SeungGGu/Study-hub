@@ -115,10 +115,15 @@ public class StudyService {
     }
 
     // 스터디 ID로 가입 신청 목록을 조회
+//    public List<ApplicationStatus> getApplicationsByStudyId(int studyId) {
+//        System.out.println(studyId);
+//        System.out.println(applicationRepository.findByStudyId(studyId));
+//        return applicationRepository.findByStudyId(studyId);
+//    }
+
     public List<ApplicationStatus> getApplicationsByStudyId(int studyId) {
-        System.out.println(studyId);
-        System.out.println(applicationRepository.findByStudyId(studyId));
-        return applicationRepository.findByStudyId(studyId);
+        // APPROVED 상태 제외
+        return applicationRepository.findPendingOrRejectedByStudyId(studyId);
     }
 
     @Transactional
