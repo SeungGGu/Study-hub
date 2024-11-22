@@ -8,4 +8,5 @@ import java.util.List;
 public interface StudyMemberRepository extends JpaRepository<StudyMemberEntity, Long> {
     boolean existsByStudyIdAndUserId(int studyId, String userId);
     List<StudyMemberEntity> findByUserId(String userId);
+    void deleteByStudyIdAndUserId(int studyId, String userId);
 }

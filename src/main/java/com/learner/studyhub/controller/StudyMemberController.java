@@ -1,5 +1,6 @@
 package com.learner.studyhub.controller;
 
+import com.learner.studyhub.dto.StudyDTO;
 import com.learner.studyhub.entity.StudyEntity;
 import com.learner.studyhub.service.StudyMemberService;
 import lombok.RequiredArgsConstructor;
@@ -16,8 +17,8 @@ public class StudyMemberController {
     private final StudyMemberService studyMemberService;
 
     @GetMapping("/byUser/{userId}")
-    public ResponseEntity<List<StudyEntity>> getStudiesByUserId(@PathVariable String userId) {
-        List<StudyEntity> studies = studyMemberService.findStudiesByUserId(userId);
+    public ResponseEntity<List<StudyDTO>> getStudiesByUserId(@PathVariable String userId) {
+        List<StudyDTO> studies = studyMemberService.findStudiesByUserId(userId);
         return ResponseEntity.ok(studies);
     }
 }
