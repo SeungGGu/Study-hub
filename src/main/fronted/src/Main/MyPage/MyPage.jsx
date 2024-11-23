@@ -1,44 +1,111 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import './myPage.css';
-import {MainHeader} from "../include/MainHeader";
-import {useNavigate} from "react-router-dom";
-import {UserContext} from '../../context/UserContext';
+import { MainHeader } from "../include/MainHeader";
+import { useNavigate } from "react-router-dom";
+import { UserContext } from '../../context/UserContext';
 import StorySection from "./components/StroySection";
 import RecordSection from "./components/RecordSection";
 import StudyManagement from "./components/StudyManagement";
 import axios from 'axios';
+import { Modal } from "react-bootstrap";
 
 const MyPage = () => {
     const [activeTab, setActiveTab] = useState('activity');
-    const [joinedStudies, setJoinedStudies] = useState([]);
+    const [joinedStudies, setJoinedStudies] = useState([]); // 가입한 스터디 목록
+    const [showPasswordModal, setShowPasswordModal] = useState(false); // 비밀번호 모달
+    const [enteredPassword, setEnteredPassword] = useState(""); // 입력된 비밀번호
+    const [wrongPassword, setWrongPassword] = useState(false); // 비밀번호 오류 상태
+    const [currentStudyId, setCurrentStudyId] = useState(null); // 현재 선택된 스터디 ID
+    const [currentStudyTitle, setCurrentStudyTitle] = useState(""); // 현재 선택된 스터디 제목
     const navigate = useNavigate();
-    const {user} = useContext(UserContext);
+    const { user } = useContext(UserContext); // 로그인된 사용자 정보
 
-    useEffect(() => {
-        // DOM이 렌더링된 후에만 프로필과 스토리의 높이를 맞춤
-        const profileHeight = document.querySelector('.mypage-profile-content')?.offsetHeight;
-        const storyContent = document.querySelector('.mypage-story-content');
-        if (storyContent && profileHeight) {
-            storyContent.style.height = `${profileHeight}px`;
-        }
-    }, [user]); // user 값이 변경될 때마다 실행되도록 수정
-
+    // 가입한 스터디 목록 가져오기
     useEffect(() => {
         if (user && user.id) {
             axios.get(`/api/studyMember/byUser/${user.id}`)
-                .then(response => {
-                    setJoinedStudies(response.data);
-                })
-                .catch(error => {
+                .then((response) => setJoinedStudies(response.data))
+                .catch((error) => {
                     console.error('스터디 조회 오류:', error);
                     setJoinedStudies([]);
                 });
         }
     }, [user]);
 
+    // 스터디 입장 처리
+    const handleStudyEnter = async (studyId, studyTitle) => {
+        try {
+            // 스터디 생성자인지 확인
+            const response = await axios.get(`http://localhost:8080/api/study/${studyId}/isCreator`, {
+                params: { userNickname: user.nickname }, // 닉네임 전달
+            });
+
+            if (response.data) {
+                // 생성자인 경우 바로 입장
+                navigate(`/studyRoom/${studyId}/${studyTitle}`);
+            } else {
+                // 생성자가 아닌 경우 비밀번호 입력 모달 표시
+                setCurrentStudyId(studyId);
+                setCurrentStudyTitle(studyTitle);
+                setShowPasswordModal(true);
+            }
+        } catch (error) {
+            console.error("스터디 입장 오류:", error);
+            alert("스터디 입장 중 문제가 발생했습니다.");
+        }
+    };
+
+
+
+    // 비밀번호 확인 처리
+    const handlePasswordSubmit = async () => {
+        try {
+            const response = await axios.post(`/api/study/checkPassword`, {
+                studyId: currentStudyId,
+                password: enteredPassword,
+            });
+
+            if (response.data.success) {
+                // 비밀번호가 올바른 경우 스터디룸으로 이동
+                navigate(`/studyRoom/${currentStudyId}/${currentStudyTitle}`);
+                setShowPasswordModal(false); // 모달 닫기
+                setWrongPassword(false); // 오류 상태 초기화
+            } else {
+                setWrongPassword(true); // 비밀번호 오류 표시
+            }
+        } catch (error) {
+            console.error("비밀번호 확인 오류:", error);
+        }
+    };
+
     const handleEditProfile = () => {
         navigate('/editProfile');
     };
+
+
+    const handleLeaveStudy = async (studyId) => {
+        const confirmLeave = window.confirm("정말 스터디에서 나가시겠습니까?");
+        if (!confirmLeave) return;
+
+        try {
+            const response = await axios.delete(`http://localhost:8080/api/study/${studyId}/leave`, {
+                params: { userId: user.id },
+            });
+
+            if (response.status === 200) {
+                // 나가기 성공 후 UI 업데이트
+                setJoinedStudies((prevStudies) =>
+                    prevStudies.filter((study) => study.studyId !== studyId)
+                );
+                alert("스터디에서 나갔습니다.");
+            }
+        } catch (error) {
+            console.error("스터디 나가기 중 오류 발생:", error);
+            alert("스터디 나가기 중 문제가 발생했습니다.");
+        }
+    };
+
+
 
     const renderContent = () => {
         switch (activeTab) {
@@ -53,20 +120,35 @@ const MyPage = () => {
                                     <tr>
                                         <th>스터디 이름</th>
                                         <th>설명</th>
+                                        <th>입장하기</th>
                                         <th>나가기</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    {joinedStudies.map(study => (
+                                    {joinedStudies.map((study) => (
                                         <tr key={study.studyId}>
                                             <td>{study.studyTitle}</td>
                                             <td>{study.studyComment}</td>
                                             <td>
-                                                <button className="mypage-leave-btn">나가기</button>
+                                                <button
+                                                    className="mypage-enter-btn"
+                                                    onClick={() => handleStudyEnter(study.studyId, study.studyTitle)}
+                                                >
+                                                    입장하기
+                                                </button>
+                                            </td>
+                                            <td>
+                                                <button
+                                                    className="mypage-leave-btn"
+                                                    onClick={() => handleLeaveStudy(study.studyId)}
+                                                >
+                                                    나가기
+                                                </button>
                                             </td>
                                         </tr>
                                     ))}
                                     </tbody>
+
                                 </table>
                             </div>
                         ) : (
@@ -98,7 +180,7 @@ const MyPage = () => {
 
     return (
         <div className="mypage">
-            <MainHeader/>
+            <MainHeader />
             <div className="mypage-header">
                 <div className="mypage-profile">
                     <h3>내 프로필</h3>
@@ -111,7 +193,7 @@ const MyPage = () => {
                                 {/* 로그인한 사용자 정보 표시, user가 있을 때만 접근 */}
                                 <p className="mypage-nickname">{user ? user.nickname : '닉네임 정보 없음'}</p>
                                 <p className="mypage-email">{user ? user.email : '이메일 정보 없음'}</p>
-                                <hr/>
+                                <hr />
                                 <div className="mypage-profile-extra">
                                     <p>닉네임 | {user ? user.nickname : '닉네임 정보 없음'}</p>
                                     <p>상태메시지 | 아자아자 화이팅~</p>
@@ -127,7 +209,7 @@ const MyPage = () => {
                 <div className="mypage-story">
                     <h3>내 스토리</h3>
                     <div className="mypage-story-content">
-                        <StorySection/>
+                        <StorySection />
                     </div>
                 </div>
             </div>
@@ -148,6 +230,29 @@ const MyPage = () => {
             </div>
 
             {renderContent()}
+
+            {/* 비밀번호 모달 */}
+            <Modal show={showPasswordModal} onHide={() => setShowPasswordModal(false)}>
+                <Modal.Header closeButton>
+                    <Modal.Title>비밀번호 입력</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <form>
+                        <label>비밀번호</label>
+                        <input
+                            type="password"
+                            placeholder="비밀번호를 입력하세요"
+                            value={enteredPassword}
+                            onChange={(e) => setEnteredPassword(e.target.value)}
+                        />
+                        {wrongPassword && <small className="error-text">비밀번호가 틀렸습니다.</small>}
+                    </form>
+                </Modal.Body>
+                <Modal.Footer>
+                    <button onClick={() => setShowPasswordModal(false)}>닫기</button>
+                    <button onClick={handlePasswordSubmit}>확인</button>
+                </Modal.Footer>
+            </Modal>
         </div>
     );
 };

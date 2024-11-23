@@ -22,6 +22,7 @@ function MainStudyAll({type}) {
     const [wrongPassword, setWrongPassword] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [cardsPerPage] = useState(10);
+    const [showPendingModal, setShowPendingModal] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -103,51 +104,66 @@ function MainStudyAll({type}) {
 
     const handleCheckMembership = async (studyId, studyTitle) => {
         try {
-            const response = await fetch(`/api/study/checkMembership?studyId=${studyId}&userId=${userId}`);
+            // 스터디 생성자인지 확인
+            const isCreatorResponse = await fetch(`/api/study/${studyId}/isCreator?userNickname=${nickname}`);
+            const isCreator = await isCreatorResponse.json();
 
-            if (!response.ok) {
-                throw new Error("서버 응답이 올바르지 않습니다.");
-            }
-            // 반환된 값이 없거나 null인 경우 false로 처리
-            const isMember = (await response.json()) || false;
-
-            if (isMember) {
-                setCurrentStudyId(studyId);
-                setCurrentStudyTitle(studyTitle);
-                setShowPasswordModal(true);  // 회원인 경우 비밀번호 모달 표시
+            if (isCreator) {
+                // 스터디 생성자인 경우 바로 입장
+                navigate(`/studyRoom/${studyId}/${studyTitle}`);
             } else {
-                setCurrentStudyId(studyId);
-                setCurrentStudyTitle(studyTitle);
-                setShowApplyModal(true);  // 회원이 아닌 경우 가입 신청 폼 표시
+                // 스터디 생성자가 아닌 경우 가입 상태 확인
+                const response = await fetch(`/api/study/checkMembership?studyId=${studyId}&userId=${userId}`);
+                const { status } = await response.json();
+
+                switch (status) {
+                    case null: // 가입하지 않은 경우
+                        setCurrentStudyId(studyId);
+                        setCurrentStudyTitle(studyTitle);
+                        setShowApplyModal(true); // 가입 신청 모달 표시
+                        break;
+
+                    case "PENDING": // 승인 대기 중
+                        setShowPendingModal(true); // 승인 대기 중 모달 표시
+                        break;
+
+                    case "APPROVED": // 승인된 경우
+                        setCurrentStudyId(studyId);
+                        setCurrentStudyTitle(studyTitle);
+                        setShowPasswordModal(true); // 비밀번호 입력 모달 표시
+                        break;
+
+                    default:
+                        console.error("알 수 없는 상태:", status);
+                }
             }
         } catch (error) {
-            console.error("에러 발생:", error);
-            alert("가입 정보를 확인할 수 없습니다. 네트워크 상태를 확인하고 다시 시도해 주세요.");
+            console.error("가입 상태 확인 중 오류 발생:", error);
         }
     };
+
+
+
 
     const handleApplyMembership = async () => {
         try {
             const response = await fetch(`/api/study/saveApplication`, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({studyId: currentStudyId, userId: userId}),
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ studyId: currentStudyId, userId: userId }),
             });
 
             if (response.ok) {
-                // 가입 신청이 완료되었음을 알리는 팝업 표시
                 setShowApplicationSuccess(true);
                 setShowApplyModal(false);
             } else {
-                throw new Error("가입 신청에 실패했습니다.");
+                alert("가입 신청에 실패했습니다.");
             }
         } catch (error) {
-            console.error("Error applying for membership:", error);
-            alert("가입 신청에 실패했습니다.");
+            console.error("가입 신청 오류:", error);
         }
     };
+
 
 
     const handlePasswordSubmit = () => {
@@ -214,17 +230,23 @@ function MainStudyAll({type}) {
             </div>
             <div className="study-cards-container">
                 {filteredCards.slice(5, 10).map(card => (
-                    <div key={card.studyId} className="study-card"
-                         onClick={() => handleCheckMembership(card.studyId, card.studyTitle)}>
+                    <div
+                        key={card.studyId}
+                        className="study-card"
+                        onClick={() => handleCheckMembership(card.studyId, card.studyTitle)}
+                    >
                         <img src={`/images/${card.studyTitlePicture}`} alt={card.studyTitle}/>
                         <div className="study-card-content">
                             <h5>{card.studyTitle}</h5>
                             <p>{card.studyComment}</p>
                             <small>{card.studyCreator}</small>
-                            <div className="likes-container" onClick={(e) => {
-                                e.stopPropagation();
-                                handleLike(card.studyId);
-                            }}>
+                            <div
+                                className="likes-container"
+                                onClick={(e) => {
+                                    e.stopPropagation(); // 좋아요 클릭 시 부모 이벤트 중단
+                                    handleLike(card.studyId);
+                                }}
+                            >
                                 {card.pwStatus && <Lock size={16}/>}
                                 <span>👍 {card.likes}</span>
                             </div>
@@ -274,6 +296,20 @@ function MainStudyAll({type}) {
                     <button onClick={handleApplyMembership}>가입 신청</button>
                 </Modal.Footer>
             </Modal>
+
+            {/* 승인 대기 상태 모달 */}
+            <Modal show={showPendingModal} onHide={() => setShowPendingModal(false)}>
+                <Modal.Header closeButton>
+                    <Modal.Title>승인 대기 중</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <p>스터디 가입 신청이 승인 대기 중입니다. 스터디장의 승인을 기다려 주세요.</p>
+                </Modal.Body>
+                <Modal.Footer>
+                    <button onClick={() => setShowPendingModal(false)}>확인</button>
+                </Modal.Footer>
+            </Modal>
+
 
             {/* 가입 신청 성공 팝업 */}
             <Modal show={showApplicationSuccess} onHide={() => setShowApplicationSuccess(false)}>

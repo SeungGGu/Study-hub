@@ -1,35 +1,39 @@
 /* 전체 컨테이너 */
 .MainStudyCreate {
     padding-top: 20px;
-    font-family: 'Arial', sans-serif;
-    background-color: #f9fafc;
+    font-family: 'Poppins', sans-serif;
+    background-color: #f8f9fb;
     color: #333;
     min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    margin-top: 75px;
 }
 
 /* 스터디 작성 제목 */
 .main-study-title {
-    font-size: 1.8em;
+    font-size: 2em;
     font-weight: bold;
     text-align: center;
-    color: #6e768c;
+    color: #3b5998;
     margin-bottom: 30px;
 }
 
 /* 컨테이너 및 내부 요소 스타일링 */
 .main-study-container {
-    background-color: white;
+    background-color: #fff;
     border-radius: 15px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    padding: 30px;
-    margin-top: 20px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+    padding: 40px;
+    margin: 20px auto;
+    max-width: 900px;
 }
 
 /* 구분선 */
 .main-study-divider {
     border: 0;
     height: 1px;
-    background-color: #ddd;
+    background: linear-gradient(to right, #3b5998, #ddd);
     margin: 2em 0;
 }
 
@@ -37,68 +41,89 @@
 .main-study-input {
     border: 1px solid #ced4da;
     border-radius: 8px;
-    padding: 10px;
+    padding: 12px;
     font-size: 1em;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
 }
 
 .main-study-input:focus {
-    border-color: #4a90e2;
-    box-shadow: 0 0 0 0.2rem rgba(74, 144, 226, 0.25);
-}
-
-/* 스위치 스타일 */
-.main-study-switch {
-    width: 2em;
-    height: 1em;
+    border-color: #3b5998;
+    box-shadow: 0 0 5px rgba(59, 89, 152, 0.4);
 }
 
 /* 이미지 업로드 섹션 */
 .image-preview-container {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
+    justify-content: center; /* 수평 중앙 정렬 */
+    align-items: center; /* 수직 중앙 정렬 */
     background-color: #f1f3f5;
-    border-radius: 8px;
+    border-radius: 10px;
     padding: 10px;
+    border: 2px dashed #ccc;
+    margin: auto; /* 부모 컨테이너 내에서 수평 및 수직 중앙 */
+    width: 100%; /* 영역 가로 100% */
+    max-width: 400px; /* 최대 너비 제한 */
+    height: auto; /* 높이 자동 조정 */
+    min-height: 200px; /* 최소 높이 설정 */
 }
 
 .image-preview {
-    width: 306px;
-    height: 170px;
-    border-radius: 8px;
-    object-fit: cover;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    max-width: 100%; /* 가로 크기를 부모 요소에 맞춤 */
+    max-height: 100%; /* 세로 크기를 부모 요소에 맞춤 */
+    object-fit: contain; /* 이미지 비율 유지 */
+    border-radius: 10px;
+    transition: transform 0.3s ease-in-out;
 }
 
-/* 버튼 스타일 */
-.main-study-submit-btn {
-    background-color: #3f4a65;
-    border: none;
-    color: white;
-    font-size: 1.1em;
-    font-weight: bold;
-    padding: 12px 20px;
-    border-radius: 8px;
-    transition: background-color 0.3s;
-    width: 100%;
-    margin-top: 20px;
-}
-
-.main-study-submit-btn:hover {
-    background-color: #357ab7;
+.image-preview:hover {
+    transform: scale(1.05); /* 호버 시 확대 */
 }
 
 /* 파일 업로드 안내 텍스트 */
 .main-study-label {
     font-weight: 600;
-    color: #3f4a65;
+    color: #3b5998;
+    font-size: 1.1em;
+    margin-bottom: 5px;
+}
+
+/* 버튼 스타일 */
+.main-study-submit-btn {
+    background-color: #3b5998;
+    border: none;
+    color: white;
+    font-size: 1.2em;
+    font-weight: bold;
+    padding: 12px 20px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.main-study-submit-btn:hover {
+    background-color: #2e4568;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(59, 89, 152, 0.3);
+}
+
+.password-switch-container {
+    display: flex;
+    align-items: center; /* 수직 정렬 */
+    gap: 10px; /* 레이블과 스위치 간격 */
+}
+
+/* 스위치 스타일 */
+.main-study-switch {
+    display: inline-block;
+    width: 50px; /* 스위치 크기 조정 */
+    height: 25px;
 }
 
 /* 태그 박스 */
 .tags-container {
-    background-color: white;
+    background-color: #fafafa;
     border: 1px solid #ced4da;
     border-radius: 8px;
     padding: 10px;
@@ -108,18 +133,19 @@
 }
 
 .tag-box {
-    background-color: #e9f5fe;
-    border: 1px solid #4a90e2;
-    border-radius: 5px;
-    padding: 5px 10px;
-    margin-right: 5px;
-    margin-bottom: 5px;
+    background-color: #eef5ff;
+    border: 1px solid #3b5998;
+    border-radius: 20px;
+    padding: 6px 12px;
+    margin-right: 8px;
+    margin-bottom: 8px;
     display: flex;
     align-items: center;
+    font-size: 0.9em;
 }
 
 .tag-text {
-    color: #4a90e2;
+    color: #3b5998;
     margin-right: 5px;
     font-weight: bold;
 }
@@ -127,38 +153,40 @@
 .tag-remove {
     cursor: pointer;
     color: #e74c3c;
+    font-size: 1.2em;
+    line-height: 1;
 }
 
 /* 반응형 디자인 */
 @media (max-width: 768px) {
     .main-study-container {
-        padding: 20px;
+        padding: 30px;
     }
     .main-study-title {
-        font-size: 1.5em;
+        font-size: 1.8em;
     }
     .main-study-input {
-        font-size: 0.9em;
+        font-size: 1em;
     }
     .main-study-submit-btn {
-        font-size: 1em;
+        font-size: 1.1em;
         padding: 10px 18px;
     }
 }
 
 @media (max-width: 480px) {
     .main-study-container {
-        padding: 15px;
+        padding: 20px;
     }
     .main-study-title {
-        font-size: 1.3em;
+        font-size: 1.5em;
     }
     .image-preview {
         width: 100%;
         height: auto;
     }
     .main-study-submit-btn {
-        font-size: 0.9em;
+        font-size: 1em;
         padding: 8px 16px;
     }
-} 
+}

@@ -3,6 +3,8 @@ package com.learner.studyhub.controller;
 import com.learner.studyhub.dto.StudyDTO;
 import com.learner.studyhub.entity.ApplicationStatus;
 import com.learner.studyhub.entity.StudyEntity;
+import com.learner.studyhub.repository.ApplicationRepository;
+import com.learner.studyhub.repository.StudyRepository;
 import com.learner.studyhub.service.StudyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -13,10 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @ResponseBody
@@ -26,10 +25,12 @@ import java.util.stream.Collectors;
 public class StudyController {
 
     private final StudyService studyService;
+    private final ApplicationRepository applicationRepository;
+    private final StudyRepository studyRepository;
 
     @PostMapping("/upload")
     public ResponseEntity<String> uploadFile(@RequestParam("image") MultipartFile file) {
-        String uploadDir = "C:\\inWorkSpace\\Study-hub\\src\\main\\fronted\\public\\images";
+        String uploadDir = "C:\\spring\\study\\Study-hub\\src\\main\\fronted\\public\\images";
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
             String currentTimeStamp = dateFormat.format(new Date());
@@ -112,10 +113,17 @@ public class StudyController {
     }
 
     @GetMapping("/checkMembership")
-    public ResponseEntity<Boolean> checkMembership(@RequestParam int studyId, @RequestParam String userId) {
-        boolean isMember = studyService.isMember(studyId, userId);
-        return ResponseEntity.ok(isMember);
+    public ResponseEntity<Map<String, String>> checkMembership(
+            @RequestParam int studyId,
+            @RequestParam String userId
+    ) {
+        Optional<ApplicationStatus> applicationStatus = applicationRepository.findByStudyIdAndUserId(studyId, userId);
+
+        Map<String, String> response = new HashMap<>();
+        response.put("status", applicationStatus.map(ApplicationStatus::getStatus).orElse(null));
+        return ResponseEntity.ok(response);
     }
+
 
     @PostMapping("/saveApplication")
     public ResponseEntity<String> saveApplication(@RequestBody Map<String, String> payload) {
@@ -147,4 +155,62 @@ public class StudyController {
         studyService.rejectApplication(studyId, userId);
         return ResponseEntity.ok("가입 신청이 거절되었습니다.");
     }
+
+    @GetMapping("/membership-status")
+    public ResponseEntity<String> getMembershipStatus(@RequestParam int studyId, @RequestParam String userId) {
+        String status = studyService.getMembershipStatus(studyId, userId);
+        return ResponseEntity.ok(status);
+    }
+
+    @PostMapping("/apply")
+    public ResponseEntity<String> applyForStudy(@RequestBody Map<String, String> payload) {
+        String studyId = payload.get("studyId");
+        String userId = payload.get("userId");
+
+        boolean alreadyApplied = applicationRepository.existsByStudyIdAndUserId(Integer.parseInt(studyId), userId);
+        if (alreadyApplied) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("이미 가입 신청이 되어 있습니다.");
+        }
+
+        studyService.saveApplicationStatus(studyId, userId);
+        return ResponseEntity.ok("가입 신청 상태가 저장되었습니다.");
+    }
+
+    @PostMapping("/checkPassword")
+    public ResponseEntity<Map<String, Boolean>> checkStudyPassword(
+            @RequestBody Map<String, String> payload
+    ) {
+        int studyId = Integer.parseInt(payload.get("studyId"));
+        String enteredPassword = payload.get("password");
+
+        StudyEntity study = studyRepository.findById(studyId)
+                .orElseThrow(() -> new IllegalArgumentException("스터디를 찾을 수 없습니다."));
+
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("success", study.getStudyPw().equals(enteredPassword));
+        return ResponseEntity.ok(response);
+    }
+
+
+    @DeleteMapping("/{studyId}/leave")
+    public ResponseEntity<String> leaveStudy(@PathVariable int studyId, @RequestParam String userId) {
+        try {
+            studyService.leaveStudy(studyId, userId); // 서비스에서 삭제 로직 처리
+            return ResponseEntity.ok("스터디에서 나갔습니다.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("스터디 나가기 처리 중 오류 발생");
+        }
+    }
+
+    @GetMapping("/{studyId}/isCreator")
+    public ResponseEntity<Boolean> isCreator(@PathVariable int studyId, @RequestParam String userNickname) {
+        StudyEntity study = studyRepository.findById(studyId)
+                .orElseThrow(() -> new IllegalArgumentException("스터디를 찾을 수 없습니다."));
+
+        boolean isCreator = study.getStudyCreator().getNickname().equals(userNickname); // 닉네임으로 비교
+        return ResponseEntity.ok(isCreator);
+    }
+
+
+
 }

@@ -1,5 +1,6 @@
 package com.learner.studyhub.service;
 
+import com.learner.studyhub.dto.StudyDTO;
 import com.learner.studyhub.entity.StudyEntity;
 import com.learner.studyhub.entity.StudyMemberEntity;
 import com.learner.studyhub.repository.StudyMemberRepository;
@@ -17,25 +18,32 @@ public class StudyMemberService {
     private final StudyMemberRepository studyMemberRepository;
     private final StudyRepository studyRepository;
 
-    public List<StudyEntity> findStudiesByUserId(String userId) {
-        System.out.println("조회 중인 userId: " + userId);  // userId 로그 출력
-
+    public List<StudyDTO> findStudiesByUserId(String userId) {
         List<StudyMemberEntity> studyMembers = studyMemberRepository.findByUserId(userId);
-        System.out.println("찾은 스터디 멤버 수: " + studyMembers.size());  // 찾은 스터디 멤버 수 출력
-
-        // 스터디가 없는 경우 빈 리스트를 반환
-        if (studyMembers.isEmpty()) {
-            System.out.println("가입한 스터디가 없습니다.");
-            return List.of();
-        }
 
         return studyMembers.stream()
-                .map(studyMember -> {
-                    StudyEntity study = studyRepository.findById(studyMember.getStudyId())
-                            .orElseThrow(() -> new IllegalArgumentException("스터디를 찾을 수 없습니다: " + studyMember.getStudyId()));
-                    System.out.println("찾은 스터디: " + study.getStudyTitle());  // 각 스터디 타이틀 로그 출력
-                    return study;
+                .map(member -> {
+                    StudyEntity study = studyRepository.findById(member.getStudyId())
+                            .orElseThrow(() -> new IllegalArgumentException("스터디를 찾을 수 없습니다: " + member.getStudyId()));
+                    return convertToDTO(study);
                 })
                 .collect(Collectors.toList());
     }
+
+    private StudyDTO convertToDTO(StudyEntity study) {
+        return new StudyDTO(
+                study.getStudyId(),
+                study.getStudyCreator().getNickname(),
+                study.getStudyCreateDate(),
+                study.getStudyLastDate(),
+                study.getStudyTitle(),
+                study.getStudyComment(),
+                study.getStudyTitlePicture(),
+                study.isPwStatus(),
+                study.getStudyPw(),
+                study.getLikes(),
+                false // isLiked는 필요에 따라 설정
+        );
+    }
+
 }
