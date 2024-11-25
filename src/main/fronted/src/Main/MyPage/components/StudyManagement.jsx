@@ -23,6 +23,16 @@ function StudyManagement() {
         }
     };
 
+    // const fetchApplications = async (studyId) => {
+    //     try {
+    //         const response = await axios.get(`/api/study/${studyId}/applications`);
+    //         setApplications(response.data);
+    //         setCurrentStudyId(studyId);
+    //         setShowApplications(true);
+    //     } catch (error) {
+    //         console.error("Error fetching applications:", error);
+    //     }
+    // };
     const fetchApplications = async (studyId) => {
         try {
             const response = await axios.get(`/api/study/${studyId}/applications`);
@@ -51,6 +61,25 @@ function StudyManagement() {
             console.error("Error rejecting application:", error);
         }
     };
+
+
+    // const handleApprove = async (userId) => {
+    //     try {
+    //         await axios.post(`/api/study/${currentStudyId}/applications/${userId}/approve`);
+    //         setApplications(applications.filter(app => app.userId !== userId));
+    //     } catch (error) {
+    //         console.error("Error approving application:", error);
+    //     }
+    // };
+    //
+    // const handleReject = async (userId) => {
+    //     try {
+    //         await axios.post(`/api/study/${currentStudyId}/applications/${userId}/reject`);
+    //         setApplications(applications.filter(app => app.userId !== userId));
+    //     } catch (error) {
+    //         console.error("Error rejecting application:", error);
+    //     }
+    //};
 
     useEffect(() => {
         if (user && user.nickname) {
@@ -147,33 +176,47 @@ function StudyManagement() {
             </div>
 
             {showApplications && (
-                <div className="applications-modal">
-                    <h4>가입 신청 관리</h4>
-                    <table>
-                        <thead>
+                <div className="study-applications-overlay">
+                    <div className="study-applications-modal">
+                        <h4 className="study-modal-title">가입 신청 관리</h4>
+                        <table className="study-applications-table">
+                            <thead>
                             <tr>
                                 <th>사용자 ID</th>
                                 <th>상태</th>
                                 <th>승인</th>
                                 <th>거절</th>
                             </tr>
-                        </thead>
-                        <tbody>
+                            </thead>
+                            <tbody>
                             {applications.map((app) => (
                                 <tr key={app.userId}>
                                     <td>{app.userId}</td>
                                     <td>{app.status}</td>
                                     <td>
-                                        <button onClick={() => handleApprove(app.userId)}>✔️ 승인</button>
+                                        <button
+                                            className="study-approve-btn"
+                                            onClick={() => handleApprove(app.userId)}
+                                        >
+                                            ✔️ 승인
+                                        </button>
                                     </td>
                                     <td>
-                                        <button onClick={() => handleReject(app.userId)}>❌ 거절</button>
+                                        <button
+                                            className="study-reject-btn"
+                                            onClick={() => handleReject(app.userId)}
+                                        >
+                                            ❌ 거절
+                                        </button>
                                     </td>
                                 </tr>
                             ))}
-                        </tbody>
-                    </table>
-                    <button onClick={() => setShowApplications(false)}>닫기</button>
+                            </tbody>
+                        </table>
+                        <button className="study-close-btn" onClick={() => setShowApplications(false)}>
+                            닫기
+                        </button>
+                    </div>
                 </div>
             )}
         </div>

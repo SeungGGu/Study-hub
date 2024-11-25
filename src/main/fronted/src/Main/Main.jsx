@@ -4,7 +4,7 @@ import {MainHeader} from "./include/MainHeader";
 
 const Main = () => {
     return (
-        <div className="main-container">
+        <div className="main-m-container">
             <MainHeader/>
 
             <section className="hero-section">

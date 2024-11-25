@@ -138,7 +138,7 @@ function MainStudyCreate() {
                         </Col>
                         <Col xs={6} md={9}> {/* 오른쪽 부분 */}
                             <Form.Group controlId="fileUpload">
-                                <Form.Label className="main-study-label">사진 등록 : 700 X 400 크기로 등록하세요</Form.Label>
+                                <Form.Label className="main-study-label"></Form.Label>
                                 <div className="d-flex">
                                     <Form.Control className="main-study-input" type="file" onChange={handleFileChange}/>
                                 </div>
@@ -189,14 +189,14 @@ function MainStudyCreate() {
                                 />
                             </Form.Group>
                         </Row>
-                        <Form.Group controlId="passwordProtected">
-                            <Row>
-                                <Col>
-                                    <Form.Label className="main-study-label">비밀방</Form.Label>
+                        <Form.Group controlId="passwordProtected" className="password-switch-container mt-4">
+                            <Row className="align-items-center">
+                                <Col xs="auto">
+                                    <Form.Label className="main-study-label mb-0">비밀번호 사용</Form.Label>
                                 </Col>
                                 <Col>
                                     <Form.Check
-                                        className="main-study-switch"
+                                        className="main-study-switch form-switch"
                                         type="switch"
                                         checked={pwStatus}
                                         onChange={(e) => setPasswordProtected(e.target.checked)}
@@ -223,7 +223,6 @@ function MainStudyCreate() {
                 </Form>
             </div>
             <hr className="main-study-divider"/>
-            <MainFooter/>
         </div>
     );
 }
