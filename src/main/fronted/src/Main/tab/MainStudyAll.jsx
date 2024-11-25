@@ -124,11 +124,11 @@ function MainStudyAll({type}) {
                         setShowApplyModal(true); // 가입 신청 모달 표시
                         break;
 
-                    case "PENDING": // 승인 대기 중
+                    case "대기중": // 승인 대기 중
                         setShowPendingModal(true); // 승인 대기 중 모달 표시
                         break;
 
-                    case "APPROVED": // 승인된 경우
+                    case "승인완료": // 승인된 경우
                         setCurrentStudyId(studyId);
                         setCurrentStudyTitle(studyTitle);
                         setShowPasswordModal(true); // 비밀번호 입력 모달 표시
@@ -265,7 +265,7 @@ function MainStudyAll({type}) {
                     <ArrowLeft3 size="32" color={currentPage === 1 ? "#4C3D29" : "#A1ACBD"} variant="Outline"/>
                 </div>
 
-                {Array.from({length: trc/mainotalPages}, (_, index) => (
+                {Array.from({length: totalPages}, (_, index) => (
                     <button
                         key={index + 1}
                         className={`Study-page-button ${index + 1 === currentPage ? "active" : ""}`}
@@ -274,6 +274,7 @@ function MainStudyAll({type}) {
                         {index + 1}
                     </button>
                 ))}
+
 
                 <div
                     className={`page-arrow ${currentPage === totalPages ? "disabled" : ""}`}

@@ -118,7 +118,7 @@ public class StudyService {
         ApplicationStatus application = new ApplicationStatus();
         application.setStudyId(Integer.parseInt(studyId));
         application.setUserId(userId);
-        application.setStatus("PENDING");
+        application.setStatus("대기중");
 
         applicationRepository.save(application);
     }
@@ -142,7 +142,7 @@ public class StudyService {
         ApplicationStatus application = applicationRepository.findByStudyIdAndUserId(studyId, userId)
                 .orElseThrow(() -> new IllegalArgumentException("가입 신청을 찾을 수 없습니다."));
 
-        application.setStatus("APPROVED");
+        application.setStatus("승인완료");
         applicationRepository.save(application);
 
         // StudyMemberEntity에 studyId와 userId 값을 저장하여 승인된 사용자를 추가
@@ -158,14 +158,14 @@ public class StudyService {
         ApplicationStatus application = applicationRepository.findByStudyIdAndUserId(studyId, userId)
                 .orElseThrow(() -> new IllegalArgumentException("가입 신청을 찾을 수 없습니다."));
 
-        application.setStatus("REJECTED");
+        application.setStatus("거절");
         applicationRepository.save(application);
     }
 
     public String getMembershipStatus(int studyId, String userId) {
         // 이미 멤버인지 확인
         if (studyMemberRepository.existsByStudyIdAndUserId(studyId, userId)) {
-            return "APPROVED";
+            return "승인완료";
         }
 
         // 가입 신청 상태 확인
@@ -175,7 +175,7 @@ public class StudyService {
         }
 
         // 가입 신청하지 않은 상태
-        return "NOT_APPLIED";
+        return "허용되지 않은 상태";
     }
 
 
