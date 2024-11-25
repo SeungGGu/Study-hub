@@ -1,151 +1,168 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
-import { OpenVidu } from 'openvidu-browser';
+import {useState, useEffect, useRef, useCallback} from 'react';
+import {OpenVidu} from 'openvidu-browser';
 
-const useOpenVidu = ({ title, id }) => {
+const REQUEST_TIMEOUT = 10000; // 10초
+
+const useOpenVidu = ({id}) => {
     const sessionRef = useRef(null);
-    const publisherRef = useRef(null); // 최신 publisher 참조를 위한 ref
-    const subscribersRef = useRef([]); // 최신 subscribers 참조를 위한 ref
+    const publisherRef = useRef(null);
+    const subscribersRef = useRef([]);
+    const isLeavingSession = useRef(false);
     const [publisher, setPublisher] = useState(null);
     const [subscribers, setSubscribers] = useState([]);
     const videoRef = useRef(null);
     const OV = useRef(new OpenVidu()).current;
 
-    // leaveSession을 useCallback으로 감싸기
-    const leaveSession = useCallback(() => {
-        console.log('Leaving session');
-        const session = sessionRef.current;
-        if (session) {
-            if (publisherRef.current) {
-                session.unpublish(publisherRef.current);
-                if (publisherRef.current.streamManager) {
-                    const videoElements = publisherRef.current.streamManager.videos || [];
-                    videoElements.forEach(video => {
-                        if (video && video.video && video.video.parentNode && document.contains(video.video)) {
-                            try {
-                                video.video.parentNode.removeChild(video.video);
-                            } catch (error) {
-                                console.error('Error removing publisher video element:', error);
-                            }
-                        }
-                    });
-                    publisherRef.current.streamManager = null; // 추가 참조 방지
-                }
-            }
-            subscribersRef.current.forEach(subscriber => {
-                session.unsubscribe(subscriber);
-                if (subscriber.streamManager) {
-                    const videoElements = subscriber.streamManager.videos || [];
-                    videoElements.forEach(video => {
-                        if (video && video.video && video.video.parentNode && document.contains(video.video)) {
-                            try {
-                                video.video.parentNode.removeChild(video.video);
-                            } catch (error) {
-                                console.error('Error removing subscriber video element:', error);
-                            }
-                        }
-                    });
-                    subscriber.streamManager = null; // 추가 참조 방지
-                }
-            });
-            session.disconnect();
-            sessionRef.current = null;
-        }
-        setPublisher(null);
-        setSubscribers([]);
-        publisherRef.current = null;
-        subscribersRef.current = [];
-        console.log('Session cleaned up');
-    }, []);
-
-    // useEffect에서 leaveSession을 의존성 배열에 추가
-    useEffect(() => {
-        const handleBeforeUnload = (event) => {
-            leaveSession();
-            event.preventDefault();
-            event.returnValue = '';
-        };
-
-        window.addEventListener('beforeunload', handleBeforeUnload);
-        return () => {
-            window.removeEventListener('beforeunload', handleBeforeUnload);
-            leaveSession();
-        };
-    }, [leaveSession]);
-
-    const startCall = async () => {
-        console.log('Starting call...');
-        const sessionTitle = `${title}-${id}`;
-        const requestData = { title: sessionTitle };
+    // 서버 요청 함수에 타임아웃 추가
+    const fetchWithTimeout = async (url, options) => {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), REQUEST_TIMEOUT);
 
         try {
-            const response = await fetch('http://localhost:8080/api/sessions', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                credentials: 'include',
-                body: JSON.stringify(requestData)
+            const response = await fetch(url, {
+                ...options,
+                signal: controller.signal,
+            });
+            clearTimeout(timeout);
+            return response;
+        } catch (error) {
+            clearTimeout(timeout);
+            if (error.name === 'AbortError') {
+                console.error(`요청 타임아웃 발생: ${url}`);
+                throw new Error(`Request timed out: ${url}`);
+            }
+            throw error;
+        }
+    };
+
+    // 세션 종료
+    const leaveSession = useCallback(async () => {
+        if (isLeavingSession.current) {
+            console.warn("이미 세션 종료 중입니다.");
+            return;
+        }
+
+        isLeavingSession.current = true;
+
+        if (sessionRef.current) {
+            try {
+                const session = sessionRef.current;
+
+                // WebSocket 상태 확인
+                if (
+                    session.connection &&
+                    session.connection.rpc &&
+                    (session.connection.rpc.rpcReadyState === 2 || session.connection.rpc.rpcReadyState === 3)
+                ) {
+                    console.warn("WebSocket이 이미 닫혀 있습니다.");
+                    return;
+                }
+
+                // 퍼블리셔 언퍼블리시
+                if (publisherRef.current) {
+                    await session.unpublish(publisherRef.current);
+                    console.log("퍼블리셔 언퍼블리시 성공");
+                }
+
+                // 구독자 스트림 해제
+                subscribersRef.current.forEach((subscriber) => {
+                    session.unsubscribe(subscriber);
+                });
+
+                // 세션 종료
+                await session.disconnect();
+                console.log("세션 종료 성공");
+
+                // 서버에 세션 종료 요청
+                const response = await fetchWithTimeout(
+                    `http://localhost:8080/api/sessions/${session.sessionId}`,
+                    {method: "DELETE"}
+                );
+
+                if (response.ok) {
+                    console.log("서버에서 세션 강제 종료 요청 완료");
+                } else {
+                    console.error(`서버 세션 종료 요청 실패: ${response.statusText}`);
+                }
+
+            } catch (error) {
+                console.error("세션 종료 중 오류 발생:", error);
+            } finally {
+                // 리소스 정리
+                sessionRef.current = null;
+                publisherRef.current = null;
+                setPublisher(null);
+                setSubscribers([]);
+                subscribersRef.current = [];
+                isLeavingSession.current = false;
+            }
+        } else {
+            console.warn("세션이 없습니다.");
+            isLeavingSession.current = false;
+        }
+    }, []);
+
+    const startCall = useCallback(async () => {
+        try {
+            // 세션 생성 요청
+            const sessionResponse = await fetchWithTimeout(`http://localhost:8080/api/sessions`, {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({studyId: id}),
             });
 
-            if (!response.ok) throw new Error(`Failed to create session: ${response.statusText}`);
+            if (!sessionResponse.ok) throw new Error(`세션 생성 실패: ${sessionResponse.statusText}`);
+            const sessionId = await sessionResponse.text();
 
-            const sessionId = await response.text();
-            console.log('Session ID:', sessionId);
+            // 토큰 생성 요청
+            const tokenResponse = await fetchWithTimeout(
+                `http://localhost:8080/api/sessions/${sessionId}/connections`,
+                {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify({role: "PUBLISHER", data: `User connected to studyId: ${id}`}),
+                }
+            );
 
-            const tokenResponse = await fetch(`http://localhost:8080/api/sessions/${sessionId}/connections`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                credentials: 'include'
-            });
-
-            if (!tokenResponse.ok) throw new Error(`Failed to create token: ${tokenResponse.statusText}`);
-
+            if (!tokenResponse.ok) throw new Error(`토큰 생성 실패: ${tokenResponse.statusText}`);
             const token = await tokenResponse.text();
-            console.log('Token:', token);
 
+            // 세션 초기화 및 연결
             const session = OV.initSession();
             sessionRef.current = session;
 
-            session.on('streamCreated', (event) => {
-                console.log('New stream created:', event.stream.streamId);
-                const newSubscriber = session.subscribe(event.stream, undefined);
-                setSubscribers((prevSubscribers) => {
-                    const updatedSubscribers = [...prevSubscribers, newSubscriber];
-                    subscribersRef.current = updatedSubscribers; // 최신 subscribers 값을 유지
-                    return updatedSubscribers;
-                });
+            session.on("streamCreated", (event) => {
+                const subscriber = session.subscribe(event.stream, undefined);
+                setSubscribers((prev) => [...prev, subscriber]);
             });
 
-            session.on('streamDestroyed', (event) => {
-                console.log('Stream destroyed:', event.stream.streamId);
-                setSubscribers((prevSubscribers) => {
-                    const updatedSubscribers = prevSubscribers.filter(subscriber => subscriber.stream !== event.stream);
-                    subscribersRef.current = updatedSubscribers; // 최신 subscribers 값을 유지
-                    return updatedSubscribers;
-                });
-            });
+            await session.connect(token, {clientData: "User"});
 
-            await session.connect(token, { clientData: 'User' });
-
-            const newPublisher = OV.initPublisher(videoRef.current, {
+            const newPublisher = OV.initPublisher(undefined, {
                 audioSource: undefined,
                 videoSource: undefined,
                 publishAudio: true,
                 publishVideo: true,
-                resolution: '640x480',
+                resolution: "640x480",
                 frameRate: 30,
-                insertMode: 'APPEND',
-                mirror: false
+                insertMode: "APPEND",
             });
-
-            newPublisher.on('accessAllowed', () => console.log('Access allowed to camera and microphone'));
-            newPublisher.on('accessDenied', (error) => console.error('Access denied to camera and microphone:', error));
 
             await session.publish(newPublisher);
             setPublisher(newPublisher);
-            publisherRef.current = newPublisher; // 최신 publisher 값을 유지
+            publisherRef.current = newPublisher;
         } catch (error) {
-            console.error('Error starting call:', error);
+            console.error("세션 시작 오류:", error);
         }
-    };
+    }, [id, OV]);
+
+    useEffect(() => {
+        window.addEventListener("beforeunload", leaveSession);
+        return () => {
+            window.removeEventListener("beforeunload", leaveSession);
+            leaveSession();
+        };
+    }, [leaveSession]);
 
     return {
         startCall,
@@ -153,9 +170,6 @@ const useOpenVidu = ({ title, id }) => {
         publisher,
         subscribers,
         videoRef,
-        OV,
-        sessionRef,
-        setPublisher
     };
 };
 

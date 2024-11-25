@@ -48,12 +48,15 @@ public class UserController {
 
 
     @PostMapping("/register")
-    public String registerUser(@RequestBody UsersDTO userData) {
-        // Process the form data here
-        System.out.println("Received form data: " + userData.toString());
-        // Return a response message if needed
-
-        return userService.registerUser(userData);
+    public ResponseEntity<?> registerUser(@RequestBody UsersDTO usersDto) {
+        try {
+            // User 등록 로직 실행
+            userService.registerUser(usersDto);
+            return ResponseEntity.ok("success");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Registration failed.");
+        }
     }
 
     @PutMapping("/{userId}")
