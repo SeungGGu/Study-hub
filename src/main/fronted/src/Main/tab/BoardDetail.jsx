@@ -4,20 +4,23 @@ import { Container, Card, Row, Col, ListGroup, Badge, Form, Button, Dropdown } f
 import { MainHeader } from "../include/MainHeader";
 import CommentComponent from "./CommentComponent";
 import { IoEyeSharp } from "react-icons/io5";
-import { VscKebabVertical } from "react-icons/vsc";  // 케밥 아이콘 추가
+import { VscKebabVertical } from "react-icons/vsc";
 import { BiEdit } from "react-icons/bi";
 import axios from 'axios';
+import './BoardDatail.css'
 
 const BoardDetail = () => {
     const { boardId } = useParams();
     const [board, setBoard] = useState(null);
     const [similarBoards, setSimilarBoards] = useState([]);
     const [isEditing, setIsEditing] = useState(false);
-    const userNickname = sessionStorage.getItem('nickname');  // 세션에서 닉네임 가져오기
+    const userNickname = sessionStorage.getItem('nickname');
     const [editBoard, setEditBoard] = useState({ boardTitle: '', boardDetail: '', boardCategory: '' });
+
     useEffect(() => {
         fetchBoardDetails();
     }, [boardId]);
+
     const fetchBoardDetails = () => {
         axios.get(`http://localhost:8080/api/boards/${boardId}`)
             .then(response => {
@@ -51,7 +54,6 @@ const BoardDetail = () => {
         setIsEditing(true);
     };
 
-
     const handleEditChange = (e) => {
         const { name, value } = e.target;
         setEditBoard(prevBoard => ({ ...prevBoard, [name]: value }));
@@ -60,8 +62,8 @@ const BoardDetail = () => {
     const handleEditSubmit = () => {
         axios.put(`http://localhost:8080/api/boards/${boardId}`, editBoard)
             .then(() => {
-                fetchBoardDetails();  // Refresh the board details
-                setIsEditing(false);  // Exit editing mode
+                fetchBoardDetails();
+                setIsEditing(false);
             })
             .catch(error => console.error("Error updating board:", error));
     };
@@ -71,75 +73,80 @@ const BoardDetail = () => {
     }
 
     return (
-        <div className="BoardDetail" style={{ paddingTop: "56px", marginLeft: "20px", marginRight:'300px' }}>
+        <div className="BoardDetail">
             <MainHeader />
             <Container>
                 <Row>
                     <Col md={8}>
-                        <div style={{ maxHeight: "570px", overflowY: "auto", marginBottom: "20px" }}>
+                        <div className="board-content">
                             {!isEditing ? (
                                 <>
-                                    <h3 style={{ fontWeight: "bold", display: "flex" }}>
-                                        {board.boardTitle}
-                                        {board.boardNickname === userNickname && ( // 사용자 식별
-                                        <Dropdown align="end" onClick={(e) => e.stopPropagation()} style={{ marginLeft: "auto"}}>
-                                            <Dropdown.Toggle variant="link" id="dropdown-basic" style={{ padding: '0', display: 'flex', justifyContent: 'flex-end', color:'black'}}>
-                                                <VscKebabVertical />
-                                            </Dropdown.Toggle>
-                                            <Dropdown.Menu>
-                                                <Dropdown.Item onClick={handleEditClick}><BiEdit />수정</Dropdown.Item>
-                                            </Dropdown.Menu>
-                                        </Dropdown>
+                                    <h3 className="board-title" style={{color:"black"}}>
+                                        <div className="boardTitle_Black">
+                                        {board.boardTitle}</div>
+                                        {board.boardNickname === userNickname && (
+                                            <Dropdown align="end" onClick={(e) => e.stopPropagation()} className="dropdown-icon">
+                                                <Dropdown.Toggle variant="link" id="dropdown-basic">
+                                                    <VscKebabVertical />
+                                                </Dropdown.Toggle>
+                                                <Dropdown.Menu>
+                                                    <Dropdown.Item onClick={handleEditClick}><BiEdit />수정</Dropdown.Item>
+                                                </Dropdown.Menu>
+                                            </Dropdown>
                                         )}
                                     </h3>
-                                    <small className="text-muted" style={{ display: "flex" }}>작성자: {board.boardNickname}</small>
-                                    <Card.Text style={{ display: "flex" }}>{board.boardDetail}</Card.Text>
-                                    <div style={{ display: "flex" }}>
-                                        <Badge
-                                            pill
-                                            bg="secondary"
-                                            style={{ cursor: 'pointer', backgroundColor: "lightgray" }}
-                                        >
-                                            <Badge pill bg="black">#</Badge>{board.boardCategory}
+                                    <div className="boardDetail">
+                                        <div style={{
+                                            marginLeft: "0px",
+                                            color: "gray",
+                                            textAlign: "left",
+                                            marginBottom:"10px"
+
+                                        }}>작성자: {board.boardNickname}</div>
+                                        <Card.Text>{board.boardDetail}</Card.Text>
+                                    </div>
+
+                                    <div className="board-category">
+
+                                        <Badge pill className="category-badge">
+                                            <Badge pill className="hash-badge">#</Badge>{board.boardCategory}
                                         </Badge>
+
                                     </div>
                                 </>
                             ) : (
-                                <div style={{ padding: "20px", border: "1px solid #ddd", borderRadius: "5px"}}>
+                                <div className="edit-form">
                                     <Form>
                                         <Form.Group>
-                                            <Form.Label style={{display:'flex'}}>제목</Form.Label>
+                                            <Form.Label>제목</Form.Label>
                                             <Form.Control
                                                 type="text"
                                                 name="boardTitle"
                                                 value={editBoard.boardTitle}
                                                 onChange={handleEditChange}
-                                                style={{ marginBottom: "10px" }}
                                             />
                                         </Form.Group>
                                         <Form.Group>
-                                            <Form.Label style={{display:'flex'}}>내용</Form.Label>
+                                            <Form.Label>내용</Form.Label>
                                             <Form.Control
                                                 as="textarea"
                                                 rows={5}
                                                 name="boardDetail"
                                                 value={editBoard.boardDetail}
                                                 onChange={handleEditChange}
-                                                style={{ marginBottom: "10px" }}
                                             />
                                         </Form.Group>
                                         <Form.Group>
-                                            <Form.Label style={{display:'flex'}}>카테고리</Form.Label>
+                                            <Form.Label>카테고리</Form.Label>
                                             <Form.Control
                                                 type="text"
                                                 name="boardCategory"
                                                 value={editBoard.boardCategory}
                                                 onChange={handleEditChange}
-                                                style={{ marginBottom: "10px" }}
                                             />
                                         </Form.Group>
-                                        <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                                            <Button variant="outline-secondary" onClick={() => setIsEditing(false)} style={{ marginRight: "10px" }}>취소</Button>
+                                        <div className="edit-buttons">
+                                            <Button variant="outline-secondary" onClick={() => setIsEditing(false)}>취소</Button>
                                             <Button variant="outline-success" onClick={handleEditSubmit}>저장</Button>
                                         </div>
                                     </Form>
@@ -149,39 +156,20 @@ const BoardDetail = () => {
                         <CommentComponent boardId={board.boardId} />
                     </Col>
                     <Col md={4}>
-                        <div style={{ maxHeight: "570px" }}>
-                            <h6 style={{ color: 'black', fontWeight: 'bold' }}>이 글과 비슷한 POST</h6>
+                        <div className="similar-posts">
+                            <h6>이 글과 비슷한 POST</h6>
                             <ListGroup variant="flush">
                                 {similarBoards.length > 0 ? (
                                     similarBoards.map((similarBoard, index) => (
                                         <ListGroup.Item
                                             key={index}
-                                            style={{
-                                                cursor: 'pointer',
-                                                padding: '10px 15px',
-                                                border: '1px solid #ddd',
-                                                marginBottom: '5px',
-                                                borderRadius: '5px',
-                                                marginLeft: '50px',
-                                                width: '350px'
-                                            }}
+                                            className="similar-board-item"
                                             onClick={() => window.location.href = `/boards/${similarBoard.boardId}`}
                                         >
-                                            <div style={{ fontWeight: 'bold', color: 'black', display: 'flex' }}>
-                                                {similarBoard.boardTitle}
-                                            </div>
-                                            <div style={{ display: "flex", justifyContent: "space-between" }}>
-                                                <Badge
-                                                    key={index}
-                                                    pill
-                                                    bg="secondary"
-                                                    style={{ cursor: 'pointer' }}
-                                                >
-                                                    #{similarBoard.boardCategory}
-                                                </Badge>
-                                                <strong>
-                                                    <IoEyeSharp />{similarBoard.boardView}
-                                                </strong>
+                                            <div className="similar-board-title">{similarBoard.boardTitle}</div>
+                                            <div className="similar-board-meta">
+                                                <Badge pill>{similarBoard.boardCategory}</Badge>
+                                                <strong><IoEyeSharp />{similarBoard.boardView}</strong>
                                             </div>
                                         </ListGroup.Item>
                                     ))

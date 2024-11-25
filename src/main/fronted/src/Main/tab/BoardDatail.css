@@ -1,0 +1,93 @@
+.BoardDetail {
+    padding-top: 70px;
+    margin: 0 10px;
+}
+
+.board-content {
+    max-height: 570px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.board-title {
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.dropdown-icon {
+    margin-left: auto;
+    display: flex;
+}
+.boardDetail{
+    text-align: left;
+    margin-top: 10px;
+}
+.board-category {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.category-badge {
+    cursor: pointer;
+    background-color: lightgray;
+    margin-right: 5px;
+    padding: 5px 10px;
+}
+
+.hash-badge {
+    background-color: black;
+    color: white;
+}
+
+.edit-form {
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background: #ffffff;
+}
+
+.edit-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.similar-posts {
+    max-height: 570px;
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.similar-board-item {
+    cursor: pointer;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.similar-board-item:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.similar-board-title {
+    font-weight: bold;
+    color: black;
+}
+
+.similar-board-meta {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+}

@@ -28,16 +28,19 @@
 }
 
 .nav-link {
-    color: #f5f5f5;
+    color: var(--text-primary);
     margin: 0 15px;
+    background: none;
 }
 
 .nav-link:hover {
     color: #daa520;
+    background: none;
 }
 
 .text-gold {
     color: #daa520;
+    background: none;
 }
 
 /* 버튼 스타일 */
@@ -65,5 +68,61 @@
 
     .navbar-collapse {
         text-align: center;
+    }
+}
+
+/* 모바일 메뉴 스타일 */
+@media screen and (max-width: 768px) {
+    .header-nav {
+        padding: 10px;
+    }
+
+    .navbar-collapse {
+        background-color: #2d2d2d;
+        padding: 15px;
+        border-radius: 0 0 10px 10px;
+    }
+
+    .navbar-nav {
+        margin: 0;
+        padding: 10px 0;
+    }
+
+    .nav-link {
+        padding: 10px 15px;
+        margin: 5px 0;
+        border-radius: 5px;
+    }
+
+    .d-flex {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .btn {
+        width: 100%;
+        margin: 5px 0;
+    }
+}
+
+.navbar-collapse.show {
+    background-color: #2d2d2d;
+    padding: 15px;
+    border-radius: 0 0 10px 10px;
+}
+
+@media screen and (max-width: 768px) {
+    .navbar-collapse {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+    }
+
+    .navbar-nav {
+        background-color: #2d2d2d;
+        padding: 10px;
+        border-radius: 0 0 10px 10px;
     }
 }

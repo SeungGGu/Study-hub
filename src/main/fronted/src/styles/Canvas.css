@@ -77,8 +77,9 @@
     border-radius: 15px; /* 둥근 모서리 추가 */
     overflow: hidden; /* 이미지가 카드 밖으로 나가지 않도록 */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
-    background-color: white;
-    border: 1px solid #e0e0e0; /* 카드 경계선 추가 */
+    background-color: var(--card-background);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
 }
 
 .card-hover:hover {
@@ -103,13 +104,13 @@
     font-weight: bold;
     margin-bottom: 10px;
     text-align: center;
-    color: #333; /* 제목 색상 */
+    color: var(--text-primary);
 }
 
 /* 카드 텍스트 스타일 */
 .card-body .card-text {
     font-size: 0.9rem;
-    color: #666;
+    color: var(--text-secondary);
     text-align: center;
 }
 

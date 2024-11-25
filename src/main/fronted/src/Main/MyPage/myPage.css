@@ -194,20 +194,12 @@ hr {
 
 .mypage-tabs button.mypage-active {
     background-color: #b3b3b3;
-    color: white;
+    color: black;
 }
 
 .mypage-tabs button:hover {
     background-color: #ddd;
 }
-
-
-
-
-
-
-
-
 /*--------------<RecordSection.css>--------------------*/
 
 /* 전체 레이아웃 */
@@ -244,13 +236,13 @@ hr {
 }
 
 .record-tab.active {
-    background-color: #4caf50;
+    background-color: #3f4a65;
     color: white;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .record-tab:hover {
-    background-color: #3a9d47;
+    background-color: #343a49;
     color: white;
     box-shadow: 0px 5px 12px rgba(0, 0, 0, 0.15);
 }
@@ -350,7 +342,7 @@ button {
 }
 
 .pagination button.active {
-    background-color: #4caf50;
+    background-color: #3f4a65;
     color: white;
     font-weight: bold;
     box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.2);
