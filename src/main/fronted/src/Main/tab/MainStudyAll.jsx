@@ -213,7 +213,12 @@ function MainStudyAll({type}) {
                 {filteredCards.slice(0, 5).map(card => (
                     <div key={card.studyId} className="study-card"
                          onClick={() => handleCheckMembership(card.studyId, card.studyTitle)}>
-                        <img src={`/images/${card.studyTitlePicture}`} alt={card.studyTitle}/>
+                        <img
+                            src={`/images/${card.studyTitlePicture}`}
+                            alt={card.studyTitle}
+                            className="study-card-image"
+                        />
+
                         <div className="study-card-content">
                             <h5>{card.studyTitle}</h5>
                             <p>{card.studyComment}</p>
@@ -230,7 +235,7 @@ function MainStudyAll({type}) {
                 ))}
             </div>
             <div className="study-cards-container">
-                {filteredCards.slice(5, 10).map(card => (
+            {filteredCards.slice(5, 10).map(card => (
                     <div
                         key={card.studyId}
                         className="study-card"

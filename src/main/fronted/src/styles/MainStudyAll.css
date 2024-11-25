@@ -71,7 +71,7 @@
 .study-cards-container {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 30px;
 }
 
 /* 개별 카드 스타일 */
@@ -92,6 +92,12 @@
     transform: translateY(-5px);
 }
 
+.study-card-image {
+    width: 170px;  /* 원하는 가로 크기 */
+    height: 170px; /* 원하는 세로 크기 */
+    object-fit: cover; /* 비율을 유지하며 영역을 채우기 */
+}
+
 .card-image {
     height: 140px;
     background-color: #f8f8f8;
@@ -102,9 +108,9 @@
 }
 
 .card-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    width: 170px; /* 가로 크기 */
+    height: 170px; /* 세로 크기 */
+    object-fit: cover; /* 비율 유지하며 크기 맞추기 */
 }
 
 .card-content {

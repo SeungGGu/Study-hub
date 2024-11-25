@@ -22,6 +22,8 @@ const DrawCanvas = ({id, canvasData, setCurrentPage, canvasId}) => {
     const [currentIndex, setCurrentIndex] = useState(-1);
     const [isOpen, setIsOpen] = useState(false);
     const nickname = sessionStorage.getItem('nickname');
+    const [penColor, setPenColor] = useState("#000000"); // 초기 색상은 검정색
+    const [penWidth, setPenWidth] = useState(10);       // 초기 두께는 10
 
     const modalSave = () => {
         const inputElement = document.getElementById("titleInput");
@@ -137,6 +139,13 @@ const DrawCanvas = ({id, canvasData, setCurrentPage, canvasId}) => {
     };
 
     useEffect(() => {
+        if (canvas && canvas.isDrawingMode) {
+            canvas.freeDrawingBrush.color = penColor; // 색상 즉시 반영
+            canvas.freeDrawingBrush.width = penWidth; // 두께 즉시 반영
+        }
+    }, [penColor, penWidth, canvas]); // penColor, penWidth 변경 시 트리거
+
+    useEffect(() => {
         const canvasContainer = canvasContainerRef.current;
         const newCanvas = new fabric.Canvas(canvasRef.current, {
             width: canvasContainer.offsetWidth,
@@ -248,8 +257,9 @@ const DrawCanvas = ({id, canvasData, setCurrentPage, canvasId}) => {
     };
 
     const handlePenTool = () => {
-        canvas.freeDrawingBrush.width = 10;
         canvas.isDrawingMode = true;
+        canvas.freeDrawingBrush.color = penColor;
+        canvas.freeDrawingBrush.width = penWidth;
 
         canvas.on('path:created', () => {
             saveToHistory(canvas);
@@ -309,7 +319,6 @@ const DrawCanvas = ({id, canvasData, setCurrentPage, canvasId}) => {
         }
     };
 
-
     const saveToHistory = (canvas) => {
         const state = canvas.toJSON();
         const newHistory = history.slice(0, currentIndex + 1);
@@ -322,6 +331,28 @@ const DrawCanvas = ({id, canvasData, setCurrentPage, canvasId}) => {
         <div className="canvas-container" ref={canvasContainerRef}>
             <canvas ref={canvasRef}/>
             <div className="tool-bar">
+                {activeTool === "pen" && (
+                    <div className="pen-settings">
+                        <div className="pen-controls">
+                            <label>색상</label>
+                            <input
+                                type="color"
+                                value={penColor}
+                                onChange={(e) => setPenColor(e.target.value)}
+                            />
+                        </div>
+                        <div className="pen-controls">
+                            <label>두께</label>
+                            <input
+                                type="range"
+                                min="1"
+                                max="50"
+                                value={penWidth}
+                                onChange={(e) => setPenWidth(Number(e.target.value))}
+                            />
+                        </div>
+                    </div>
+                )}
                 <button
                     onClick={() => setActiveTool("select")}
                     disabled={activeTool === "select"}

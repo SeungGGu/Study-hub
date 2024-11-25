@@ -1,5 +1,5 @@
-import {useState, useEffect, useRef, useCallback} from 'react';
-import {OpenVidu} from 'openvidu-browser';
+import {useState, useEffect, useRef, useCallback} from "react";
+import {OpenVidu} from "openvidu-browser";
 
 const REQUEST_TIMEOUT = 10000; // 10초
 
@@ -13,27 +13,11 @@ const useOpenVidu = ({id}) => {
     const videoRef = useRef(null);
     const OV = useRef(new OpenVidu()).current;
 
-    // 서버 요청 함수에 타임아웃 추가
-    const fetchWithTimeout = async (url, options) => {
-        const controller = new AbortController();
-        const timeout = setTimeout(() => controller.abort(), REQUEST_TIMEOUT);
-
-        try {
-            const response = await fetch(url, {
-                ...options,
-                signal: controller.signal,
-            });
-            clearTimeout(timeout);
-            return response;
-        } catch (error) {
-            clearTimeout(timeout);
-            if (error.name === 'AbortError') {
-                console.error(`요청 타임아웃 발생: ${url}`);
-                throw new Error(`Request timed out: ${url}`);
-            }
-            throw error;
-        }
-    };
+    const removeSubscriber = useCallback((subscriberToRemove) => {
+        setSubscribers((prevSubscribers) =>
+            prevSubscribers.filter((subscriber) => subscriber !== subscriberToRemove)
+        );
+    }, []);
 
     // 세션 종료
     const leaveSession = useCallback(async () => {
@@ -55,42 +39,36 @@ const useOpenVidu = ({id}) => {
                 ) {
                     console.warn("WebSocket이 이미 닫혀 있습니다.");
                 } else {
-                    // 퍼블리셔 언퍼블리시
                     if (publisherRef.current) {
                         await session.unpublish(publisherRef.current);
                         console.log("퍼블리셔 언퍼블리시 성공");
                     }
 
-                    // 구독자 스트림 해제
                     subscribersRef.current.forEach((subscriber) => {
                         session.unsubscribe(subscriber);
                     });
 
-                    // 세션 종료
                     await session.disconnect();
                     console.log("클라이언트 세션 종료 성공");
                 }
 
-                // 서버에 세션 종료 요청
-                try {
-                    const response = await fetchWithTimeout(
-                        `http://localhost:8080/api/sessions/${session.sessionId}`,
-                        {method: "DELETE"}
-                    );
+                // 서버에 참가자 수 확인 및 세션 삭제 요청
+                if (sessionRef.current) {
+                    const sessionId = sessionRef.current.sessionId;
 
-                    if (response.ok) {
-                        console.log("서버에서 세션 강제 종료 요청 완료");
-                    } else {
-                        console.error(`서버 세션 종료 요청 실패: ${response.status}`);
+                    try {
+                        await fetch(`http://localhost:8080/api/sessions/${sessionId}/check-participants`, {
+                            method: "POST",
+                            headers: {"Content-Type": "application/json"},
+                        });
+                        console.log("참가자 수 확인 및 감소 요청 완료");
+                    } catch (error) {
+                        console.error("세션 종료 요청 중 오류 발생:", error);
                     }
-                } catch (serverError) {
-                    console.error("서버 세션 종료 요청 실패:", serverError);
                 }
-
-            } catch (clientError) {
-                console.error("세션 종료 중 클라이언트 오류 발생:", clientError);
+            } catch (error) {
+                console.error("세션 종료 중 오류 발생:", error);
             } finally {
-                // 리소스 정리
                 sessionRef.current = null;
                 publisherRef.current = null;
                 setPublisher(null);
@@ -106,7 +84,8 @@ const useOpenVidu = ({id}) => {
 
     const startCall = useCallback(async () => {
         try {
-            const sessionResponse = await fetchWithTimeout(`http://localhost:8080/api/sessions`, {
+            // 서버에서 세션 생성 요청
+            const sessionResponse = await fetch(`http://localhost:8080/api/sessions`, {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({studyId: id}),
@@ -115,9 +94,12 @@ const useOpenVidu = ({id}) => {
             if (!sessionResponse.ok) {
                 throw new Error(`세션 생성 실패: ${sessionResponse.statusText}`);
             }
-            const sessionId = await sessionResponse.text();
 
-            const tokenResponse = await fetchWithTimeout(
+            const sessionId = await sessionResponse.text();
+            console.log("세션 생성 성공 또는 기존 세션 재활용:", sessionId);
+
+            // 서버에서 해당 세션의 토큰 요청
+            const tokenResponse = await fetch(
                 `http://localhost:8080/api/sessions/${sessionId}/connections`,
                 {
                     method: "POST",
@@ -127,9 +109,13 @@ const useOpenVidu = ({id}) => {
             );
 
             if (!tokenResponse.ok) {
+                const errorDetail = await tokenResponse.text();
+                console.error(`토큰 생성 실패: ${tokenResponse.status} - ${errorDetail}`);
                 throw new Error(`토큰 생성 실패: ${tokenResponse.statusText}`);
             }
+
             const token = await tokenResponse.text();
+            console.log("토큰 생성 성공:", token);
 
             // 세션 초기화 및 연결
             const session = OV.initSession();
@@ -138,6 +124,12 @@ const useOpenVidu = ({id}) => {
             session.on("streamCreated", (event) => {
                 const subscriber = session.subscribe(event.stream, undefined);
                 setSubscribers((prev) => [...prev, subscriber]);
+            });
+
+            // streamDestroyed 이벤트 처리
+            session.on("streamDestroyed", (event) => {
+                const subscriberToRemove = event.stream.streamManager;
+                removeSubscriber(subscriberToRemove); // 구독자 제거
             });
 
             await session.connect(token, {clientData: "User"});
@@ -155,10 +147,12 @@ const useOpenVidu = ({id}) => {
             await session.publish(newPublisher);
             setPublisher(newPublisher);
             publisherRef.current = newPublisher;
+
+            console.log("세션 연결 및 퍼블리셔 생성 성공");
         } catch (error) {
             console.error("세션 시작 중 오류 발생:", error);
         }
-    }, [id, OV]);
+    }, [id, OV, removeSubscriber]);
 
     useEffect(() => {
         window.addEventListener("beforeunload", leaveSession);

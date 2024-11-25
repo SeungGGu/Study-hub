@@ -79,10 +79,10 @@ function StudyRoom() {
     } = useOpenVidu({title, id, onDisconnect: disconnect});
 
     useEffect(() => {
-        if (currentPage === '통화' && !callStarted) {
+        if (currentPage === "통화" && !callStarted) {
             startCall();
             setCallStarted(true);
-        } else if (currentPage !== '통화' && callStarted) {
+        } else if (currentPage !== "통화" && callStarted) {
             leaveSession();
             setCallStarted(false);
         }
@@ -124,12 +124,15 @@ function StudyRoom() {
                     <div className="content-area">
                         <ul className="message-list">
                             {filteredMessages.slice().reverse().map((msg, index) => (
-                                <li className={`message ${msg.userId === nickname ? 'my-message' : 'other-message'}`} key={index}>
+                                <li className={`message ${msg.userId === nickname ? 'my-message' : 'other-message'}`}
+                                    key={index}>
                                     <div className="toast-message">
                                         <div className="toast-header">
-                                            <UserOctagon size="60" className="profile-pic" color="#2ccce4" variant="Bold"/>
+                                            <UserOctagon size="60" className="profile-pic" color="#2ccce4"
+                                                         variant="Bold"/>
                                             <strong className="nickname">{msg.userId}</strong>
-                                            <small className="timestamp">{new Date(msg.timestamp).toLocaleString()}</small>
+                                            <small
+                                                className="timestamp">{new Date(msg.timestamp).toLocaleString()}</small>
                                         </div>
                                         <div className="toast-body">
                                             {msg.message}

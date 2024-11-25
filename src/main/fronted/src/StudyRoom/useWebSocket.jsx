@@ -8,6 +8,10 @@ const useWebSocket = (url, onMessage) => {
     const [retryCount, setRetryCount] = useState(0);
     const connectingRef = useRef(false);
 
+    // 새로고침을 위한 세션 저장
+    const sessionKey = 'websocket-session'; // localStorage 키
+
+    // 연결 복구 또는 새로 연결
     const connect = useCallback(() => {
         if (connectingRef.current) return;
         connectingRef.current = true;
@@ -15,49 +19,72 @@ const useWebSocket = (url, onMessage) => {
         const socket = new SockJS(url);
         const client = Stomp.over(socket);
 
-        client.connect({}, () => {
-            console.log('웹소켓 연결 성공');
-            stompClientRef.current = client;
-            setConnected(true);
-            setRetryCount(0);
-            connectingRef.current = false;
+        client.connect(
+            {},
+            () => {
+                console.log('웹소켓 연결 성공');
+                stompClientRef.current = client;
+                setConnected(true);
+                setRetryCount(0);
+                connectingRef.current = false;
 
-            client.subscribe('/topic/messages', (message) => {
-                onMessage(JSON.parse(message.body));
-            });
-        }, (error) => {
-            console.error('웹소켓 연결 오류:', error);
-            connectingRef.current = false;
-            if (retryCount < 5) {
-                setTimeout(() => {
-                    setRetryCount(prevCount => prevCount + 1);
-                    connect();
-                }, 5000);
-            } else {
-                console.error('최대 재시도 횟수에 도달했습니다. 연결 실패.');
+                // 웹소켓 세션 정보 저장 (새로고침 후 복구 가능)
+                localStorage.setItem(sessionKey, JSON.stringify({ connected: true }));
+
+                // 메시지 구독
+                client.subscribe('/topic/messages', (message) => {
+                    onMessage(JSON.parse(message.body));
+                });
+            },
+            (error) => {
+                console.error('웹소켓 연결 오류:', error);
+                connectingRef.current = false;
+                setConnected(false);
+                if (retryCount < 5) {
+                    setTimeout(() => {
+                        setRetryCount((prevCount) => prevCount + 1);
+                        connect();
+                    }, 5000);
+                } else {
+                    console.error('최대 재시도 횟수에 도달했습니다. 연결 실패.');
+                }
             }
-        });
+        );
 
         socket.onclose = () => {
             console.log('웹소켓 연결이 닫혔습니다.');
             setConnected(false);
             connectingRef.current = false;
-            stompClientRef.current = null;  // 연결이 닫힐 때 클라이언트를 정리
+
+            // 세션 상태 초기화
+            localStorage.removeItem(sessionKey);
+
+            // 일정 시간 후 재연결 시도
+            setTimeout(() => {
+                console.log('웹소켓 재연결 시도');
+                connect();
+            }, 5000);
         };
     }, [url, onMessage, retryCount]);
 
+    // 연결 종료
     const disconnect = useCallback(() => {
         if (stompClientRef.current) {
-            stompClientRef.current.disconnect(() => {
-                console.log('웹소켓 연결 종료됨');
-                setConnected(false);
-            }, (error) => {
-                console.error('웹소켓 연결 종료 오류', error);
-            });
+            stompClientRef.current.disconnect(
+                () => {
+                    console.log('웹소켓 연결 종료됨');
+                    setConnected(false);
+                    localStorage.removeItem(sessionKey); // 세션 상태 초기화
+                },
+                (error) => {
+                    console.error('웹소켓 연결 종료 오류', error);
+                }
+            );
             stompClientRef.current = null;
         }
     }, []);
 
+    // 메시지 전송
     const sendMessage = useCallback((destination, message) => {
         if (stompClientRef.current && connected) {
             stompClientRef.current.send(destination, {}, JSON.stringify(message));
@@ -66,17 +93,22 @@ const useWebSocket = (url, onMessage) => {
         }
     }, [connected]);
 
+    // 컴포넌트 초기화 시 기존 연결 복구
     useEffect(() => {
-        connect();
+        const storedSession = localStorage.getItem(sessionKey);
 
-        const handleBeforeUnload = () => {
-            disconnect();
-        };
+        if (storedSession) {
+            const sessionData = JSON.parse(storedSession);
+            if (sessionData.connected) {
+                console.log('이전 웹소켓 세션 복구 시도');
+                connect();
+            }
+        } else {
+            connect();
+        }
 
-        window.addEventListener('beforeunload', handleBeforeUnload);
-
+        // 컴포넌트 언마운트 시 연결 종료
         return () => {
-            window.removeEventListener('beforeunload', handleBeforeUnload);
             disconnect();
         };
     }, [connect, disconnect]);
