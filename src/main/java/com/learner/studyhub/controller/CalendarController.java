@@ -23,4 +23,9 @@ public class CalendarController {
     public CalendarEntity createEvent(@RequestBody CalendarEntity calendarEntity) {
         return calendarService.createEvent(calendarEntity);
     }
+
+    @DeleteMapping("/events/{id}")
+    public void deleteEvent(@PathVariable Long id) {
+        calendarService.deleteEventById(id);
+    }
 }

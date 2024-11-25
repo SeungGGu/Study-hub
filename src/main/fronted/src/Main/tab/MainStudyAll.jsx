@@ -25,6 +25,7 @@ function MainStudyAll({type}) {
     const [showPendingModal, setShowPendingModal] = useState(false);
     const navigate = useNavigate();
 
+
     useEffect(() => {
         const fetchStudyData = async () => {
             try {
@@ -123,11 +124,11 @@ function MainStudyAll({type}) {
                         setShowApplyModal(true); // 가입 신청 모달 표시
                         break;
 
-                    case "PENDING": // 승인 대기 중
+                    case "대기중": // 승인 대기 중
                         setShowPendingModal(true); // 승인 대기 중 모달 표시
                         break;
 
-                    case "APPROVED": // 승인된 경우
+                    case "승인완료": // 승인된 경우
                         setCurrentStudyId(studyId);
                         setCurrentStudyTitle(studyTitle);
                         setShowPasswordModal(true); // 비밀번호 입력 모달 표시
@@ -273,6 +274,7 @@ function MainStudyAll({type}) {
                         {index + 1}
                     </button>
                 ))}
+
 
                 <div
                     className={`page-arrow ${currentPage === totalPages ? "disabled" : ""}`}

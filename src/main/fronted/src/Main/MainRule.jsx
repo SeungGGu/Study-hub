@@ -1,5 +1,4 @@
 import { MainHeader } from "./include/MainHeader";
-import { MainFooter } from "./include/MainFooter";
 import { Accordion } from "react-bootstrap";
 import React from "react";
 
@@ -9,7 +8,7 @@ function MainRule() {
             className="MainRule"
             style={{
                 fontFamily: "'Poppins', sans-serif",
-                backgroundColor: "#f5f7fa",
+                backgroundColor: "var(--background-primary)",
                 minHeight: "100vh",
                 display: "flex",
                 flexDirection: "column",
@@ -44,15 +43,17 @@ function MainRule() {
                     justifyContent: "center",
                     alignItems: "flex-start",
                     padding: "40px 20px",
+                    backgroundColor: "var(--background-primary)",
                 }}
             >
                 <div
                     className="container"
                     style={{
                         maxWidth: "900px",
-                        backgroundColor: "#fff",
+                        backgroundColor: "var(--card-background)",
+                        color: "var(--text-primary)",
                         borderRadius: "10px",
-                        boxShadow: "0 6px 12px rgba(0, 0, 0, 0.1)",
+                        boxShadow: "0 6px 12px var(--shadow-color)",
                         padding: "30px",
                     }}
                 >
@@ -65,7 +66,11 @@ function MainRule() {
                                 <strong style={{ color: "#3b5998" }}>커뮤니티 가이드라인</strong>
                             </Accordion.Header>
                             <Accordion.Body>
-                                <ul style={{ paddingLeft: "20px", lineHeight: "1.8", color: "#555" }}>
+                                <ul style={{
+                                    paddingLeft: "20px",
+                                    lineHeight: "1.8",
+                                    color: "var(--text-primary)"
+                                }}>
                                     <li>🤝 서로 도우며 협력하세요</li>
                                     <li>☀️ 존중과 긍정적인 분위기를 유지하세요</li>
                                     <li>🦜 폭언은 신고해주세요</li>
@@ -82,7 +87,11 @@ function MainRule() {
                                 <strong style={{ color: "#3b5998" }}>일반 규칙</strong>
                             </Accordion.Header>
                             <Accordion.Body>
-                                <ul style={{ paddingLeft: "20px", lineHeight: "1.8", color: "#555" }}>
+                                <ul style={{
+                                    paddingLeft: "20px",
+                                    lineHeight: "1.8",
+                                    color: "var(--text-primary)"
+                                }}>
                                     <li>👍 적절한 에티켓 유지</li>
                                     <li>⛔ 명시적 동의 없이 정보 공유 금지</li>
                                     <li>❌ 괴롭힘 금지</li>
@@ -101,7 +110,10 @@ function MainRule() {
                                 <strong style={{ color: "#3b5998" }}>채팅 규칙</strong>
                             </Accordion.Header>
                             <Accordion.Body>
-                                <p style={{ color: "#555", lineHeight: "1.8" }}>
+                                <p style={{
+                                    color: "var(--text-primary)",
+                                    lineHeight: "1.8"
+                                }}>
                                     🙊 부적절한 메시지, 스팸 또는 불쾌한 메시지는 금지됩니다.
                                 </p>
                             </Accordion.Body>
@@ -114,7 +126,10 @@ function MainRule() {
                                 <strong style={{ color: "#3b5998" }}>스터디룸 규칙</strong>
                             </Accordion.Header>
                             <Accordion.Body>
-                                <p style={{ color: "#555", lineHeight: "1.8" }}>
+                                <p style={{
+                                    color: "var(--text-primary)",
+                                    lineHeight: "1.8"
+                                }}>
                                     📹 주의를 산만하게 하거나 부적절한 행동을 피하세요.
                                 </p>
                             </Accordion.Body>

@@ -106,7 +106,7 @@ const CommentComponent = ({ boardId }) => {
                         {comments.map(comment => (
                             <Toast
                                 key={comment.commentId}
-                                className="mb-2"
+                                className="mb-2 Toast"
                                 bg="light"
                                 style={{ border: 'none', width: '800px'}}
                             >

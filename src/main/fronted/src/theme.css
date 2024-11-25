@@ -1,0 +1,444 @@
+:root[data-theme='light'] {
+    --background-primary: #ffffff;
+    --background-secondary: #f5f5f7;
+    --text-primary: #1d1d1f;
+    --text-secondary: #86868b;
+    --card-background: #ffffff;
+    --card-hover: #f5f5f7;
+    --button-primary: #0071e3;
+    --button-text: #ffffff;
+    --border-color: #e0e0e0;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --footer-background: #f5f5f7;
+    --input-background: #ffffff;
+    --input-text: #1d1d1f;
+    --table-background: #ffffff;
+    --table-border: #e0e0e0;
+    --nav-background: #ffffff;
+    --modal-background: #ffffff;
+}
+
+:root[data-theme='dark'] {
+    --background-primary: #1d1d1f;
+    --background-secondary: #2d2d2f;
+    --text-primary: #f5f5f7;
+    --text-secondary: #a1a1a6;
+    --card-background: #2d2d2f;
+    --card-hover: #3d3d3f;
+    --button-primary: #0071e3;
+    --button-text: #ffffff;
+    --border-color: #3d3d3f;
+    --shadow-color: rgba(0, 0, 0, 0.3);
+    --footer-background: #2d2d2f;
+    --input-background: #2d2d2f;
+    --input-text: #f5f5f7;
+    --table-background: #2d2d2f;
+    --table-border: #3d3d3f;
+    --nav-background: #1d1d1f;
+    --modal-background: #2d2d2f;
+}
+
+/* 전역 스타일 적용 */
+body {
+    background-color: var(--background-primary);
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+}
+
+/* 공통 컴포넌트 스타일 */
+.card, .study-card, .community-card {
+    background-color: var(--card-background);
+    color: var(--text-primary);
+    border-color: var(--border-color);
+}
+
+input, textarea, select {
+    background-color: var(--input-background);
+    color: var(--input-text);
+    border-color: var(--border-color);
+}
+
+table {
+    background-color: var(--table-background);
+    color: var(--text-primary);
+    border-color: var(--table-border);
+}
+
+.nav-link, .navbar {
+    background-color: var(--nav-background);
+    color: var(--text-primary);
+}
+
+.modal-content {
+    background-color: var(--modal-background);
+    color: var(--text-primary);
+}
+
+.footer {
+    background-color: var(--footer-background);
+    color: var(--text-secondary);
+}
+
+/* 테마 토글 버튼 스타일 */
+.theme-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+/* 기존 코드는 유지하고 아래 스타일 추가 */
+[data-theme='dark'] .white-box {
+    background-color: #ffffff;
+    color: #000000 !important;
+}
+
+[data-theme='dark'] .board-content,
+[data-theme='dark'] .similar-posts,
+[data-theme='dark'] .edit-form,
+[data-theme='dark'] .similar-board-title,
+[data-theme='dark'] div[style*="background-color: #ffffff"],
+[data-theme='dark'] div[style*="background-color: white"],
+[data-theme='dark'] div[style*="background: #ffffff"],
+[data-theme='dark'] div[style*="background: white"] {
+    background-color: var(--card-background);
+    color: var(--text-primary);
+}
+
+/* 흰색 배경을 가진 요소에 대한 특별 처리 */
+[data-theme='dark'] .white-background {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+}
+
+/* 흰색 배경의 카드나 컨테이너에 대한 스타일 */
+[data-theme='dark'] .card.white-bg,
+[data-theme='dark'] .container.white-bg {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+.board-content {
+    max-height: 570px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+    background: var(--card-background);
+    color: var(--text-primary);
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px var(--box-shadow);
+}
+
+/* 흰색 배경이 필요한 경우 */
+.board-content.white-bg {
+    background: #ffffff;
+    color: #000000;
+}
+
+/* 다크모드에서 흰색 배경 요소 처리 */
+[data-theme='dark'] .focus-room-section,
+[data-theme='dark'] .testimonials-section,
+[data-theme='dark'] .study-section,
+[data-theme='dark'] .rule-section,
+[data-theme='dark'] div[style*="background-color: white"],
+[data-theme='dark'] div[style*="background-color: #ffffff"],
+[data-theme='dark'] div[style*="background: white"],
+[data-theme='dark'] div[style*="background: #ffffff"] {
+    background-color: var(--background-primary);
+    color: var(--text-primary);
+}
+
+/* 다크모드에서 흰색 배경을 유지해야 하는 요소 */
+[data-theme='dark'] .white-bg {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+}
+
+[data-theme='dark'] .accordion-body {
+    background-color: var(--background-primary);
+    color: var(--text-primary);
+}
+
+[data-theme='dark'] .accordion-button {
+    background-color: var(--background-secondary);
+    color: var(--text-primary);
+}
+
+[data-theme='dark'] .accordion-button:not(.collapsed) {
+    background-color: var(--background-secondary);
+    color: var(--text-primary);
+}
+
+/* MainRule 페이지 스타일 */
+[data-theme='dark'] .MainRule {
+    background-color: var(--background-primary);
+}
+
+[data-theme='dark'] .MainRule .container {
+    background-color: var(--card-background);
+    color: var(--text-primary);
+    box-shadow: 0 6px 12px var(--shadow-color);
+}
+
+[data-theme='dark'] .accordion-button,
+[data-theme='dark'] .accordion-body {
+    background-color: var(--card-background);
+    color: var(--text-primary);
+}
+
+[data-theme='dark'] .accordion-button:not(.collapsed) {
+    background-color: var(--background-secondary);
+}
+
+/* 기본 텍스트 스타일 */
+.card-title,
+.post-content,
+.comment-text,
+.board-content,
+.community-text,
+.accordion-body {
+    color: var(--text-primary);
+}
+
+/* 마이페이지 전용 스타일 - 항상 검은색 유지 */
+.mypage-profile-content,
+.mypage-story-content,
+.mypage-profile-info,
+.mypage-nickname,
+.mypage-profile-extra p,
+.mypage-study-table td,
+.mypage-activity-content {
+    color: #000000 !important;
+}
+
+/* 게시물 제목과 내용 */
+[data-theme='dark'] .card-title,
+[data-theme='dark'] .post-content,
+[data-theme='dark'] .community-text {
+    color: var(--text-primary);
+}
+
+[data-theme='light'] .card-title,
+[data-theme='light'] .post-content,
+[data-theme='light'] .community-text {
+    color: var(--text-primary);
+}
+
+/* 댓글 영역 */
+[data-theme='dark'] .comment-text,
+[data-theme='dark'] .comment-content {
+    color: var(--text-primary);
+}
+
+[data-theme='light'] .comment-text,
+[data-theme='light'] .comment-content {
+    color: var(--text-primary);
+}
+
+/* 아코디언 내용 */
+[data-theme='dark'] .accordion-body {
+    color: var(--text-primary);
+}
+
+[data-theme='light'] .accordion-body {
+    color: var(--text-primary);
+}
+
+/* Community 게시물 카드 스타일 */
+.community-container .card {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+}
+
+.community-container .card-title,
+.community-container .card-text,
+.community-container .card-footer {
+    color: #000000 !important;
+}
+
+.community-container .card-body {
+    background-color: #ffffff !important;
+}
+
+[data-theme='dark'] .community-container .card {
+    border-color: var(--border-color);
+    box-shadow: 0 4px 8px var(--shadow-color);
+}
+
+/* BoardDetail 스타일 */
+.board-content {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+}
+
+/* 댓글 컴포넌트 스타일 */
+.Toast {
+    background-color: #ffffff !important;
+}
+
+.Toast .toast-header,
+.Toast .toast-body {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+}
+
+[data-theme='dark'] .board-content,
+[data-theme='dark'] .Toast,
+[data-theme='dark'] .Toast .toast-header,
+[data-theme='dark'] .Toast .toast-body {
+    border-color: var(--border-color);
+    box-shadow: 0 4px 8px var(--shadow-color);
+}
+
+/* 댓글 입력 폼 스타일 */
+.comment-form .form-control {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+}
+
+/* 스터디룸 스타일 */
+.study-room-container {
+    background-color: var(--background-primary);
+}
+
+[data-theme='dark'] .study-room-container {
+    background-color: var(--background-primary);
+}
+
+/* 스터디룸 내부 요소들은 항상 라이트모드 스타일 유지 */
+.study-room-content,
+.study-room-header,
+.study-room-sidebar,
+.study-room-main,
+.study-room-chat,
+.study-room-video,
+.study-room-controls {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+}
+
+[data-theme='dark'] .study-room-content,
+[data-theme='dark'] .study-room-header,
+[data-theme='dark'] .study-room-sidebar,
+[data-theme='dark'] .study-room-main,
+[data-theme='dark'] .study-room-chat,
+[data-theme='dark'] .study-room-video,
+[data-theme='dark'] .study-room-controls {
+    border-color: var(--border-color);
+    box-shadow: 0 4px 8px var(--shadow-color);
+}
+
+/* 스터디룸 네비게이션 바 스타일 */
+.study-room-container .navbar,
+.study-room-container .navbar-custom,
+[data-theme='dark'] .study-room-container .navbar,
+[data-theme='dark'] .study-room-container .navbar-custom {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+}
+
+.study-room-container .nav-link,
+[data-theme='dark'] .study-room-container .nav-link {
+    color: #000000 !important;
+}
+
+/* 캔버스 다크모드 스타일 */
+[data-theme='dark'] .canvas-container {
+    background-color: #2d2d2f !important;
+}
+
+[data-theme='dark'] .canvas-container canvas {
+    background-color: #3d3d3f !important;
+}
+
+/* MainStudy 컨테이너 스타일 */
+.main-study-container,
+.main-study-content,
+.main-study-section,
+.main-study-wrapper {
+    background-color: var(--background-primary);
+    color: var(--text-primary);
+}
+
+[data-theme='dark'] .main-study-container,
+[data-theme='dark'] .main-study-content,
+[data-theme='dark'] .main-study-section,
+[data-theme='dark'] .main-study-wrapper {
+    background-color: var(--background-primary);
+}
+
+/* MainStudy 카드와 내부 요소는 흰색 유지 */
+.main-study-card,
+.study-list-item,
+.study-info-box,
+.study-details {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+}
+
+[data-theme='dark'] .main-study-card,
+[data-theme='dark'] .study-list-item,
+[data-theme='dark'] .study-info-box,
+[data-theme='dark'] .study-details {
+    border-color: var(--border-color);
+    box-shadow: 0 4px 8px var(--shadow-color);
+}
+
+/* MainStudy 배경색 수정 */
+[data-theme='dark'] .main-study-container,
+[data-theme='dark'] .main-study-content,
+[data-theme='dark'] .main-study-section,
+[data-theme='dark'] .main-study-wrapper,
+[data-theme='dark'] .study-list-container {
+    background-color: var(--background-primary) !important;
+    color: var(--text-primary);
+}
+
+/* MainStudy 카드 스타일 유지 */
+.main-study-card,
+.study-list-item,
+.study-info-box,
+.study-details,
+.study-card {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+}
+
+[data-theme='dark'] .main-study-card,
+[data-theme='dark'] .study-list-item,
+[data-theme='dark'] .study-info-box,
+[data-theme='dark'] .study-details,
+[data-theme='dark'] .study-card {
+    border-color: var(--border-color);
+    box-shadow: 0 4px 8px var(--shadow-color);
+}
+
+/* 마이페이지 h3 스타일 추가 */
+.mypage-container h3,
+[data-theme='dark'] .mypage-container h3 {
+    color: #000000 !important;
+}
+
+/* MainStudy 다크모드 강제 적용 */
+body[data-theme='dark'] .main-study-container,
+body[data-theme='dark'] .main-study-content,
+body[data-theme='dark'] .main-study-section,
+body[data-theme='dark'] .main-study-wrapper,
+body[data-theme='dark'] .study-list-container,
+body[data-theme='dark'] div[class*="main-study"] {
+    background-color: var(--background-primary) !important;
+    color: var(--text-primary) !important;
+}
+
+/* MainStudy 카드 스타일은 유지 */
+body[data-theme='dark'] .main-study-card,
+body[data-theme='dark'] .study-list-item,
+body[data-theme='dark'] .study-info-box,
+body[data-theme='dark'] .tab-header,
+body[data-theme='dark'] .study-details,
+body[data-theme='dark'] .study-card {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    border-color: var(--border-color);
+    box-shadow: 0 4px 8px var(--shadow-color);
+}
