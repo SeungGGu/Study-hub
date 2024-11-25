@@ -117,6 +117,7 @@ function StudyRoom() {
                     sessionRef={sessionRef}
                     OV={OV}
                     setPublisher={setPublisher}
+                    setCurrentPage={setCurrentPage}
                 />;
             default:
                 return (

@@ -48,45 +48,47 @@ const useOpenVidu = ({id}) => {
             try {
                 const session = sessionRef.current;
 
-                // WebSocket 상태 확인
                 if (
                     session.connection &&
                     session.connection.rpc &&
                     (session.connection.rpc.rpcReadyState === 2 || session.connection.rpc.rpcReadyState === 3)
                 ) {
                     console.warn("WebSocket이 이미 닫혀 있습니다.");
-                    return;
+                } else {
+                    // 퍼블리셔 언퍼블리시
+                    if (publisherRef.current) {
+                        await session.unpublish(publisherRef.current);
+                        console.log("퍼블리셔 언퍼블리시 성공");
+                    }
+
+                    // 구독자 스트림 해제
+                    subscribersRef.current.forEach((subscriber) => {
+                        session.unsubscribe(subscriber);
+                    });
+
+                    // 세션 종료
+                    await session.disconnect();
+                    console.log("클라이언트 세션 종료 성공");
                 }
-
-                // 퍼블리셔 언퍼블리시
-                if (publisherRef.current) {
-                    await session.unpublish(publisherRef.current);
-                    console.log("퍼블리셔 언퍼블리시 성공");
-                }
-
-                // 구독자 스트림 해제
-                subscribersRef.current.forEach((subscriber) => {
-                    session.unsubscribe(subscriber);
-                });
-
-                // 세션 종료
-                await session.disconnect();
-                console.log("세션 종료 성공");
 
                 // 서버에 세션 종료 요청
-                const response = await fetchWithTimeout(
-                    `http://localhost:8080/api/sessions/${session.sessionId}`,
-                    {method: "DELETE"}
-                );
+                try {
+                    const response = await fetchWithTimeout(
+                        `http://localhost:8080/api/sessions/${session.sessionId}`,
+                        {method: "DELETE"}
+                    );
 
-                if (response.ok) {
-                    console.log("서버에서 세션 강제 종료 요청 완료");
-                } else {
-                    console.error(`서버 세션 종료 요청 실패: ${response.statusText}`);
+                    if (response.ok) {
+                        console.log("서버에서 세션 강제 종료 요청 완료");
+                    } else {
+                        console.error(`서버 세션 종료 요청 실패: ${response.status}`);
+                    }
+                } catch (serverError) {
+                    console.error("서버 세션 종료 요청 실패:", serverError);
                 }
 
-            } catch (error) {
-                console.error("세션 종료 중 오류 발생:", error);
+            } catch (clientError) {
+                console.error("세션 종료 중 클라이언트 오류 발생:", clientError);
             } finally {
                 // 리소스 정리
                 sessionRef.current = null;
@@ -104,17 +106,17 @@ const useOpenVidu = ({id}) => {
 
     const startCall = useCallback(async () => {
         try {
-            // 세션 생성 요청
             const sessionResponse = await fetchWithTimeout(`http://localhost:8080/api/sessions`, {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({studyId: id}),
             });
 
-            if (!sessionResponse.ok) throw new Error(`세션 생성 실패: ${sessionResponse.statusText}`);
+            if (!sessionResponse.ok) {
+                throw new Error(`세션 생성 실패: ${sessionResponse.statusText}`);
+            }
             const sessionId = await sessionResponse.text();
 
-            // 토큰 생성 요청
             const tokenResponse = await fetchWithTimeout(
                 `http://localhost:8080/api/sessions/${sessionId}/connections`,
                 {
@@ -124,7 +126,9 @@ const useOpenVidu = ({id}) => {
                 }
             );
 
-            if (!tokenResponse.ok) throw new Error(`토큰 생성 실패: ${tokenResponse.statusText}`);
+            if (!tokenResponse.ok) {
+                throw new Error(`토큰 생성 실패: ${tokenResponse.statusText}`);
+            }
             const token = await tokenResponse.text();
 
             // 세션 초기화 및 연결
@@ -152,7 +156,7 @@ const useOpenVidu = ({id}) => {
             setPublisher(newPublisher);
             publisherRef.current = newPublisher;
         } catch (error) {
-            console.error("세션 시작 오류:", error);
+            console.error("세션 시작 중 오류 발생:", error);
         }
     }, [id, OV]);
 
