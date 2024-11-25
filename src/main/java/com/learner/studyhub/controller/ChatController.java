@@ -15,7 +15,6 @@ import java.util.List;
 
 @RestController
 public class ChatController {
-
     private final SimpMessagingTemplate messagingTemplate;
     private final MessageRepository messageRepository;
 

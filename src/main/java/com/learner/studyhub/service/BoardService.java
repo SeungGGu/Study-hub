@@ -11,6 +11,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.List;
@@ -73,15 +74,18 @@ public class BoardService {
 
     @Transactional
     public void deleteBoard(Integer boardId) {
-        Optional<BoardEntity> boardOptional = boardRepository.findById(boardId);
-        if (boardOptional.isPresent()) {
-            BoardEntity board = boardOptional.get();
-            boardRepository.deleteById(boardId); // 게시물 삭제
+        try {
+            boardRepository.deleteById(boardId); // 게시글과 연관된 모든 데이터 삭제
             logger.info("Deleted board with ID: {}", boardId);
-        } else {
+        } catch (EmptyResultDataAccessException e) {
+            logger.error("Board with ID {} not found.", boardId);
             throw new IllegalArgumentException("Board with ID " + boardId + " not found.");
+        } catch (Exception e) {
+            logger.error("Error deleting board with ID {}: {}", boardId, e.getMessage());
+            throw new RuntimeException("Error occurred while deleting board.");
         }
     }
+
     // 게시물 업데이트 메서드 추가
     @Transactional
     public BoardDTO updateBoard(Integer boardId, BoardDTO boardDTO) {
@@ -114,43 +118,48 @@ public class BoardService {
             throw new IllegalArgumentException("Board with ID " + boardId + " not found.");
         }
     }
+@Transactional
+public boolean toggleLikeBoard(Integer boardId, String userNickname) {
+    Optional<BoardEntity> boardOptional = boardRepository.findById(boardId);
+    Optional<UserEntity> userOptional = userRepository.findByNickname(userNickname);
+
+    if (boardOptional.isPresent() && userOptional.isPresent()) {
+        BoardEntity board = boardOptional.get();
+        UserEntity user = userOptional.get();
+
+        Optional<LikeEntity> likeOptional = likeRepository.findByBoardAndUser(board, user);
+        if (likeOptional.isPresent()) {
+            likeRepository.delete(likeOptional.get());
+            board.setBoardGreat(board.getBoardGreat() - 1);
+            boardRepository.save(board);
+            return false; // Unliked
+        } else {
+            LikeEntity like = new LikeEntity();
+            like.setBoard(board);
+            like.setUser(user);
+            likeRepository.save(like);
+            board.setBoardGreat(board.getBoardGreat() + 1);
+            boardRepository.save(board);
+            return true; // Liked
+        }
+    } else {
+        throw new IllegalArgumentException("Invalid boardId or userNickname");
+    }
+}
     @Transactional
-    public void toggleLikeBoard(Integer boardId, String userNickname) {
+    public boolean isBoardLikedByUser(Integer boardId, String userNickname) {
         Optional<BoardEntity> boardOptional = boardRepository.findById(boardId);
         Optional<UserEntity> userOptional = userRepository.findByNickname(userNickname);
 
         if (boardOptional.isPresent() && userOptional.isPresent()) {
             BoardEntity board = boardOptional.get();
             UserEntity user = userOptional.get();
-
-            // 사용자가 이 게시물에 대해 좋아요를 이미 눌렀는지 확인
-            Optional<LikeEntity> likeOptional = likeRepository.findByBoardAndUser(board, user);
-            if (likeOptional.isPresent()) {
-                // 이미 좋아요를 눌렀다면 좋아요 취소
-                likeRepository.delete(likeOptional.get());
-                board.setBoardGreat(board.getBoardGreat() - 1);  // 좋아요 수 감소
-            } else {
-                // 좋아요 누름
-                LikeEntity like = new LikeEntity();
-                like.setBoard(board);
-                like.setUser(user);
-                likeRepository.save(like);
-                board.setBoardGreat(board.getBoardGreat() + 1);  // 좋아요 수 증가
-            }
-            boardRepository.save(board);  // 좋아요 수 업데이트
+            return likeRepository.existsLikeEntityByBoardAndUser(board, user);
         } else {
             throw new IllegalArgumentException("Invalid boardId or userNickname");
         }
     }
-    @Transactional
-    public int getLikeCountByBoard(Integer boardId) {
-        Optional<BoardEntity> boardOptional = boardRepository.findById(boardId);
-        if (boardOptional.isPresent()) {
-            return (int) likeRepository.countByBoard(boardOptional.get());
-        } else {
-            throw new IllegalArgumentException("Invalid boardId");
-        }
-    }
+
     // 인기 태그를 계산하는 메서드
     @Transactional
     public List<String> getPopularTags() {
@@ -187,21 +196,6 @@ public class BoardService {
             boardDTO.setBoardNickname(board.getBoardNickname().getNickname());
             boardDTO.setBoardView(board.getBoardView());
             boardDTO.setBoardGreat(board.getBoardGreat());
-            return boardDTO;
-        }).collect(Collectors.toList());
-    }
-    // 새로운 메서드: 태그로 검색
-    @Transactional
-    public List<BoardDTO> searchBoardsByTag(String tag) {
-        List<BoardEntity> boards = boardRepository.findByBoardCategoryContainingIgnoreCase(tag);
-        return boards.stream().map(board -> {
-            BoardDTO boardDTO = new BoardDTO();
-            boardDTO.setBoardId(board.getBoardId());
-            boardDTO.setBoardTitle(board.getBoardTitle());
-            boardDTO.setBoardDetail(board.getBoardDetail());
-            boardDTO.setBoardCategory(board.getBoardCategory());
-            boardDTO.setBoardNickname(board.getBoardNickname().getNickname());
-            boardDTO.setBoardView(board.getBoardView());
             return boardDTO;
         }).collect(Collectors.toList());
     }

@@ -1,0 +1,77 @@
+/* MainRule.css */
+
+.main-rule-container {
+    background-color: #1e1e2e;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    padding-top: 56px;
+    padding-bottom: 40px;
+}
+
+.rule-intro {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.rule-intro-title {
+    font-size: 1.8rem;
+    font-weight: 500;
+    line-height: 1.6;
+    color: #ff6ec7;
+}
+
+.rule-accordion {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 30px 20px;
+}
+
+.accordion-item {
+    background-color: #2d2d3d;
+    border: none;
+    margin-bottom: 10px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+}
+
+.accordion-header {
+    font-size: 1.4rem;
+    color: #ff6ec7;
+    background-color: #2d2d3d;
+    padding: 15px;
+    cursor: pointer;
+}
+
+.accordion-body {
+    font-size: 1rem;
+    color: #ccc;
+    line-height: 1.8;
+    padding: 20px;
+    background-color: #333;
+}
+
+.accordion-header:hover {
+    background-color: #3a3a4a;
+}
+
+.divider {
+    margin-top: 20px;
+    margin-bottom: 40px;
+    border-top: 1px solid #4a4e69;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .rule-intro-title {
+        font-size: 1.5rem;
+    }
+    .accordion-header {
+        font-size: 1.2rem;
+    }
+    .accordion-body {
+        font-size: 0.9rem;
+    }
+}

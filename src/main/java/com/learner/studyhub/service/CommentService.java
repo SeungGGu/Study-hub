@@ -84,4 +84,21 @@ public class CommentService {
             throw new IllegalArgumentException("Comment with ID " + commentId + " not found");
         }
     }
+
+
+    @Transactional
+    public List<CommentDTO> getCommentsByUserNickname(String userNickname) {
+        List<CommentEntity> comments = commentRepository.findByUserNickname(userNickname);
+        return comments.stream().map(comment -> {
+            CommentDTO commentDTO = new CommentDTO();
+            commentDTO.setCommentId(comment.getCommentId());
+            commentDTO.setBoardId(comment.getBoard().getBoardId());
+            commentDTO.setUserNickname(comment.getUser().getNickname());
+            commentDTO.setCommentText(comment.getCommentText());
+            commentDTO.setCreatedDate(comment.getCreatedDate());
+            commentDTO.setBoardTitle(comment.getBoard().getBoardTitle());
+
+            return commentDTO;
+        }).collect(Collectors.toList());
+    }
 }

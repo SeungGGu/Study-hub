@@ -1,12 +1,126 @@
-.signup-container {
-    padding-top: 50px;
-    padding-bottom: 50px;
+/* SignUpPage.css */
+
+.signup-background {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #2F4156, #7D6D57);
+    padding: 20px;
+    box-sizing: border-box;
+    position: relative;
 }
 
-.form-control {
-    margin-bottom: 10px;
+.back-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    cursor: pointer;
 }
 
-.button {
-    margin: 5px;
+.signup-card {
+    width: 100%;
+    max-width: 500px;
+    padding: 2rem;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.signup-header {
+    font-size: 2rem;
+    color: #2F4156;
+    margin-bottom: 1.5rem;
+    font-weight: bold;
+}
+
+.signup-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.signup-form label {
+    text-align: left;
+    font-weight: 500;
+    color: #3D4856;
+}
+
+.signup-form input {
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    color: #3D4856;
+    background-color: #f9f9fb;
+    transition: border-color 0.3s;
+}
+
+.signup-form input:focus {
+    outline: none;
+    border-color: #2F4156;
+}
+
+.field-with-button {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.field-with-button input {
+    flex: 1;
+}
+
+.field-with-button button {
+    padding: 0.5rem 1rem;
+    background-color: #4C3D29;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-weight: bold;
+}
+
+.field-with-button button:hover {
+    background-color: #3D4856;
+}
+
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.submit-button {
+    background-color: #2F4156;
+    color: #ffffff;
+    border: none;
+    padding: 0.9rem;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-weight: bold;
+}
+
+.submit-button:hover {
+    background-color: #1e2c3b;
+}
+
+.cancel-button {
+    background-color: #7D6D57;
+    color: #ffffff;
+    border: none;
+    padding: 0.9rem;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-weight: bold;
+}
+
+.cancel-button:hover {
+    background-color: #5e5242;
 }

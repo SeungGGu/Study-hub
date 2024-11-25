@@ -1,7 +1,9 @@
+// TabHeader.js
+
 import React, { useState } from "react";
-import { InputGroup, Button, Form, Card, Col } from "react-bootstrap";
-import { Lock } from 'react-bootstrap-icons'; // 잠금 아이콘 추가
+import { Lock } from 'react-bootstrap-icons'; // 잠금 및 새로고침 아이콘
 import "../../styles/TabHeader.css";
+import {Refresh} from "iconsax-react";
 
 function TabHeader({ onSearch, topLikedStudies, onStudyClick, onPasswordCheck }) {
     const [searchTerm, setSearchTerm] = useState("");
@@ -12,69 +14,59 @@ function TabHeader({ onSearch, topLikedStudies, onStudyClick, onPasswordCheck })
     };
 
     return (
-        <div>
-            <InputGroup className="mb-3">
-                <Form.Control
+        <div className="tab-header">
+            <div className="search-container">
+                <input
+                    type="text"
                     placeholder="관심 스터디를 검색해 보세요!"
-                    aria-label="search"
-                    aria-describedby="search"
                     value={searchTerm}
                     onChange={(e) => {
                         setSearchTerm(e.target.value);
-                        onSearch(e.target.value); // 입력할 때마다 검색어를 부모 컴포넌트로 전달
+                        onSearch(e.target.value);
                     }}
+                    className="search-input"
                 />
-                <Button variant="outline-secondary" id="reset" onClick={handleReset}>
-                    초기화
-                </Button>
-            </InputGroup>
-            <hr/>
-            <div className="BestStudyCard">
-                <Col xs={12}>
-                    <h4>
-                        ⭐주간 인기 스터디
-                    </h4>
-                </Col>
-                <div className="row">
-                    {topLikedStudies.map((card) => (
-                        <div key={card.studyId} className="col-md-6 col-lg-3 mb-4">
-                            <Card
-                                onClick={() => {
-                                    if (card.pwStatus) {
-                                        // 잠금 상태면 비밀번호 확인으로 이동
-                                        onPasswordCheck(card.studyId, card.studyTitle);
-                                    } else {
-                                        // 잠금이 아닌 경우 바로 스터디로 이동
-                                        onStudyClick(card.studyId, card.studyTitle);
-                                    }
-                                }}
-                                style={{ cursor: 'pointer' }}
-                            >
-                                <div className="card-img-container">
-                                    <Card.Img
-                                        variant="top"
-                                        src={`/images/${card.studyTitlePicture}`}
-                                        alt={card.studyTitle}
-                                        className="responsive-img"
-                                    />
-                                </div>
-                                <Card.Body>
-                                    <Card.Title>{card.studyTitle}</Card.Title>
-                                    <Card.Text>{card.studyComment}</Card.Text>
-                                </Card.Body>
-                                <Card.Footer>
-                                    <small className="text-muted">{card.studyCreator}</small>
-                                    <div>
-                                        {card.pwStatus && <Lock size={16} className="me-2" />}
-                                        <small>👍 {card.likes}</small>
-                                    </div>
-                                </Card.Footer>
-                            </Card>
-                        </div>
-                    ))}
-                </div>
+                <button className="reset-button" onClick={handleReset}>
+                    <Refresh size={20} color="white" />
+                </button>
             </div>
-            <hr />
+            {searchTerm === "" && (
+                <>
+                    <hr />
+                    <div className="best-study-card">
+                        <h4>⭐ 주간 인기 스터디</h4>
+                        <div className="study-cards-container">
+                            {topLikedStudies.map((card) => (
+                                <div
+                                    key={card.studyId}
+                                    className="study-card"
+                                    onClick={() => {
+                                        if (card.pwStatus) {
+                                            onPasswordCheck(card.studyId, card.studyTitle);
+                                        } else {
+                                            onStudyClick(card.studyId, card.studyTitle);
+                                        }
+                                    }}
+                                >
+                                    <div className="card-image">
+                                        <img src={`/images/${card.studyTitlePicture}`} alt={card.studyTitle} />
+                                    </div>
+                                    <div className="card-content">
+                                        <h5>{card.studyTitle}</h5>
+                                        <p>{card.studyComment}</p>
+                                        <small>{card.studyCreator}</small>
+                                        <div className="likes-container">
+                                            {card.pwStatus && <Lock size={16} />}
+                                            <span>👍 {card.likes}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                    <hr />
+                </>
+            )}
         </div>
     );
 }

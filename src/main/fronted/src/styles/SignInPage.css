@@ -1,0 +1,123 @@
+/* SignInPage.css */
+
+.signin-background {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #2F4156, #7D6D57);
+    color: #333;
+    position: relative;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.back-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    cursor: pointer;
+}
+
+.signin-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 100%;
+}
+
+.signin-card {
+    width: 100%;
+    max-width: 400px;
+    padding: 2rem;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.signin-card:hover {
+    transform: translateY(-5px);
+}
+
+.signin-header {
+    font-size: 2rem;
+    color: #2F4156;
+    margin-bottom: 1.5rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.signin-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.signin-form label {
+    text-align: left;
+    font-weight: 500;
+    color: #3D4856;
+}
+
+.signin-form input {
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    color: #3D4856;
+    background-color: #f9f9fb;
+    transition: border-color 0.3s;
+}
+
+.signin-form input:focus {
+    outline: none;
+    border-color: #2F4156;
+}
+
+.signin-button {
+    background-color: #2F4156;
+    color: #ffffff;
+    border: none;
+    padding: 0.9rem;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-weight: bold;
+}
+
+.signin-button:hover {
+    background-color: #1e2c3b;
+}
+
+.signup-button {
+    background-color: #7D6D57;
+    color: #ffffff;
+    border: none;
+    padding: 0.9rem;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-weight: bold;
+}
+
+.signup-button:hover {
+    background-color: #5e5242;
+}
+
+.forgot-link {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: #4C3D29;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.forgot-link:hover {
+    color: #3D4856;
+    text-decoration: underline;
+}

@@ -1,7 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import '../../styles/VideoContainer.css';
+import {
+    CallSlash,
+    Camera,
+    CameraSlash,
+    ImportSquare,
+    Microphone2,
+    MicrophoneSlash,
+    Screenmirroring
+} from "iconsax-react";
 
-const VideoContainer = ({ publisher, subscribers, videoRef, leaveSession, OV, sessionRef, setPublisher }) => {
+const VideoContainer = ({publisher, subscribers, videoRef, leaveSession, OV, sessionRef, setPublisher}) => {
     const [isCammera, setIsCammera] = useState(true);
     const [isMuted, setIsMuted] = useState(true);
     const [isScreenSharing, setIsScreenSharing] = useState(false);
@@ -135,10 +144,30 @@ const VideoContainer = ({ publisher, subscribers, videoRef, leaveSession, OV, se
                 ))}
             </div>
             <div className="button-container">
-                <button onClick={handleSreenShare}>{isScreenSharing ? '화면 공유 중지' : '화면 공유'}</button>
-                <button onClick={handleCammera}>{isCammera ? '카메라 끄기' : '카메라 켜기'}</button>
-                <button onClick={handleMute}>{isMuted ? '마이크 음소거' : '마이크 켜기'}</button>
-                <button onClick={handleEndCall}>통화 종료</button>
+                <button onClick={handleSreenShare} title={isScreenSharing ? "화면 공유 중지" : "화면 공유"}>
+                    {isScreenSharing ? (
+                        <ImportSquare size="32" color="#2ccce4" variant="Bulk"/>
+                    ) : (
+                        <Screenmirroring size="32" color="#2ccce4" variant="Bulk"/>
+                    )}
+                </button>
+                <button onClick={handleCammera} title={isCammera ? "카메라 끄기" : "카메라 켜기"}>
+                    {isCammera ? (
+                        <CameraSlash size="32" color="#2ccce4" variant="Bulk"/>
+                    ) : (
+                        <Camera size="32" color="#2ccce4" variant="Bulk"/>
+                    )}
+                </button>
+                <button onClick={handleMute} title={isMuted ? "마이크 음소거" : "마이크 켜기"}>
+                    {isMuted ? (
+                        <MicrophoneSlash size="32" color="#2ccce4" variant="Bulk"/>
+                    ) : (
+                        <Microphone2 size="32" color="#2ccce4" variant="Bulk"/>
+                    )}
+                </button>
+                <button onClick={handleEndCall} title="통화 종료">
+                    <CallSlash size="32" color="#2ccce4" variant="Bulk"/>
+                </button>
             </div>
         </div>
     );

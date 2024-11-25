@@ -10,16 +10,17 @@ import lombok.Setter;
 @Setter
 @Table(name = "likes")
 public class LikeEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "userId")
-    private UserEntity user;
+    @JoinColumn(name = "board_id", nullable = false)
+    private BoardEntity board;
 
     @ManyToOne
-    @JoinColumn(name = "board_id", referencedColumnName = "boardId")
-    private BoardEntity board;
+    @JoinColumn(name = "user_id", nullable = false)
+    private UserEntity user;
+
+
 }

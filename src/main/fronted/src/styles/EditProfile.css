@@ -1,0 +1,84 @@
+.edit-profile-container {
+    margin-top: 50px;
+}
+
+.edit-profile-card {
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    background-color: #f9f9f9;
+}
+
+.edit-profile-form {
+    padding: 20px;
+}
+
+.edit-profile-form .form-control {
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+    margin-bottom: 15px;
+}
+
+.edit-profile-form .form-control:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 5px rgba(128, 189, 255, 0.5);
+}
+
+.edit-profile-form .form-label {
+    font-weight: bold;
+    color: #333;
+}
+
+.edit-profile-form .form-group {
+    margin-bottom: 20px;
+}
+
+.edit-profile-form button {
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+
+.edit-profile-form button.ml-2 {
+    margin-left: 10px;
+}
+
+.edit-profile-form .text-center {
+    margin-top: 20px;
+}
+
+.edit-profile-card .text-center button {
+    width: 100%;
+    font-size: 18px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+.edit-profile-card .text-center button:hover {
+    background-color: #0056b3;
+}
+
+.edit-profile-card .text-center .btn-secondary {
+    background-color: #6c757d;
+    border: none;
+}
+
+.edit-profile-card .text-center .btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+/* 생년월일 드롭다운 스타일 */
+.edit-profile-form .form-select {
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+}
+
+.edit-profile-form .form-select:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 5px rgba(128, 189, 255, 0.5);
+}
+
