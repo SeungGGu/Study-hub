@@ -24,6 +24,7 @@ html, body {
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 10px;
     padding: 10px;
+    margin-bottom: 70px;  /* button-container의 높이만큼 여백 추가 */
 }
 
 /* 비디오 요소의 반응형 조정 */
@@ -49,6 +50,15 @@ html, body {
     justify-content: center;
     gap: 10px;
     padding: 10px;
-    background-color: rgba(0, 0, 0, 0.7);
-    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 320px;  /* 사이드바 너비만큼 띄우기 */
+    right: 0;
+    z-index: 1000;
+}
+
+@media screen and (max-width: 992px) {
+    .button-container {
+        left: 0;  /* 반응형일 때는 왼쪽 여백 제거 */
+    }
 }
