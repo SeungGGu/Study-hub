@@ -107,8 +107,31 @@ const VideoContainer = ({publisher, subscribers, videoRef, leaveSession, OV, ses
         }
     };
 
-    const handleEndCall = () => {
-        leaveSession();
+    const handleEndCall = async () => {
+        if (!sessionRef.current) {
+            console.warn("세션이 이미 종료되었습니다.");
+            return;
+        }
+
+        const session = sessionRef.current;
+
+        try {
+            // WebSocket 상태 확인
+            if (
+                session.connection &&
+                session.connection.rpc &&
+                (session.connection.rpc.rpcReadyState === 2 || session.connection.rpc.rpcReadyState === 3)
+            ) {
+                console.warn("WebSocket이 닫혀 있는 상태입니다. 세션 종료를 건너뜁니다.");
+                return;
+            }
+
+            console.log("통화 종료를 시작합니다...");
+            await leaveSession(); // `useOpenVidu`의 leaveSession 호출
+            console.log("통화 종료 완료.");
+        } catch (error) {
+            console.error("통화 종료 중 오류 발생:", error);
+        }
     };
 
     return (
