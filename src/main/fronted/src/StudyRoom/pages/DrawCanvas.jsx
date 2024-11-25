@@ -204,6 +204,8 @@ const DrawCanvas = ({id, canvasData, setCurrentPage, canvasId}) => {
             case "save":
                 handleSaveTool();
                 break;
+            case "delete":
+                handleDeleteTool();
             default:
                 console.log('Unknown tool type');
                 break;
@@ -285,7 +287,28 @@ const DrawCanvas = ({id, canvasData, setCurrentPage, canvasId}) => {
                 setCurrentIndex(currentIndex - 1);
             });
         }
+        setActiveTool("pen");
     };
+
+    const handleDeleteTool = () => {
+        // 선택된 오브젝트를 가져옴
+        const activeObject = canvas.getActiveObject();
+
+        if (activeObject) {
+            // 오브젝트 삭제
+            canvas.remove(activeObject);
+
+            // 상태를 히스토리에 저장
+            saveToHistory(canvas);
+
+            // 선택 초기화
+            canvas.discardActiveObject().renderAll();
+            setActiveTool("select");
+        } else {
+            alert("삭제할 오브젝트가 없습니다.");
+        }
+    };
+
 
     const saveToHistory = (canvas) => {
         const state = canvas.toJSON();
@@ -334,6 +357,12 @@ const DrawCanvas = ({id, canvasData, setCurrentPage, canvasId}) => {
                     disabled={activeTool === "save"}
                 >
                     <IoIosSave size={25}/>
+                </button>
+                <button
+                    onClick={() => setActiveTool("delete")}
+                    disabled={activeTool === "delete"}
+                >
+                    🗑️
                 </button>
             </div>
             <Modal isOpen={isOpen} onRequestClose={closeModal} style={customStyles}>

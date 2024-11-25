@@ -30,4 +30,8 @@ public class CalendarService {
         }
         return calendarRepository.save(calendarEntity);
     }
+
+    public void deleteEventById(Long id) {
+        calendarRepository.deleteById(id);
+    }
 }
