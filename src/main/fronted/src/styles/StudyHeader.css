@@ -1,28 +1,82 @@
 /* StudyHeader.css */
 .navbar-custom {
+    background-color: #ffffff !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     height: 60px;
-    padding: 0px;
+    padding: 0 20px;
 }
 
 .navbar-brand-custom {
-    margin-right: auto;
-    padding-left: 5px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #000000 !important;
+}
+
+.nav-link {
+    color: #000000 !important;
+}
+
+.nav-link:hover {
+    color: #567C8D !important;
 }
 
 .nav-ms-auto {
-    padding-right: 5px;
+    gap: 20px;
 }
 
-/*!* StudyHeader.css *!*/
-/*.navbar-custom {*/
-/*    background-color: #f8f9fa;*/
-/*}*/
+.nav-ms-auto svg {
+    fill: #000000;
+    stroke: #000000;
+}
 
-/*.navbar-brand-custom {*/
-/*    font-weight: bold;*/
-/*    font-size: 1.5em;*/
-/*}*/
+.btn-custom {
+    color: #000000;
+    border: 1px solid #000000;
+}
 
-/*.nav-ms-auto {*/
-/*    margin-left: auto;*/
-/*}*/
+.btn-custom:hover {
+    background-color: #f5f5f5;
+    color: #567C8D;
+}
+
+/* 반응형 스타일 */
+@media screen and (max-width: 992px) {
+    .navbar-custom {
+        padding: 0 10px;
+    }
+
+    .navbar-brand-custom {
+        font-size: 1rem;
+    }
+
+    .nav-ms-auto {
+        gap: 10px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .navbar-collapse {
+        background-color: #ffffff !important;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .nav-ms-auto svg {
+        width: 28px;
+        height: 28px;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .navbar-custom {
+        height: 50px;
+    }
+
+    .nav-ms-auto {
+        gap: 5px;
+    }
+
+    .nav-ms-auto svg {
+        width: 24px;
+        height: 24px;
+    }
+}

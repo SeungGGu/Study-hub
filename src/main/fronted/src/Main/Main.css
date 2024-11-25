@@ -1,543 +1,344 @@
-/* 기본 스타일 */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
+/* Global Styles */
 .main-container {
-    width: 100%;
-    overflow: hidden;
-    background-color: #1e1e2e;
-    color: #333;
+    color: #1d1d1f;
+    overflow-x: hidden;
 }
 
-/* Header 스타일 */
-.main-header {
-    background-color: #563d7c;
-    padding: 20px 80px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.main-header .logo {
-    font-size: 28px;
-    font-weight: bold;
-    text-transform: uppercase;
-}
-
-.main-nav ul {
-    list-style: none;
-    display: flex;
-    gap: 30px;
-}
-
-.main-nav ul li a {
-    color: #fff;
-    text-decoration: none;
-    font-size: 18px;
-    transition: color 0.3s ease;
-}
-
-.main-nav ul li a:hover {
-    color: #ffb3b3;
-}
-
-.login-btn a {
-    color: #fff;
-    text-decoration: none;
-    font-size: 18px;
-    padding: 10px 20px;
-    background-color: #ff6363;
-    border-radius: 25px;
-    transition: background-color 0.3s ease;
-}
-
-.login-btn a:hover {
-    background-color: #ff3b3b;
-}
-
-/* Hero Section 스타일 */
+/* Hero Section */
 .hero-section {
-    background: url('../../public/images/study.png') center/cover no-repeat;
-    height: 80vh;
+    background: #000;
+    color: #fff;
+    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
-    z-index: 1;
-    clip-path: polygon(0 0, 100% 0, 100% 85%, 75% 95%, 50% 100%, 25% 95%, 0 85%);
-}
-
-.hero-overlay {
-    background-color: rgba(47, 65, 86, 0.66);
+    text-align: center;
+    padding: 120px 0;
     width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 2;
-    clip-path: polygon(0 0, 100% 0, 100% 85%, 75% 95%, 50% 100%, 25% 95%, 0 85%);
+    margin: 0;
+    overflow: hidden;
+}
+.hero-content {
+    max-width: 800px;
 }
 
-.hero-text {
-    text-align: center;
-    color: #fff;
-    z-index: 3;
-    position: relative;
-    top: 20%;
+.hero-content h1 {
+    font-size: 56px;
+    font-weight: 600;
+    margin-bottom: 20px;
 }
 
-.hero-text h1 {
-    font-size: 60px;
-    font-weight: bold;
-    letter-spacing: 1.2px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+.hero-content p {
+    font-size: 24px;
+    color: #86868b;
+    margin-bottom: 30px;
 }
 
-.hero-text p {
-    font-size: 22px;
-    margin-top: 10px;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-}
-
-.cta-btn {
-    background-color: #ff6363;
-    padding: 15px 30px;
-    color: #fff;
-    border-radius: 30px;
-    text-decoration: none;
-    margin-top: 30px;
+.hero-cta {
     display: inline-block;
-    font-size: 18px;
-    transition: background-color 0.3s ease;
+    padding: 18px 40px;
+    background: #0071e3;
+    color: white;
+    border-radius: 980px;
+    text-decoration: none;
+    font-size: 20px;
+    transition: all 0.3s ease;
 }
 
-.cta-btn:hover {
-    background-color: #ff3b3b;
-}
-
-/* Courses Section 스타일 */
-.courses-section {
-    padding: 70px 0;
+/* Focus Room Section */
+.focus-room-section {
+    padding: 120px 20px;
     text-align: center;
-    background-color: #fff;
 }
 
-.courses-section h2 {
-    font-size: 36px;
-    margin-bottom: 40px;
-    color: #333;
+.focus-room-section h2 {
+    font-size: 48px;
+    font-weight: 600;
+    margin-bottom: 16px;
 }
 
-.course-cards {
+.focus-room-subtitle {
+    font-size: 24px;
+    color: #86868b;
+    margin-bottom: 60px;
+}
+
+.moniter-screen {
+    max-width: 1000px;
+    margin: 0 auto 60px;
+}
+
+.moniter-screen img {
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+}
+
+.focus-feature-boxes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.focus-feature-box {
+    background: #f5f5f7;
+    padding: 30px;
+    border-radius: 20px;
+    transition: transform 0.3s ease;
+}
+
+.focus-feature-box:hover {
+    transform: translateY(-10px);
+}
+
+/* Feature Sections */
+.feature-section {
+    padding: 120px 20px;
+}
+
+/*.feature-section:nth-child(odd) {*/
+/*    background: #f5f5f7;*/
+/*}*/
+
+.feature-content {
+    max-width: 1200px;
+    margin: 0 auto;
     display: flex;
-    justify-content: center;
+    align-items: center;
+    gap: 60px;
+}
+
+.reverse-layout {
+    flex-direction: row-reverse;
+}
+
+.feature-text {
+    flex: 1;
+}
+
+.feature-text h2 {
+    font-size: 40px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.feature-text p {
+    font-size: 20px;
+    color: #86868b;
+}
+
+.feature-image {
+    flex: 1;
+}
+
+.feature-image img {
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+}
+
+/* Testimonials Section */
+.testimonials-section {
+    padding: 120px 20px;
+    text-align: center;
+}
+
+.testimonials-section h2 {
+    font-size: 48px;
+    font-weight: 600;
+    margin-bottom: 60px;
+}
+
+.testimonial-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     gap: 30px;
     max-width: 1200px;
     margin: 0 auto;
 }
 
-.course-card {
-    background-color: #f9f9f9;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    width: 300px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.course-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
-}
-
-.course-card img {
-    width: 100%;
-    height: 150px;
-    object-fit: cover;
-    border-radius: 8px;
-}
-
-.course-card h3 {
-    font-size: 22px;
-    margin-top: 15px;
-    color: #333;
-}
-
-.course-card p {
-    color: #777;
-    font-size: 16px;
-    margin-top: 10px;
-}
-
-.price {
-    display: block;
-    margin-top: 10px;
-    color: #ff6363;
-    font-weight: bold;
-}
-
-/* Facilities Section 스타일 */
-.facilities-section {
-    padding: 70px 0;
-    background-color: #f9f9f9;
-    text-align: center;
-    width: 100%;
-}
-
-.facilities-section h2 {
-    font-size: 36px;
-    margin-bottom: 40px;
-    color: #333;
-}
-
-/* 가로로 5개 배치 */
-.facilities-cards {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr); /* 기본 5열 */
-    gap: 20px;
-    width: 100%;
-    max-width: 1600px;
-    margin: 0 auto;
-    padding: 0 20px; /* 좌우 여백 */
-}
-
-/* 각 카드의 스타일 */
-.facility-card {
-    background-color: #fff;
+.testimonial-card {
     padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    text-align: left;
-}
-
-.facility-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
-}
-
-.facility-card h3 {
-    font-size: 24px;
-    color: #4a4e69;
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-
-.facility-card p {
-    font-size: 16px;
-    color: #555;
-    line-height: 1.6;
-}
-
-/* 반응형 디자인 */
-@media (max-width: 1200px) {
-    .facilities-cards {
-        grid-template-columns: repeat(3, 1fr); /* 중간 크기 화면에서는 3열 */
-    }
-}
-
-@media (max-width: 768px) {
-    .facilities-cards {
-        grid-template-columns: repeat(2, 1fr); /* 태블릿 화면에서는 2열 */
-    }
-}
-
-@media (max-width: 480px) {
-    .facilities-cards {
-        grid-template-columns: 1fr; /* 모바일 화면에서는 1열 */
-    }
-}
-
-/* Focus Room Section 스타일 */
-.focus-room-section {
-    background-color: #1e1e2e;
-    color: #fff;
-    padding: 80px 40px;
-    text-align: center;
-    max-width: 1400px; /* 가로 길이 확장 */
-    margin: 0 auto;
-}
-
-.focus-room-section h2 {
-    font-size: 40px; /* 제목 폰트 크기 증가 */
-    color: #ff6ec7;
-    margin-bottom: 10px;
-}
-
-.focus-room-subtitle {
-    font-size: 20px; /* 서브타이틀 폰트 크기 증가 */
-    color: #b48ff8;
-    margin-bottom: 40px;
-}
-
-/* 모니터 프레임 스타일 */
-.monitor-frame {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #2d2d3d;
     border-radius: 20px;
-    padding: 30px;
-    width: 100%;
-    margin: 0 auto 40px auto;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+    transition: transform 0.3s ease;
 }
 
-.monitor-screen {
-    background-color: #000;
-    border-radius: 15px;
-    overflow: hidden;
-    width: 100%;
+.testimonial-card:hover {
+    transform: translateY(-10px);
 }
 
-.monitor-screen img {
-    width: 100%;
-    border-radius: 10px;
-}
-
-.monitor-stand {
-    width: 100px; /* 받침대 너비 증가 */
-    height: 20px;
-    background-color: #2d2d3d;
-    border-radius: 10px;
-    margin-top: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
-}
-
-/* 기능 박스들 스타일 */
-.focus-feature-boxes {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap;
-    max-width: 1200px; /* 가로 길이 확장 */
-    margin: 0 auto;
-}
-
-.focus-feature-box {
-    background-color: #2d2d3d;
-    padding: 30px; /* padding 증가 */
-    border-radius: 15px;
-    width: 320px; /* 박스 너비 증가 */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    text-align: left;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-
-.focus-feature-box:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-}
-
-.focus-feature-box h3 {
-    font-size: 24px; /* 제목 폰트 크기 증가 */
-    color: #ff6ec7;
-    margin-bottom: 15px;
-}
-
-.focus-feature-box p {
-    font-size: 18px; /* 본문 폰트 크기 증가 */
-    color: #ccc;
-    line-height: 1.6;
-}
-
-/* 공통 스타일 */
-.feature-content {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    max-width: 1400px; /* 가로 길이 확장 */
-    margin: 40px auto;
-    padding: 40px;
-    background-color: #2d2d3d;
-    border-radius: 15px;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-    color: #fff;
-}
-
-.feature-text {
-    flex: 1;
-    margin-right: 20px;
-    text-align: left;
-}
-
-.feature-text h2 {
-    font-size: 40px; /* 제목 폰트 크기 증가 */
-    color: #ff6ec7;
-    margin-bottom: 15px;
-}
-
-.feature-text p {
-    font-size: 20px; /* 본문 폰트 크기 증가 */
-    color: #ccc;
-    line-height: 1.6;
+.testimonial-image {
+    font-size: 48px;
     margin-bottom: 20px;
 }
 
-.cta-btn {
-    display: inline-block;
-    background-color: #b48ff8;
-    color: #fff;
-    padding: 10px 20px;
-    border-radius: 25px;
-    text-decoration: none;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
+.testimonial-card h3 {
+    font-size: 24px;
+    margin-bottom: 8px;
 }
 
-.cta-btn:hover {
-    background-color: #a073e5;
+.testimonial-card span {
+    color: #86868b;
+    display: block;
+    margin-bottom: 16px;
 }
 
-.feature-image {
-    flex: 1;
+/* Footer */
+.main-footer {
+    background: #f5f5f7;
+    padding: 40px 20px;
     text-align: center;
+    color: #86868b;
 }
 
-.feature-image img {
-    max-width: 100%;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+/* Animation */
+.fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 1s ease-out, transform 1s ease-out;
 }
 
-/* 반응형 디자인 */
+.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Mobile Styles */
 @media (max-width: 768px) {
+    .hero-content h1 {
+        font-size: 32px;
+    }
+
+    .hero-content p {
+        font-size: 18px;
+    }
+
+    .focus-feature-boxes {
+        grid-template-columns: 1fr;
+    }
+
     .feature-content {
         flex-direction: column;
         text-align: center;
     }
 
-    .feature-text {
-        margin-right: 0;
-        margin-bottom: 20px;
-    }
-
-    .feature-image img {
-        width: 80%;
-    }
-
-    .focus-room-section h2,
     .feature-text h2 {
-        font-size: 32px; /* 모바일에서는 적당히 줄임 */
+        font-size: 32px;
     }
 
-    .focus-room-subtitle,
-    .feature-text p {
-        font-size: 18px;
+    .testimonial-cards {
+        grid-template-columns: 1fr;
     }
 
-    .monitor-frame {
-        width: 90%; /* 모바일에서 가로폭 줄임 */
+    .moniter-screen {
+        margin: 40px auto;
+    }
+
+    .moniter-screen img {
+        border-radius: 44px;
+        padding: 12px;
+        background: #1d1d1f;
     }
 }
-
-/* 개별 섹션 스타일 */
-.feature-calendar, .feature-canvas, .feature-video-call {
-    background-color: #1e1e2e;
-    padding: 40px 0;
-}
-
-
-
-
-/* Testimonials Section 스타일 */
-.testimonials-section {
-    background-color: #1e1e2e;
-    color: #fff;
-    padding: 80px 20px; /* 패딩을 늘려 상하 여백 추가 */
-    text-align: center;
-}
-
-.testimonials-title {
-    font-size: 42px; /* 제목 폰트 크기 증가 */
-    color: #ff6ec7;
-    margin-bottom: 50px;
-}
-
-.testimonial-cards {
+.theme-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--card-background);
+    border: none;
+    box-shadow: 0 2px 10px var(--box-shadow);
+    cursor: pointer;
+    z-index: 1000;
+    font-size: 24px;
     display: flex;
+    align-items: center;
     justify-content: center;
-    gap: 40px; /* 카드 간격 증가 */
-    flex-wrap: wrap;
-    max-width: 1600px; /* 가로 길이 더 확장 */
-    margin: 0 auto;
+    transition: transform 0.3s ease;
+}
+
+.theme-toggle:hover {
+    transform: scale(1.1);
+}
+/* Theme Variables */
+:root[data-theme='light'] {
+    --background-primary: #ffffff;
+    --background-secondary: #f5f5f7;
+    --text-primary: #1d1d1f;
+    --text-secondary: #86868b;
+    --card-background: #ffffff;
+    --card-hover: #f5f5f7;
+    --hero-background: #000;
+    --hero-text: #fff;
+    --button-primary: #0071e3;
+    --button-text: #ffffff;
+    --footer-background: #f5f5f7;
+    --box-shadow: rgba(0, 0, 0, 0.1);
+}
+
+:root[data-theme='dark'] {
+    --background-primary: #1d1d1f;
+    --background-secondary: #2d2d2f;
+    --text-primary: #f5f5f7;
+    --text-secondary: #a1a1a6;
+    --card-background: #2d2d2f;
+    --card-hover: #3d3d3f;
+    --hero-background: #000;
+    --hero-text: #fff;
+    --button-primary: #0071e3;
+    --button-text: #ffffff;
+    --footer-background: #2d2d2f;
+    --box-shadow: rgba(0, 0, 0, 0.3);
+}
+
+/* Global Styles */
+.main-container {
+    color: var(--text-primary);
+    background-color: var(--background-primary);
+    overflow-x: hidden;
+}
+
+/* Hero Section */
+.hero-section {
+    background: var(--hero-background);
+    color: var(--hero-text);
+}
+
+/* Feature Sections */
+.feature-section {
+    background: var(--background-primary);
+}
+
+.feature-section:nth-child(odd) {
+    background: var(--background-secondary);
+}
+
+.feature-text p {
+    color: var(--text-secondary);
+}
+
+/* Cards and Boxes */
+.focus-feature-box {
+    background: var(--card-background);
+    box-shadow: 0 4px 8px var(--box-shadow);
+}
+
+.focus-feature-box:hover {
+    background: var(--card-hover);
 }
 
 .testimonial-card {
-    background-color: #2d2d3d;
-    padding: 40px; /* 패딩 증가로 더 넓어 보이도록 */
-    border-radius: 15px;
-    width: 350px; /* 박스 너비 증가 */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-    text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background: var(--card-background);
+    box-shadow: 0 4px 8px var(--box-shadow);
 }
 
-.testimonial-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
-}
-
-.testimonial-image {
-    font-size: 60px; /* 이모지 크기 증가 */
-    margin-bottom: 20px;
-}
-
-.testimonial-name {
-    font-size: 24px; /* 이름 폰트 크기 증가 */
-    color: #ff6ec7;
-    margin-top: 15px;
-}
-
-.testimonial-role {
-    font-size: 18px; /* 직업 폰트 크기 증가 */
-    color: #b48ff8;
-    margin-bottom: 20px;
-}
-
-.testimonial-text {
-    font-size: 18px; /* 후기 텍스트 크기 증가 */
-    color: #ccc;
-    line-height: 1.8;
-}
-
-/* 반응형 디자인 */
-@media (max-width: 768px) {
-    .testimonial-cards {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .testimonials-title {
-        font-size: 36px; /* 모바일에서는 적당히 줄임 */
-    }
-
-    .testimonial-card {
-        width: 90%; /* 모바일에서는 전체 너비 사용 */
-    }
-}
-
-
-
-
-
-/* Footer 스타일 */
+/* Footer */
 .main-footer {
-    background-color: #333;
-    color: #fff;
-    padding: 40px 0;
-    text-align: center;
-}
-
-.footer-content {
-    font-size: 14px;
-    color: #ddd;
+    background: var(--footer-background);
+    color: var(--text-secondary);
 }

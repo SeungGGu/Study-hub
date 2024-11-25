@@ -1,189 +1,347 @@
-/* 전체 페이지 설정 */
-body, html {
-    margin: 0;
-    padding: 0;
+/* Global Styles */
+.main-container {
+    color: #1d1d1f;
     overflow-x: hidden;
-    background-color: #FFFFFF; /* 전체 페이지 기본 배경을 화이트로 설정 */
-    font-family: 'Roboto', sans-serif;
 }
 
-.firstMainPage {
-    background-color: #FFFFFF; /* 메인 페이지 배경 색상 */
-    color: #2F4156; /* 기본 텍스트 색상 Navy */
-    padding-top: 80px;
-}
-
-/* 헤더 스타일 */
-.header-nav {
-    background-color: #2F4156; /* 헤더 배경을 Navy로 설정 */
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 1000;
-    padding: 15px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* 가벼운 그림자 효과 */
-}
-
-.header-nav .navbar-brand {
-    color: #FFFFFF; /* 브랜드명 색상 White */
-    font-size: 1.5rem;
-    font-weight: bold;
-}
-
-.nav-link {
-    color: #C8D9E6; /* 링크 색상 Sky Blue */
-    margin: 0 15px;
-}
-
-.nav-link:hover {
-    color: #FFFFFF; /* 링크 호버 시 색상 White */
-}
-
-.text-gold {
-    color: #567C8D; /* 강조 텍스트 색상 Teal */
-}
-
-/* 카드 섹션 스타일 */
-.card-container {
-    padding: 50px 0;
-    background-color: #F5EFEF; /* 카드 섹션 배경을 Beige로 설정 */
-}
-
-.study-card {
-    background: #FFFFFF; /* 카드 배경을 White로 설정 */
-    border: 1px solid #C8D9E6; /* 카드 테두리 색상 Sky Blue */
-    border-radius: 15px;
-    padding: 30px;
-    margin: 20px;
+/* Hero Section */
+.hero-section {
+    background: #000;
+    color: #fff;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-align: center;
-    color: #2F4156; /* 텍스트 색상 Navy */
-    transition: transform 0.3s, box-shadow 0.3s;
+    padding: 120px 20px;
 }
 
-.study-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+.hero-content {
+    max-width: 800px;
 }
 
-.card-img {
-    border-radius: 50%;
-    width: 100px;
-    height: 100px;
-    margin-bottom: 20px;
-    background-color: #C8D9E6; /* 이미지 배경을 Sky Blue로 설정 */
-}
-
-.card-title {
-    font-size: 22px;
-    font-weight: bold;
-    color: #2F4156; /* 카드 제목 색상 Navy */
-}
-
-.card-description {
-    color: #567C8D; /* 카드 설명 색상 Teal */
+.hero-content h1 {
+    font-size: 56px;
+    font-weight: 600;
     margin-bottom: 20px;
 }
 
-.card-button {
-    background: #2F4156; /* 버튼 배경을 Navy로 설정 */
-    color: #FFFFFF; /* 버튼 텍스트 색상 White */
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    transition: background-color 0.3s;
+.hero-content p {
+    font-size: 24px;
+    color: #86868b;
+    margin-bottom: 30px;
 }
 
-.card-button:hover {
-    background: #567C8D; /* 버튼 호버 시 배경을 Teal로 설정 */
+.hero-cta {
+    display: inline-block;
+    padding: 18px 40px;
+    background: #0071e3;
+    color: white;
+    border-radius: 980px;
+    text-decoration: none;
+    font-size: 20px;
+    transition: all 0.3s ease;
 }
 
-/* 콘텐츠 섹션 스타일 */
-.feature-section {
-    margin: 50px 0;
+/* Focus Room Section */
+.focus-room-section {
+    padding: 120px 20px;
+    text-align: center;
+    background-color: var(--background-primary);
+    color: var(--text-primary);
+}
+
+.focus-room-section h2 {
+    font-size: 48px;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+.focus-room-subtitle {
+    font-size: 24px;
+    color: #86868b;
+    margin-bottom: 60px;
+}
+
+.moniter-screen {
+    max-width: 1000px;
+    margin: 0 auto 60px;
+}
+
+.moniter-screen img {
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+}
+
+.focus-feature-boxes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.focus-feature-box {
+    background: #f5f5f7;
     padding: 30px;
-    background-color: #FFFFFF; /* 섹션 배경을 White로 설정 */
-    border: 1px solid #F5EFEF; /* 섹션 테두리를 연한 Beige로 설정 */
-    border-radius: 15px;
+    border-radius: 20px;
+    transition: transform 0.3s ease;
 }
 
-.feature-title {
-    font-size: 30px;
-    font-weight: bold;
-    color: #2F4156; /* 타이틀 색상 Navy */
+.focus-feature-box:hover {
+    transform: translateY(-10px);
 }
 
-.feature-description {
-    color: #567C8D; /* 설명 텍스트 색상 Teal */
-    font-size: 18px;
+/* Feature Sections */
+.feature-section {
+    padding: 120px 20px;
+}
+
+.feature-section:nth-child(odd) {
+    background: #f5f5f7;
+}
+
+.feature-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 60px;
+}
+
+.reverse-layout {
+    flex-direction: row-reverse;
+}
+
+.feature-text {
+    flex: 1;
+}
+
+.feature-text h2 {
+    font-size: 40px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.feature-text p {
+    font-size: 20px;
+    color: #86868b;
 }
 
 .feature-image {
+    flex: 1;
+}
+
+.feature-image img {
     width: 100%;
-    height: auto;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* 부드러운 그림자 */
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
 }
 
-/* 푸터 스타일 */
-.footerScreen {
-    background-color: #2F4156; /* 푸터 배경을 Navy로 설정 */
-    color: #FFFFFF; /* 푸터 텍스트 색상 White */
-    padding-top: 40px;
-    padding-bottom: 40px;
+/* Testimonials Section */
+.testimonials-section {
+    padding: 120px 20px;
+    text-align: center;
+    background-color: var(--background-primary);
+    color: var(--text-primary);
 }
 
-.footerScreen h5 {
-    color: #FFFFFF; /* 푸터 제목 색상 White */
-    font-weight: bold;
+.testimonials-section h2 {
+    font-size: 48px;
+    font-weight: 600;
+    margin-bottom: 60px;
+}
+
+.testimonial-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.testimonial-card {
+    background: #f5f5f7;
+    padding: 30px;
+    border-radius: 20px;
+    transition: transform 0.3s ease;
+}
+
+.testimonial-card:hover {
+    transform: translateY(-10px);
+}
+
+.testimonial-image {
+    font-size: 48px;
     margin-bottom: 20px;
 }
 
-.footerScreen ul {
-    padding: 0;
-    list-style: none;
+.testimonial-card h3 {
+    font-size: 24px;
+    margin-bottom: 8px;
 }
 
-.footerScreen ul li {
-    margin-bottom: 10px;
+.testimonial-card span {
+    color: #86868b;
+    display: block;
+    margin-bottom: 16px;
 }
 
-.footerScreen .link-secondary {
-    color: rgba(255, 255, 255, 0.7); /* 링크 색상 White의 반투명 */
-    transition: color 0.2s ease-in-out;
+/* Footer */
+.main-footer {
+    background: #f5f5f7;
+    padding: 40px 20px;
+    text-align: center;
+    color: #86868b;
 }
 
-.footerScreen .link-secondary:hover {
-    color: #FFFFFF; /* 링크 호버 시 색상 White */
+/* Animation */
+.fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 1s ease-out, transform 1s ease-out;
 }
 
-.footerScreen svg path,
-.footerScreen svg circle {
-    stroke: #FFFFFF; /* SVG 아이콘 색상 White */
+.visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
-/* 반응형 미디어 쿼리 */
-@media only screen and (max-width: 768px) {
-    .header-nav {
-        padding: 10px;
+/* Mobile Styles */
+@media (max-width: 768px) {
+    .hero-content h1 {
+        font-size: 32px;
     }
 
-    .nav-link {
-        margin: 5px 0;
-    }
-
-    .feature-title {
-        font-size: 24px;
-    }
-
-    .card-title {
-        font-size: 20px;
-    }
-
-    .feature-description {
-        font-size: 16px;
-    }
-
-    .footerScreen h5 {
+    .hero-content p {
         font-size: 18px;
     }
+
+    .focus-feature-boxes {
+        grid-template-columns: 1fr;
+    }
+
+    .feature-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .feature-text h2 {
+        font-size: 32px;
+    }
+
+    .testimonial-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .moniter-screen {
+        margin: 40px auto;
+    }
+
+    .moniter-screen img {
+        border-radius: 44px;
+        padding: 12px;
+        background: #1d1d1f;
+    }
+}
+.theme-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--card-background);
+    border: none;
+    box-shadow: 0 2px 10px var(--box-shadow);
+    cursor: pointer;
+    z-index: 1000;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+}
+
+.theme-toggle:hover {
+    transform: scale(1.1);
+}
+/* Theme Variables */
+:root[data-theme='light'] {
+    --background-primary: #ffffff;
+    --background-secondary: #f5f5f7;
+    --text-primary: #1d1d1f;
+    --text-secondary: #86868b;
+    --card-background: #ffffff;
+    --card-hover: #f5f5f7;
+    --hero-background: #000;
+    --hero-text: #fff;
+    --button-primary: #0071e3;
+    --button-text: #ffffff;
+    --footer-background: #f5f5f7;
+    --box-shadow: rgba(0, 0, 0, 0.1);
+}
+
+:root[data-theme='dark'] {
+    --background-primary: #1d1d1f;
+    --background-secondary: #2d2d2f;
+    --text-primary: #f5f5f7;
+    --text-secondary: #a1a1a6;
+    --card-background: #2d2d2f;
+    --card-hover: #3d3d3f;
+    --hero-background: #000;
+    --hero-text: #fff;
+    --button-primary: #0071e3;
+    --button-text: #ffffff;
+    --footer-background: #2d2d2f;
+    --box-shadow: rgba(0, 0, 0, 0.3);
+}
+
+/* Global Styles */
+.main-container {
+    color: var(--text-primary);
+    background-color: var(--background-primary);
+    overflow-x: hidden;
+}
+
+/* Hero Section */
+.hero-section {
+    background: var(--hero-background);
+    color: var(--hero-text);
+}
+
+/* Feature Sections */
+.feature-section {
+    background: var(--background-primary);
+}
+
+.feature-section:nth-child(odd) {
+    background: var(--background-secondary);
+}
+
+.feature-text p {
+    color: var(--text-secondary);
+}
+
+/* Cards and Boxes */
+.focus-feature-box {
+    background: var(--card-background);
+    box-shadow: 0 4px 8px var(--box-shadow);
+}
+
+.focus-feature-box:hover {
+    background: var(--card-hover);
+}
+
+.testimonial-card {
+    background: var(--card-background);
+    box-shadow: 0 4px 8px var(--box-shadow);
+}
+
+/* Footer */
+.main-footer {
+    background: var(--footer-background);
+    color: var(--text-secondary);
 }

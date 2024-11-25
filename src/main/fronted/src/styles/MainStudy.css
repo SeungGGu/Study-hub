@@ -1,9 +1,9 @@
 /* 전체 탭 스타일 설정 */
 .custom-tabs {
     display: flex;
-    justify-content: center; /* 중앙 정렬 */
-    margin: 20px 0; /* 탭 상하 간격 */
-    padding: 10px 0; /* 탭 상하 패딩 */
+    justify-content: center;
+    margin: 20px 0;
+    padding: 10px 0;
 }
 
 /* 각 탭 스타일 설정 */
@@ -11,49 +11,66 @@
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    padding: 12px 20px; /* 탭 내부 패딩 */
-    margin: 0 15px; /* 탭 사이 간격 */
-    font-size: 18px; /* 텍스트 크기 설정 */
-    font-weight: 400; /* 기본 글꼴 굵기 */
-    color: #A0A0A0; /* 기본 텍스트 색상 */
-    transition: all 0.3s ease; /* 부드러운 전환 효과 */
+    padding: 12px 20px;
+    margin: 0 15px;
+    font-size: 18px;
+    font-weight: 400;
+    color: #A0A0A0;
+    transition: all 0.3s ease;
     cursor: pointer;
     position: relative;
 }
 
 /* 선택된 탭 스타일 */
 .custom-tabs .tab-item.active {
-    color: #333333; /* 선택된 탭 텍스트 색상 (진한 검정) */
-    font-weight: 700; /* 굵은 글씨체 */
+    color: #333333;
+    font-weight: 700;
 }
 
 /* 탭 밑줄 스타일 */
 .custom-tabs .tab-item.active::after {
     content: '';
     position: absolute;
-    bottom: -4px; /* 텍스트 아래에 밑줄 추가 */
+    bottom: -4px;
     left: 0;
     width: 100%;
     height: 3px;
-    background-color: #333333; /* 밑줄 색상 */
+    background-color: #333333;
 }
 
 /* 탭 호버 시 스타일 */
 .custom-tabs .tab-item:hover {
-    color: #333333; /* 호버 시 텍스트 색상 (진한 검정) */
-    font-weight: 500; /* 호버 시 글씨체 굵기 증가 */
+    color: #333333;
+    font-weight: 500;
 }
 
 /* Tabs의 전체 컨테이너 스타일 */
 .custom-tabs .nav-tabs {
-    border-bottom: none; /* 아래 경계선 제거 */
+    border-bottom: none;
     margin-top: 0;
     padding-top: 0;
 }
 
 /* MainStudy 전체 페이지 스타일 */
 .MainStudy {
-    background-color: #FFFFFF; /* 기본 배경색 White */
-    padding-top: 56px; /* Header와의 기본 간격 설정 */
+    background-color: var(--background-primary) !important;
+    padding-top: 56px;
     margin: 0;
+}
+
+/* 다크모드 탭 스타일 */
+[data-theme='dark'] .custom-tabs .tab-item {
+    color: #A0A0A0;
+}
+
+[data-theme='dark'] .custom-tabs .tab-item.active {
+    color: #ffffff;
+}
+
+[data-theme='dark'] .custom-tabs .tab-item.active::after {
+    background-color: #ffffff;
+}
+
+[data-theme='dark'] .custom-tabs .tab-item:hover {
+    color: #ffffff;
 }
