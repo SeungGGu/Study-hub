@@ -105,7 +105,16 @@ public class StudyService {
         return studyMemberRepository.existsByStudyIdAndUserId(studyId, userId);
     }
 
+    @Transactional
     public void saveApplicationStatus(String studyId, String userId) {
+        Optional<ApplicationStatus> existingApplication = applicationRepository.findByStudyIdAndUserId(
+                Integer.parseInt(studyId), userId
+        );
+
+        if (existingApplication.isPresent()) {
+            throw new IllegalStateException("이미 가입 신청이 존재합니다.");
+        }
+
         ApplicationStatus application = new ApplicationStatus();
         application.setStudyId(Integer.parseInt(studyId));
         application.setUserId(userId);
@@ -113,6 +122,7 @@ public class StudyService {
 
         applicationRepository.save(application);
     }
+
 
     // 스터디 ID로 가입 신청 목록을 조회
 //    public List<ApplicationStatus> getApplicationsByStudyId(int studyId) {
@@ -151,6 +161,34 @@ public class StudyService {
         application.setStatus("REJECTED");
         applicationRepository.save(application);
     }
+
+    public String getMembershipStatus(int studyId, String userId) {
+        // 이미 멤버인지 확인
+        if (studyMemberRepository.existsByStudyIdAndUserId(studyId, userId)) {
+            return "APPROVED";
+        }
+
+        // 가입 신청 상태 확인
+        Optional<ApplicationStatus> application = applicationRepository.findByStudyIdAndUserId(studyId, userId);
+        if (application.isPresent()) {
+            return application.get().getStatus(); // PENDING, REJECTED 등을 반환
+        }
+
+        // 가입 신청하지 않은 상태
+        return "NOT_APPLIED";
+    }
+
+
+    @Transactional
+    public void leaveStudy(int studyId, String userId) {
+        // application_status 테이블에서 해당 스터디와 사용자 정보 삭제
+        applicationRepository.deleteByStudyIdAndUserId(studyId, userId);
+
+        // studymemberentity 테이블에서 해당 스터디와 사용자 정보 삭제
+        studyMemberRepository.deleteByStudyIdAndUserId(studyId, userId);
+    }
+
+
 
     private StudyDTO convertToDTO(StudyEntity entity) {
         return new StudyDTO(

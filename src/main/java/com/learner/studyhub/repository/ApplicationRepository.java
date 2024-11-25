@@ -19,4 +19,9 @@ public interface ApplicationRepository extends JpaRepository<ApplicationStatus, 
     @Query("SELECT a FROM ApplicationStatus a WHERE a.studyId = :studyId AND a.status <> 'APPROVED'")
     List<ApplicationStatus> findPendingOrRejectedByStudyId(int studyId);
 
+    boolean existsByStudyIdAndUserId(int studyId, String userId);
+
+
+    void deleteByStudyIdAndUserId(int studyId, String userId);
+
 }

@@ -23,6 +23,16 @@ function StudyManagement() {
         }
     };
 
+    // const fetchApplications = async (studyId) => {
+    //     try {
+    //         const response = await axios.get(`/api/study/${studyId}/applications`);
+    //         setApplications(response.data);
+    //         setCurrentStudyId(studyId);
+    //         setShowApplications(true);
+    //     } catch (error) {
+    //         console.error("Error fetching applications:", error);
+    //     }
+    // };
     const fetchApplications = async (studyId) => {
         try {
             const response = await axios.get(`/api/study/${studyId}/applications`);
@@ -51,6 +61,25 @@ function StudyManagement() {
             console.error("Error rejecting application:", error);
         }
     };
+
+
+    // const handleApprove = async (userId) => {
+    //     try {
+    //         await axios.post(`/api/study/${currentStudyId}/applications/${userId}/approve`);
+    //         setApplications(applications.filter(app => app.userId !== userId));
+    //     } catch (error) {
+    //         console.error("Error approving application:", error);
+    //     }
+    // };
+    //
+    // const handleReject = async (userId) => {
+    //     try {
+    //         await axios.post(`/api/study/${currentStudyId}/applications/${userId}/reject`);
+    //         setApplications(applications.filter(app => app.userId !== userId));
+    //     } catch (error) {
+    //         console.error("Error rejecting application:", error);
+    //     }
+    //};
 
     useEffect(() => {
         if (user && user.nickname) {
