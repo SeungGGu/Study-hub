@@ -264,7 +264,7 @@ function MainStudyAll({type}) {
                     <ArrowLeft3 size="32" color={currentPage === 1 ? "#4C3D29" : "#A1ACBD"} variant="Outline"/>
                 </div>
 
-                {Array.from({length: totalPages}, (_, index) => (
+                {Array.from({length: trc/mainotalPages}, (_, index) => (
                     <button
                         key={index + 1}
                         className={`Study-page-button ${index + 1 === currentPage ? "active" : ""}`}
