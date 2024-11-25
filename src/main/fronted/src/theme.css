@@ -434,6 +434,7 @@ body[data-theme='dark'] div[class*="main-study"] {
 body[data-theme='dark'] .main-study-card,
 body[data-theme='dark'] .study-list-item,
 body[data-theme='dark'] .study-info-box,
+body[data-theme='dark'] .tab-header,
 body[data-theme='dark'] .study-details,
 body[data-theme='dark'] .study-card {
     background-color: #ffffff !important;
