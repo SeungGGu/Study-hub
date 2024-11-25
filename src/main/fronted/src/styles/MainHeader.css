@@ -45,14 +45,14 @@
 
 /* 버튼 스타일 */
 .btn-outline-gold {
-    border: 1px solid #daa520;; /* 테두리 색상을 Teal로 설정 */
-    color: #daa520; /* 텍스트 색상을 Teal로 설정 */
+    border: 1px solid #567C8D; /* 테두리 색상을 Teal로 설정 */
+    color: #567C8D; /* 텍스트 색상을 Teal로 설정 */
     background-color: transparent;
     transition: background-color 0.3s, color 0.3s;
 }
 
 .btn-outline-gold:hover {
-    background-color: #daa520; /* 호버 시 버튼 배경 색상을 Navy로 설정 */
+    background-color: #2F4156; /* 호버 시 버튼 배경 색상을 Navy로 설정 */
     color: #FFFFFF; /* 호버 시 텍스트 색상을 White로 설정 */
 }
 
@@ -68,5 +68,61 @@
 
     .navbar-collapse {
         text-align: center;
+    }
+}
+
+/* 모바일 메뉴 스타일 */
+@media screen and (max-width: 768px) {
+    .header-nav {
+        padding: 10px;
+    }
+
+    .navbar-collapse {
+        background-color: #2d2d2d;
+        padding: 15px;
+        border-radius: 0 0 10px 10px;
+    }
+
+    .navbar-nav {
+        margin: 0;
+        padding: 10px 0;
+    }
+
+    .nav-link {
+        padding: 10px 15px;
+        margin: 5px 0;
+        border-radius: 5px;
+    }
+
+    .d-flex {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .btn {
+        width: 100%;
+        margin: 5px 0;
+    }
+}
+
+.navbar-collapse.show {
+    background-color: #2d2d2d;
+    padding: 15px;
+    border-radius: 0 0 10px 10px;
+}
+
+@media screen and (max-width: 768px) {
+    .navbar-collapse {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+    }
+
+    .navbar-nav {
+        background-color: #2d2d2d;
+        padding: 10px;
+        border-radius: 0 0 10px 10px;
     }
 }

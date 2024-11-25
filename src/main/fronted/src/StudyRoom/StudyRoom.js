@@ -19,6 +19,7 @@ function StudyRoom() {
     const [inputValue, setInputValue] = useState('');
     const [messages, setMessages] = useState([]);
     const [callStarted, setCallStarted] = useState(false);
+    const [sidebarVisible, setSidebarVisible] = useState(window.innerWidth > 992);
 
     const handleNewMessage = useCallback((message) => {
         setMessages(prevMessages => [...prevMessages, message]);
@@ -87,6 +88,10 @@ function StudyRoom() {
         }
     }, [currentPage, startCall, leaveSession, callStarted]);
 
+    const toggleSidebar = () => {
+        setSidebarVisible(!sidebarVisible);
+    };
+
     const renderContent = () => {
         switch (currentPage) {
             case '캘린더':
@@ -118,15 +123,16 @@ function StudyRoom() {
                     <div className="content-area">
                         <ul className="message-list">
                             {filteredMessages.slice().reverse().map((msg, index) => (
-                                <li className="message" key={index}>
-                                    <UserOctagon size="32" className="profile-pic" color="#2ccce4" variant="Bold"/>
-                                    {/*<img src="profile-placeholder.png" alt="profile" className="profile-pic"/>*/}
-                                    <div className="message-info">
-                                        <div className="message-top">
-                                            <span className="nickname">{msg.userId}</span>
-                                            <span className="timestamp">{new Date(msg.timestamp).toLocaleDateString()}</span>
+                                <li className={`message ${msg.userId === nickname ? 'my-message' : 'other-message'}`} key={index}>
+                                    <div className="toast-message">
+                                        <div className="toast-header">
+                                            <UserOctagon size="60" className="profile-pic" color="#2ccce4" variant="Bold"/>
+                                            <strong className="nickname">{msg.userId}</strong>
+                                            <small className="timestamp">{new Date(msg.timestamp).toLocaleString()}</small>
                                         </div>
-                                        <div className="message-text">{msg.message}</div>
+                                        <div className="toast-body">
+                                            {msg.message}
+                                        </div>
                                     </div>
                                 </li>
                             ))}
@@ -153,7 +159,7 @@ function StudyRoom() {
         <div className="studyRoom">
             <Container fluid className="custom-container">
                 <Row className="no-gutters">
-                    <Col className="sidebar" md={2}>
+                    <Col className={`sidebar ${sidebarVisible ? 'show' : ''}`} md={2}>
                         <StudySideBar title={title} onChannelSelect={setCurrentPage}/>
                     </Col>
                     <Col className="mainContent" md={10}>
@@ -163,6 +169,7 @@ function StudyRoom() {
                             setCurrentPage={setCurrentPage}
                             disconnect={disconnect}
                             leaveSession={leaveSession}
+                            onToggleSidebar={toggleSidebar}
                         />
                         {renderContent()}
                     </Col>
