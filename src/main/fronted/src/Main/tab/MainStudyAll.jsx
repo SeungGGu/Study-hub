@@ -25,6 +25,7 @@ function MainStudyAll({type}) {
     const [showPendingModal, setShowPendingModal] = useState(false);
     const navigate = useNavigate();
 
+
     useEffect(() => {
         const fetchStudyData = async () => {
             try {

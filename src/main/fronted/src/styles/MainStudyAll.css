@@ -5,14 +5,6 @@
     box-sizing: border-box;
 }
 
-.main-study-all {
-    padding: 20px;
-    background: linear-gradient(135deg, #2F4156, #7D6D57);
-    min-height: 100vh;
-    max-width: 100vw;
-    color: #f0f0f0;
-    overflow-x: hidden;
-}
 
 .action-bar {
     display: flex;
