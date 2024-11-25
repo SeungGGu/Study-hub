@@ -16,49 +16,45 @@ function MainStudyCreate() {
     const [selectedImage, setSelectedImage] = useState(null); // 추가: 선택한 이미지 파일 상태
     const [studyComment, setStudyContent] = useState(""); // 추가: 스터디 내용 입력 값
     const nickname = sessionStorage.getItem('nickname');
-
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        const formData = new FormData();
-        formData.append('image', selectedImage);
 
-        const studyData = {
-            studyTitle,
-            studyCreateDate,
-            studyLastDate,
-            pwStatus,
-            studyPw,
-            studyComment
-        };
-        console.log("스터디 데이터:", studyData);
+        try {
+            let imagePath = "Study_Room_.png"; // 기본 이미지 경로 설정
 
-        axios.post('/api/study/upload', formData)
-            .then(response => {
-                // 서버에서 반환한 파일 경로를 받아와서 저장
-                const imagePath = response.data.imagePath;
-                console.log("업로드 성공 : " + imagePath);
+            // 선택한 이미지가 있으면 업로드 진행
+            if (selectedImage) {
+                const formData = new FormData();
+                formData.append('image', selectedImage);
 
-                // imagePath를 studyData에 추가
-                studyData.studyTitlePicture = imagePath;
-                studyData.studyCreator = nickname;
+                const uploadResponse = await axios.post('/api/study/upload', formData);
+                imagePath = uploadResponse.data.imagePath; // 업로드된 이미지 경로
+            }
 
-                // studyData를 서버로 전송
-                axios.post('/api/study/edit', studyData)
-                    .then(response => {
-                        if (response.data === "스터디 생성 실패") {
-                            alert("생성되지 않았습니다 다시 생성해주세요");
-                        } else {
-                            navigate("/mainStudy");
-                            console.log("성공했네요");
-                        }
-                    }).catch(error => {
-                    console.error('스터디 생성 에러메세지', error);
-                    // handle login failure
-                });
-            })
-            .catch(error => {
-                console.error('사진 에러메세지', error);
-            });
+            // 이미지 경로 포함한 스터디 데이터 생성
+            const studyData = {
+                studyTitle,
+                studyCreateDate,
+                studyLastDate,
+                pwStatus,
+                studyPw,
+                studyComment,
+                studyTitlePicture: imagePath, // 이미지 경로 설정
+                studyCreator: nickname,      // 사용자 닉네임 추가
+            };
+
+            // 스터디 데이터 전송
+            const response = await axios.post('/api/study/edit', studyData);
+            if (response.data === "스터디 생성 실패") {
+                alert("스터디 생성에 실패했습니다. 다시 시도해주세요.");
+            } else {
+                console.log("스터디 생성 성공");
+                navigate("/mainStudy"); // 메인 스터디 페이지로 이동
+            }
+        } catch (error) {
+            console.error("스터디 생성 중 에러:", error);
+            alert("스터디 생성 중 오류가 발생했습니다.");
+        }
     };
 
     const handleFileChange = (event) => {
@@ -66,6 +62,7 @@ function MainStudyCreate() {
         // 파일이 선택되지 않은 경우 또는 이미지 파일이 아닌 경우
         if (!file || !file.type.match("image.*")) {
             alert("이미지 파일이 아닙니다. 다시 선택해주세요");
+            setSelectedImage(null); // 이미지가 선택되지 않은 경우
             return;
         }
         // 이미지를 리사이징하여 300x170 크기로 만듭니다.

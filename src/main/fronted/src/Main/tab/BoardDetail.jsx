@@ -81,8 +81,9 @@ const BoardDetail = () => {
                         <div className="board-content">
                             {!isEditing ? (
                                 <>
-                                    <h3 className="board-title">
-                                        {board.boardTitle}
+                                    <h3 className="board-title" style={{color:"black"}}>
+                                        <div className="boardTitle_Black">
+                                        {board.boardTitle}</div>
                                         {board.boardNickname === userNickname && (
                                             <Dropdown align="end" onClick={(e) => e.stopPropagation()} className="dropdown-icon">
                                                 <Dropdown.Toggle variant="link" id="dropdown-basic">

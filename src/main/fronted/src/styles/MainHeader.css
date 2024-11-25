@@ -28,28 +28,31 @@
 }
 
 .nav-link {
-    color: #f5f5f5;
+    color: var(--text-primary);
     margin: 0 15px;
+    background: none;
 }
 
 .nav-link:hover {
     color: #daa520;
+    background: none;
 }
 
 .text-gold {
     color: #daa520;
+    background: none;
 }
 
 /* 버튼 스타일 */
 .btn-outline-gold {
-    border: 1px solid #567C8D; /* 테두리 색상을 Teal로 설정 */
-    color: #567C8D; /* 텍스트 색상을 Teal로 설정 */
+    border: 1px solid #daa520;; /* 테두리 색상을 Teal로 설정 */
+    color: #daa520; /* 텍스트 색상을 Teal로 설정 */
     background-color: transparent;
     transition: background-color 0.3s, color 0.3s;
 }
 
 .btn-outline-gold:hover {
-    background-color: #2F4156; /* 호버 시 버튼 배경 색상을 Navy로 설정 */
+    background-color: #daa520; /* 호버 시 버튼 배경 색상을 Navy로 설정 */
     color: #FFFFFF; /* 호버 시 텍스트 색상을 White로 설정 */
 }
 

@@ -24,6 +24,7 @@ function MainStudyAll({type}) {
     const [cardsPerPage] = useState(10);
     const navigate = useNavigate();
 
+
     useEffect(() => {
         const fetchStudyData = async () => {
             try {
