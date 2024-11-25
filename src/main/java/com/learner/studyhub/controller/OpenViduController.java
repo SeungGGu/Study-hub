@@ -77,8 +77,7 @@ public class OpenViduController {
      * Create a connection for a session
      */
     @PostMapping("/api/sessions/{sessionId}/connections")
-    public ResponseEntity<String> createConnection(@PathVariable("sessionId") String sessionId,
-                                                   @RequestBody(required = false) Map<String, Object> params) {
+    public ResponseEntity<String> createConnection(@PathVariable("sessionId") String sessionId) {
         try {
             Session session = openvidu.getActiveSession(sessionId);
 
@@ -87,24 +86,16 @@ public class OpenViduController {
                 return new ResponseEntity<>("세션이 존재하지 않음: " + sessionId, HttpStatus.NOT_FOUND);
             }
 
-            // 연결 속성 명시적 설정
             ConnectionProperties.Builder builder = new ConnectionProperties.Builder();
-            builder.role(OpenViduRole.PUBLISHER);
-            builder.type(ConnectionType.WEBRTC);
-            builder.data("User connected to studyId: " + sessionId);
+            builder.role(OpenViduRole.PUBLISHER).type(ConnectionType.WEBRTC).data("User connected");
 
-            ConnectionProperties connectionProperties = builder.build();
-
-            System.out.println("연결 요청 데이터: " + connectionProperties);
-
-            Connection connection = session.createConnection(connectionProperties);
+            Connection connection = session.createConnection(builder.build());
 
             System.out.println("연결 생성 성공: " + connection.getToken());
-            return new ResponseEntity<>(connection.getToken(), HttpStatus.OK);
-
+            return ResponseEntity.ok(connection.getToken());
         } catch (OpenViduJavaClientException | OpenViduHttpException e) {
             System.err.println("연결 생성 중 오류 발생: " + e.getMessage());
-            return new ResponseEntity<>("연결 생성 실패: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("연결 생성 실패: " + e.getMessage());
         }
     }
 
@@ -116,10 +107,11 @@ public class OpenViduController {
                 session.close(); // 세션 강제 종료
                 studyToSessionMap.values().remove(sessionId); // 매핑 제거
                 System.out.println("세션 강제 종료 성공: " + sessionId);
+                return ResponseEntity.ok("세션 종료 성공");
             } else {
                 System.out.println("세션이 존재하지 않습니다: " + sessionId);
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("세션이 존재하지 않습니다.");
             }
-            return ResponseEntity.ok("세션 종료 성공");
         } catch (Exception e) {
             System.err.println("세션 종료 오류: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("세션 종료 실패");

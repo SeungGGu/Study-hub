@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import '../../styles/VideoContainer.css';
 import {
     CallSlash,
@@ -7,10 +7,19 @@ import {
     ImportSquare,
     Microphone2,
     MicrophoneSlash,
-    Screenmirroring
-} from "iconsax-react";
+    Screenmirroring,
+} from 'iconsax-react';
 
-const VideoContainer = ({publisher, subscribers, videoRef, leaveSession, OV, sessionRef, setPublisher}) => {
+const VideoContainer = ({
+    publisher,
+    subscribers,
+    videoRef,
+    leaveSession,
+    OV,
+    sessionRef,
+    setPublisher,
+    setCurrentPage, // StudyRoom에서 전달받은 상태 업데이트 함수
+}) => {
     const [isCammera, setIsCammera] = useState(true);
     const [isMuted, setIsMuted] = useState(true);
     const [isScreenSharing, setIsScreenSharing] = useState(false);
@@ -26,11 +35,11 @@ const VideoContainer = ({publisher, subscribers, videoRef, leaveSession, OV, ses
         if (!session) return;
 
         if (isScreenSharing) {
-            const screenPublisher = session.streamManagers.find(sm => sm.stream.typeOfVideo === 'SCREEN');
+            const screenPublisher = session.streamManagers.find((sm) => sm.stream.typeOfVideo === 'SCREEN');
             if (screenPublisher) {
                 try {
                     await session.unpublish(screenPublisher);
-                    screenPublisher.stream.getMediaStream().getTracks().forEach(track => track.stop());
+                    screenPublisher.stream.getMediaStream().getTracks().forEach((track) => track.stop());
                     setIsScreenSharing(false);
 
                     const cameraPublisher = OV.initPublisher(videoRef.current, {
@@ -41,7 +50,7 @@ const VideoContainer = ({publisher, subscribers, videoRef, leaveSession, OV, ses
                         resolution: '640x480',
                         frameRate: 30,
                         insertMode: 'APPEND',
-                        mirror: false
+                        mirror: false,
                     });
 
                     await session.publish(cameraPublisher);
@@ -63,7 +72,7 @@ const VideoContainer = ({publisher, subscribers, videoRef, leaveSession, OV, ses
                     videoSource: 'screen',
                     publishAudio: !isMuted,
                     publishVideo: true,
-                    mirror: false
+                    mirror: false,
                 });
 
                 screenPublisher.once('accessAllowed', async () => {
@@ -108,29 +117,32 @@ const VideoContainer = ({publisher, subscribers, videoRef, leaveSession, OV, ses
     };
 
     const handleEndCall = async () => {
-        if (!sessionRef.current) {
-            console.warn("세션이 이미 종료되었습니다.");
+        if (!sessionRef?.current) {
+            console.warn('세션이 이미 종료되었거나 초기화되지 않았습니다.');
+            setCurrentPage('자유'); // 페이지를 자유로 변경
             return;
         }
 
         const session = sessionRef.current;
 
         try {
-            // WebSocket 상태 확인
             if (
                 session.connection &&
                 session.connection.rpc &&
                 (session.connection.rpc.rpcReadyState === 2 || session.connection.rpc.rpcReadyState === 3)
             ) {
-                console.warn("WebSocket이 닫혀 있는 상태입니다. 세션 종료를 건너뜁니다.");
+                console.warn('WebSocket이 닫혀 있는 상태입니다. 세션 종료를 건너뜁니다.');
+                setCurrentPage('자유'); // 페이지를 자유로 변경
                 return;
             }
 
-            console.log("통화 종료를 시작합니다...");
+            console.log('통화 종료를 시작합니다...');
             await leaveSession(); // `useOpenVidu`의 leaveSession 호출
-            console.log("통화 종료 완료.");
+            console.log('통화 종료 완료.');
         } catch (error) {
-            console.error("통화 종료 중 오류 발생:", error);
+            console.error('통화 종료 중 오류 발생:', error);
+        } finally {
+            setCurrentPage('자유'); // 통화 종료 후 페이지 변경
         }
     };
 
@@ -139,12 +151,7 @@ const VideoContainer = ({publisher, subscribers, videoRef, leaveSession, OV, ses
             <div className="video-grid">
                 {publisher && (
                     <div className="publisher-container">
-                        <video
-                            ref={videoRef}
-                            autoPlay
-                            playsInline
-                            className="publisher-video"
-                        />
+                        <video ref={videoRef} autoPlay playsInline className="publisher-video" />
                     </div>
                 )}
                 {subscribers.map((subscriber, index) => (
@@ -167,29 +174,29 @@ const VideoContainer = ({publisher, subscribers, videoRef, leaveSession, OV, ses
                 ))}
             </div>
             <div className="button-container">
-                <button onClick={handleSreenShare} title={isScreenSharing ? "화면 공유 중지" : "화면 공유"}>
+                <button onClick={handleSreenShare} title={isScreenSharing ? '화면 공유 중지' : '화면 공유'}>
                     {isScreenSharing ? (
-                        <ImportSquare size="32" color="#2ccce4" variant="Bulk"/>
+                        <ImportSquare size="32" color="#2ccce4" variant="Bulk" />
                     ) : (
-                        <Screenmirroring size="32" color="#2ccce4" variant="Bulk"/>
+                        <Screenmirroring size="32" color="#2ccce4" variant="Bulk" />
                     )}
                 </button>
-                <button onClick={handleCammera} title={isCammera ? "카메라 끄기" : "카메라 켜기"}>
+                <button onClick={handleCammera} title={isCammera ? '카메라 끄기' : '카메라 켜기'}>
                     {isCammera ? (
-                        <CameraSlash size="32" color="#2ccce4" variant="Bulk"/>
+                        <CameraSlash size="32" color="#2ccce4" variant="Bulk" />
                     ) : (
-                        <Camera size="32" color="#2ccce4" variant="Bulk"/>
+                        <Camera size="32" color="#2ccce4" variant="Bulk" />
                     )}
                 </button>
-                <button onClick={handleMute} title={isMuted ? "마이크 음소거" : "마이크 켜기"}>
+                <button onClick={handleMute} title={isMuted ? '마이크 음소거' : '마이크 켜기'}>
                     {isMuted ? (
-                        <MicrophoneSlash size="32" color="#2ccce4" variant="Bulk"/>
+                        <MicrophoneSlash size="32" color="#2ccce4" variant="Bulk" />
                     ) : (
-                        <Microphone2 size="32" color="#2ccce4" variant="Bulk"/>
+                        <Microphone2 size="32" color="#2ccce4" variant="Bulk" />
                     )}
                 </button>
                 <button onClick={handleEndCall} title="통화 종료">
-                    <CallSlash size="32" color="#2ccce4" variant="Bulk"/>
+                    <CallSlash size="32" color="#2ccce4" variant="Bulk" />
                 </button>
             </div>
         </div>
